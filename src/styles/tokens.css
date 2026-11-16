@@ -55,16 +55,19 @@
   --shadow-float: 0 16px 48px rgba(20, 20, 20, 0.16);
 
   /* Durations and easing */
+  --duration-micro: 100ms;                 /* button hover and press */
   --duration-fast: 150ms;
   --duration-base: 300ms;
   --duration-slow: 600ms;
-  --duration-part-in: 700ms;               /* intro text easing in on load */
-  --delay-part-in: 200ms;
-  --duration-intro-hint-fade: 600ms;
-  --duration-intro-hint-delay: 1700ms;     /* text arrival (0.2 + 0.7 s) + 0.8 s */
+  --duration-part-in: 500ms;               /* intro text easing in on load */
+  --delay-part-in: 100ms;
+  --duration-crossfade: 400ms;             /* static image to live scene */
+  --duration-intro-hint-fade: 250ms;
+  --duration-intro-hint-delay: 1400ms;     /* text arrival (0.1 + 0.5 s) + 0.8 s */
   --duration-hint-loop: 1600ms;            /* wheel dot / swipe loop */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);    /* fast start, soft landing */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);          /* soft start, quick leave */
 
   /* Layers */
   --z-scene: 0;
@@ -78,6 +81,8 @@
   --size-hint-dot: 4px;
   --size-hint-travel: 10px;
   --size-stroke: 2px;
+  --shift-button-hover: -1px;              /* button lifts a hair on hover */
+  --scale-button-press: 0.98;
   --size-touch-target: 44px;
   --size-visually-hidden: 1px;             /* skip link: present for screen readers, invisible until focused */
   --measure-title: 16ch;

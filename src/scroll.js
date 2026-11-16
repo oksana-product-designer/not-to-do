@@ -36,13 +36,19 @@ let nudge = 0; // small extra progress used by the idle "dip" in intro.js
 
 // Cursor tracking: the camera leans a little toward the pointer, in the intro and at the hero.
 // Same amounts the Spline file used before the site took over the camera.
-const TRACK = { slide: 120, lift: 30, tilt: 0.021, turn: 0.044, ease: 0.05 };
+// catchUp: seconds the camera needs to close most of the gap to the pointer.
+const TRACK = { slide: 120, lift: 30, tilt: 0.021, turn: 0.044, catchUp: 0.33 };
 const pointer = { x: 0, y: 0, targetX: 0, targetY: 0 }; // -1..1 from the screen center
 let tracking = false;
+let lastTrack = 0;
 
-function trackPointer() {
-  pointer.x += (pointer.targetX - pointer.x) * TRACK.ease;
-  pointer.y += (pointer.targetY - pointer.y) * TRACK.ease;
+function trackPointer(now) {
+  // Based on elapsed time, so it feels the same on 60 Hz and 120 Hz screens.
+  const dt = Math.min(0.05, (now - lastTrack) / 1000);
+  lastTrack = now;
+  const step = 1 - Math.exp(-dt / TRACK.catchUp);
+  pointer.x += (pointer.targetX - pointer.x) * step;
+  pointer.y += (pointer.targetY - pointer.y) * step;
   applyCamera();
   const settled = Math.abs(pointer.targetX - pointer.x) < 0.001 && Math.abs(pointer.targetY - pointer.y) < 0.001;
   // Stop the loop when the camera has caught up.
@@ -54,7 +60,7 @@ function onPointerMove(event) {
   if (event.pointerType === 'touch') return;
   pointer.targetX = (event.clientX / window.innerWidth) * 2 - 1;
   pointer.targetY = (event.clientY / window.innerHeight) * 2 - 1;
-  if (!tracking) { tracking = true; requestAnimationFrame(trackPointer); }
+  if (!tracking) { tracking = true; lastTrack = performance.now(); requestAnimationFrame(trackPointer); }
 }
 
 function applyCamera() {
@@ -87,15 +93,18 @@ export function setCameraNudge(value) {
 // Each part owns one equal stretch of the pinned scroll: it rises in over the first 28%,
 // rests, then drifts up and fades slowly over the last 42%. The next part only starts
 // once the old one is gone, so a part cannot be skipped without being seen leaving.
-const PART = { in: 0.28, outStart: 0.58, out: 0.42, shift: 22, scale: 0.98, smoothing: 0.8 };
+const PART = { in: 0.28, outStart: 0.58, out: 0.42, shift: 22, scale: 0.98 };
+
+// Text and camera trail the scrollbar by the same half second, so they move as one.
+const SMOOTHING = 0.5;
 
 function buildIntroText() {
   const parts = gsap.utils.toArray('.intro__part');
   if (!parts.length) return;
   const timeline = gsap.timeline({
     defaults: { overwrite: false },
-    // smoothing: the text takes 0.8 s to catch up with the scrollbar, so a fast flick still plays each change
-    scrollTrigger: { trigger: '#intro', start: 'top top', end: 'bottom bottom', scrub: PART.smoothing },
+    // the trailing means a fast flick still plays each change
+    scrollTrigger: { trigger: '#intro', start: 'top top', end: 'bottom bottom', scrub: SMOOTHING },
   });
   parts.forEach((part, i) => {
     const last = i === parts.length - 1;
@@ -131,8 +140,7 @@ export function initScroll() {
         if (segment.onProgress) segment.onProgress(self.progress);
         applyCamera();
       };
-      // scrub 0.5: the camera trails the scrollbar by half a second, which gives it some weight
-      ScrollTrigger.create({ trigger: segment.trigger, start: segment.start, end: segment.end, scrub: 0.5, onUpdate: update, onRefresh: update });
+      ScrollTrigger.create({ trigger: segment.trigger, start: segment.start, end: segment.end, scrub: SMOOTHING, onUpdate: update, onRefresh: update });
     });
   }
 }

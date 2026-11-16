@@ -53,14 +53,14 @@ export function initIntro() {
     const title = heroContent.querySelector('h1');
     const gap = (title || heroContent).getBoundingClientRect().top - window.innerHeight;
     dip = gsap.timeline({ onUpdate: applyDip })
-      .to(state, { nudge: DIP_AMOUNT, lift: Math.max(0, gap + PEEK_PX), duration: 0.9, ease: 'power2.inOut' })
-      .to(state, { nudge: 0, lift: 0, duration: 0.9, ease: 'power2.inOut' }, '+=0.7');
+      .to(state, { nudge: DIP_AMOUNT, lift: Math.max(0, gap + PEEK_PX), duration: 0.6, ease: 'power2.inOut' })
+      .to(state, { nudge: 0, lift: 0, duration: 0.6, ease: 'power2.inOut' }, '+=0.5');
   };
   const cancelDip = () => {
     clearTimeout(idleTimer);
     if (dip && dip.isActive()) {
       dip.kill();
-      gsap.to(state, { nudge: 0, lift: 0, duration: 0.3, onUpdate: applyDip });
+      gsap.to(state, { nudge: 0, lift: 0, duration: 0.25, ease: 'power2.out', onUpdate: applyDip });
     }
   };
   if (!reduced && !returning && window.scrollY === 0) {

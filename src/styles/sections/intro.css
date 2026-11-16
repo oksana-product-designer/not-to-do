@@ -63,7 +63,8 @@
   font-size: var(--text-label);
   font-weight: var(--weight-medium);
   text-decoration: none;
-  transition: opacity var(--duration-base) var(--ease-standard), visibility var(--duration-base);
+  /* leaving: short, with a soft start */
+  transition: opacity var(--duration-fast) var(--ease-exit), visibility var(--duration-fast);
 }
 .intro__hint.is-hidden { opacity: 0; visibility: hidden; }
 .intro__hint-inner { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); }

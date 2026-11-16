@@ -47,3 +47,13 @@
 - Removed tokens no longer used: --duration-part-out, --ease-exit, --scale-intro-part. --delay-part-in is now the load delay (0.2 s).
 - Intro camera stands closer to the clouds (z 0 to z -1800).
 - Intro to hero is now a swoop, not a straight line: fast pull-back that slows, early lift of the camera's nose, and a soft drop so the hills rise in from the bottom. A first try that tipped the camera forward showed the far edge of the Ground plane, so it was dropped. The camera trails the scrollbar by 0.5 s.
+
+## 2026-11-16 · Animation review (animation-principles skill)
+- Load entrance: 0.7 s to 0.5 s, delay 0.2 s to 0.1 s. Hint fade 0.6 s to 0.25 s, still 0.8 s after the text.
+- Hint leaving: 0.3 s standard curve to 0.15 s with an exit curve (--ease-exit is back).
+- Text and camera now share one scroll trailing value, 0.5 s (text was 0.8 s), so they stay in step.
+- Idle dip: 0.9 s each way to 0.6 s, hold 0.7 s to 0.5 s.
+- Cursor tracking is time-based, so 120 Hz screens no longer run it twice as fast.
+- Scene crossfade 0.6 s to 0.4 s.
+- Button: hover lift and press feedback, 0.1 s. New tokens --duration-micro, --duration-crossfade, --shift-button-hover, --scale-button-press.
+- Kept on purpose: scroll-tied part changes (ease-out in, ease-in out), the swoop curves, the 4.4-screen pinned scroll, the hint loop.
