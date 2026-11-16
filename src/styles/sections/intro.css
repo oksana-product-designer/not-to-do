@@ -1,21 +1,27 @@
-/* Screen 0 · Intro. One screen tall; scrolling it away is the intro "playing". */
-.intro {
+/* Screen 0 · Intro.
+   Default (no JS, or reduced motion): all four parts are plain stacked text on one screen.
+   Staged (JS + motion welcome): the section is tall, the stage is pinned, and the
+   parts share one spot and swap as the reader scrolls. */
+.intro { position: relative; color: var(--color-intro-text); text-align: center; }
+
+.intro__stage {
   position: relative;
-  height: 100vh;
-  height: 100svh;
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-8) var(--space-4);
-  color: var(--color-intro-text);
-  text-align: center;
+  padding: var(--space-9) var(--space-4);
 }
 
-.intro__lines { display: flex; flex-direction: column; gap: var(--space-4); will-change: transform, opacity; }
-.intro__line { display: block; font-family: var(--font-display); line-height: var(--line-height-title); }
-.intro__line--small { font-size: var(--text-title-s); }
-.intro__line--large { font-size: var(--text-title-xl); }
+.intro__lines {
+  font-family: var(--font-display);
+  font-size: var(--text-title-xl);
+  line-height: var(--line-height-title);
+  letter-spacing: var(--tracking-display);
+}
+.intro__part { display: block; text-wrap: balance; }
 
 /* Skip intro: fixed top right, there from the first frame */
 .skip-intro {
@@ -33,7 +39,7 @@
 }
 .is-past-intro .skip-intro { visibility: hidden; }
 
-/* Scroll hint: a link to #hero pinned to the bottom of the intro */
+/* Scroll hint: a link to #hero at the bottom of the stage */
 .intro__hint {
   position: absolute;
   left: 50%;
@@ -62,16 +68,38 @@
 @keyframes hint-wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
 @keyframes hint-swipe { 0% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(0); opacity: 0; } }
 
-/* Entrance animation. Only when JS is running, motion is welcome and this is a first visit.
-   Without any of those the text is simply visible. */
+/* Staged mode */
 @media (prefers-reduced-motion: no-preference) {
-  .js:not(.intro-seen) .intro__line,
+  .js .intro { height: calc(100vh + var(--length-intro-scroll)); height: calc(100svh + var(--length-intro-scroll)); }
+  .js .intro__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+
+  .js .intro__lines { display: grid; width: 100%; font-size: var(--text-display); }
+
+  /* Every part sits in the same spot. Waiting parts rest just below, passed parts just above. */
+  .js .intro__part {
+    grid-area: 1 / 1;
+    align-self: center;
+    opacity: 0;
+    transform: translateY(var(--shift-intro-part)) scale(var(--scale-intro-part));
+    transition:
+      opacity var(--duration-part-out) var(--ease-exit),
+      transform var(--duration-part-out) var(--ease-exit);
+    will-change: transform, opacity;
+  }
+  .js .intro__part.is-before { transform: translateY(calc(var(--shift-intro-part) * -1)) scale(var(--scale-intro-part)); }
+  .js .intro__part.is-active {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration-part-in) var(--ease-enter) var(--delay-part-in),
+      transform var(--duration-part-in) var(--ease-enter) var(--delay-part-in);
+  }
+
+  /* Hint fades in after part 1 on a first visit */
   .js:not(.intro-seen) .intro__hint-inner {
     opacity: 0;
-    animation: intro-fade-in var(--duration-intro-line) var(--ease-standard) forwards;
+    animation: intro-fade-in var(--duration-intro-hint-fade) var(--ease-standard) var(--duration-intro-hint-delay) forwards;
   }
-  .js:not(.intro-seen) .intro__line--large { animation-delay: var(--duration-intro-line2-delay); }
-  .js:not(.intro-seen) .intro__hint-inner { animation-delay: var(--duration-intro-hint-delay); }
   /* Keyboard users who Tab to the hint early see it at once */
   .js:not(.intro-seen) .intro__hint:focus-visible .intro__hint-inner { animation: none; opacity: 1; }
 

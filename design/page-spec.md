@@ -6,21 +6,26 @@ Priority markers (0 to 5) show the order of attention, one per screen.
 
 ## Screen 0 · Intro
 
-Scene: sky only. No nav, no clouds in front of text.
+Scene: sky with big clouds close to the camera. The clouds drift, and move up through the frame as the page scrolls down. No nav.
 
-- Line 1 (small): In a world of career ladders and corporate games,
-- Line 2 (large): be the most inefficient player.
+- Text, very large, shown one part at a time:
+  1. In a world
+  2. of corporate games
+  3. be the most
+  4. inefficient player.
 - Top right link: Skip intro
 - Scroll hint: mouse icon + "Scroll to start the game". Phone: swipe icon + "Swipe up to start the game".
 
 Motion:
-- On load: line 1 fades in (0.6 s). Line 2 appears 1.2 s later. Then the page waits.
+- On load: part 1 eases in. Then the page waits.
 - Trigger: scroll only (wheel, swipe, arrow keys, Space). No timer advances the page.
-- Camera tilt and the lines lifting away follow scroll progress. Scrolling up reverses them.
-- Hint fades in 0.8 s after line 2, wheel dot loops, hides on first scroll.
+- The intro stays pinned while the reader scrolls through four equal steps. Each step shows the next part. Only one part is visible at a time.
+- Part change: the old part slides up and fades out (0.35 s), the new part rises in from below and settles (0.7 s). Scrolling up plays it the other way round.
+- The camera descends through the clouds with scroll progress. Scrolling up reverses it.
+- Hint fades in 0.8 s after part 1, wheel dot loops, hides on first scroll.
 - After 6 s idle: the camera dips so the hero headline peeks above the bottom edge, then settles back.
 - The hint is a link to `#hero`, so click and Enter also work.
-- Return visits skip the intro. Reduced motion: both lines static, hint shown.
+- Return visits skip the intro. Reduced motion: all four parts shown together as static text, hint shown, no pinning.
 
 ## Floating nav (appears after the intro)
 
@@ -80,6 +85,7 @@ Not To Do · Built during work hours. · Privacy · Contact
 ## Copy alternatives (kept for testing)
 
 Intro:
+- In a world of career ladders and corporate games, / be the most inefficient player. (first version)
 - Everyone is climbing the career ladder. / You found a comfortable step.
 - The corporate game has winners and losers. / Lose with dedication.
 - Some people play to get promoted. / You play to get away with it.

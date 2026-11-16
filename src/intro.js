@@ -1,4 +1,4 @@
-// Intro screen behavior. The fade-in of the lines and the hint is pure CSS (intro.css).
+// Intro screen behavior. The text parts are switched by scroll.js and animated by intro.css.
 // This file handles: hiding the hint on first scroll, the one-time idle dip,
 // remembering that the intro was seen, and what changes once the hero is reached.
 import gsap from 'gsap';
@@ -6,7 +6,7 @@ import { setCameraNudge } from './scroll.js';
 
 const SEEN_KEY = 'ntd-intro-seen';
 const IDLE_MS = 6000;      // wait this long without scrolling before the dip
-const DIP_AMOUNT = 0.12;   // how far the camera moves toward the hero pose (0 to 1)
+const DIP_AMOUNT = 0.06;   // how far the camera moves along its intro path (0 to 1)
 const PEEK_PX = 56;        // how much of the hero headline shows above the bottom edge
 
 function markSeen() {

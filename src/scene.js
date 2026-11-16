@@ -9,16 +9,18 @@ const REQUIRED_OBJECTS = [
   'Hill Front Left', 'Ground', 'Sky Backdrop', 'Directional Light',
 ];
 
-// Camera poses, one per screen. rotX is the tilt in radians (0 = level, positive = looking up),
-// y is the camera height. Later screens add entries here.
+// Camera poses. rotX is the tilt in radians (0 = level, positive = looking up),
+// y is the camera height, z is how far forward it stands (smaller = closer to the clouds).
+// Later screens add entries here.
 export const POSES = {
-  intro: { rotX: 0, y: 10500 },   // high up: sky only
-  hero: { rotX: 0.15, y: 6500 },  // lower: deep blue sky, cloud tops near the bottom edge
+  introStart: { rotX: 0, y: 7000, z: 0 },     // close to the clouds, their tops at the bottom edge
+  introEnd: { rotX: 0.05, y: 3400, z: 0 },    // sunk into the cloud layer
+  hero: { rotX: 0.297, y: 226, z: 3733 },     // pulled back and down: the full scene, hills along the bottom
 };
 
 let app = null;
 let camera = null;
-let pose = { ...POSES.intro };
+let pose = { ...POSES.introStart };
 
 // Phones and reduced motion get the static image only.
 export function sceneAllowed() {
@@ -35,13 +37,23 @@ export function findObject(name) {
   return obj || null;
 }
 
-// Set the camera tilt and height. Safe to call before the scene has loaded:
+// Set the camera tilt, height and distance. Safe to call before the scene has loaded:
 // the pose is remembered and applied as soon as the camera exists.
 export function setCameraPose(next) {
   pose = { ...pose, ...next };
   if (!camera) return;
   camera.rotation.x = pose.rotX;
   camera.position.y = pose.y;
+  camera.position.z = pose.z;
+}
+
+// Slide the static image up as the page scrolls (0 = start, 1 = fully slid).
+// It is taller than the screen, so this only ever shows more of its lower part.
+export function setFallbackShift(t) {
+  const image = document.querySelector('.scene__fallback');
+  if (!image) return;
+  const spare = image.offsetHeight - window.innerHeight;
+  image.style.transform = `translate3d(0, ${-Math.max(0, spare) * t}px, 0)`;
 }
 
 // Load the scene. Resolves true if it is showing, false if the page stays on the image.

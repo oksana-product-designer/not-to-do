@@ -70,7 +70,7 @@ main { position: relative; z-index: var(--z-content); }
 /* 3D scene layer: fixed behind everything. The image shows first, the canvas fades in over it. */
 .scene { position: fixed; inset: 0; z-index: var(--z-scene); overflow: hidden; pointer-events: none; }
 .scene__fallback, .scene__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.scene__fallback { object-fit: cover; object-position: center top; }
+.scene__fallback { height: var(--size-scene-fallback); object-fit: cover; object-position: center top; will-change: transform; }
 .scene__canvas { opacity: 0; transition: opacity var(--duration-slow) var(--ease-standard); }
 .scene.is-loaded .scene__canvas { opacity: 1; }
 .scene iframe { pointer-events: none; }

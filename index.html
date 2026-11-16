@@ -19,7 +19,7 @@
   <body>
     <!-- 3D scene: decoration only. Image first, canvas fades in when the scene has loaded. -->
     <div class="scene" id="scene" aria-hidden="true">
-      <img class="scene__fallback" src="/images/scene-fallback.jpg" alt="" width="1600" height="1000" fetchpriority="high" />
+      <img class="scene__fallback" src="/images/scene-fallback.jpg" alt="" width="1200" height="1500" fetchpriority="high" />
       <canvas class="scene__canvas" id="scene-canvas"></canvas>
     </div>
 
@@ -31,30 +31,34 @@
     <main>
       <!-- Screen 0 · Intro -->
       <section class="intro" id="intro" aria-label="Intro">
-        <p class="intro__lines" id="intro-lines">
-          <span class="intro__line intro__line--small">In a world of career ladders and corporate games,</span>
-          <span class="intro__line intro__line--large">be the most inefficient player.</span>
-        </p>
+        <div class="intro__stage">
+          <p class="intro__lines" id="intro-lines">
+            <span class="intro__part">In a world</span>
+            <span class="intro__part">of corporate games</span>
+            <span class="intro__part">be the most</span>
+            <span class="intro__part">inefficient player.</span>
+          </p>
 
-        <a class="intro__hint" id="intro-hint" href="#hero">
-          <span class="intro__hint-inner">
-            <span class="intro__hint-variant intro__hint-variant--mouse">
-              <svg viewBox="0 0 24 40" aria-hidden="true" focusable="false">
-                <rect x="1" y="1" width="22" height="38" rx="11" />
-                <circle class="hint-dot" cx="12" cy="10" r="2" />
-              </svg>
-              Scroll to start the game
+          <a class="intro__hint" id="intro-hint" href="#hero">
+            <span class="intro__hint-inner">
+              <span class="intro__hint-variant intro__hint-variant--mouse">
+                <svg viewBox="0 0 24 40" aria-hidden="true" focusable="false">
+                  <rect x="1" y="1" width="22" height="38" rx="11" />
+                  <circle class="hint-dot" cx="12" cy="10" r="2" />
+                </svg>
+                Scroll to start the game
+              </span>
+              <span class="intro__hint-variant intro__hint-variant--touch">
+                <svg viewBox="0 0 24 40" aria-hidden="true" focusable="false">
+                  <path d="M12 38V14" />
+                  <path d="M5 21l7-7 7 7" />
+                  <circle class="hint-dot" cx="12" cy="6" r="2" />
+                </svg>
+                Swipe up to start the game
+              </span>
             </span>
-            <span class="intro__hint-variant intro__hint-variant--touch">
-              <svg viewBox="0 0 24 40" aria-hidden="true" focusable="false">
-                <path d="M12 38V14" />
-                <path d="M5 21l7-7 7 7" />
-                <circle class="hint-dot" cx="12" cy="6" r="2" />
-              </svg>
-              Swipe up to start the game
-            </span>
-          </span>
-        </a>
+          </a>
+        </div>
       </section>
 
       <!-- Screen 1 · Hero (placeholder: final layout comes next session) -->
