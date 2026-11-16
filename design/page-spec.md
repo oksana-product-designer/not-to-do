@@ -20,7 +20,7 @@ Motion:
 - On load: part 1 eases in. Then the page waits.
 - Trigger: scroll only (wheel, swipe, arrow keys, Space). No timer advances the page.
 - The intro stays pinned while the reader scrolls through four equal steps. Each step shows the next part. Only one part is visible at a time.
-- Part change: the old part slides up and fades out (0.7 s), the new part rises in from below and settles (1.4 s). Scrolling up plays it the other way round.
+- Part change: the old part slides up and fades out (0.35 s), the new part rises in from below and settles (0.7 s). Scrolling up plays it the other way round.
 - The camera descends through the clouds with scroll progress. Scrolling up reverses it.
 - Hint fades in 0.8 s after part 1, wheel dot loops, hides on first scroll.
 - After 6 s idle: the camera dips so the hero headline peeks above the bottom edge, then settles back.
