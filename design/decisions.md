@@ -68,3 +68,4 @@
 - The label replaces the bottom scroll hint. Clicking it now scrolls a little (starting part 1) instead of jumping to the hero. Skip intro still jumps to the hero.
 - Lines play in order with a minimum time on screen: reveal (1.05 s) plus a 0.7 s hold. Scroll is not locked (chosen over a scroll lock for accessibility), so a hard fling past the whole intro can still miss the last lines.
 - New tokens: --color-label-bg, --size-hint-icon, --shift-hint-float, --duration-hint-float, --duration-part-hold. Removed the mouse and swipe icon tokens.
+- Scroll label is now plain text: no pill background, shadow or chevron. Removed tokens --color-label-bg and --size-hint-icon. Contrast relies on #141414 over the sky and clouds (about 6.6 or better on the sky, higher on clouds).

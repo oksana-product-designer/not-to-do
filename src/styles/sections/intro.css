@@ -52,7 +52,7 @@
 }
 .is-past-intro .skip-intro { visibility: hidden; }
 
-/* Scroll label: a small pill. Default spot is the bottom of the stage
+/* Scroll label: plain text. Default spot is the bottom of the stage
    (reduced motion and no JS, where the text fills the middle). */
 .intro__hint {
   position: absolute;
@@ -70,14 +70,9 @@
 .intro__hint-inner {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
   min-height: var(--size-touch-target);
   padding: var(--space-2) var(--space-5);
-  background: var(--color-label-bg);
-  border-radius: var(--radius-chip);
-  box-shadow: var(--shadow-card);
 }
-.intro__hint svg { width: var(--size-hint-icon); height: var(--size-hint-icon); fill: none; stroke: currentColor; stroke-width: var(--size-stroke); stroke-linecap: round; stroke-linejoin: round; }
 
 @keyframes intro-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes intro-part-in {
