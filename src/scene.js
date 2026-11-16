@@ -21,6 +21,7 @@ export const POSES = {
 let app = null;
 let camera = null;
 let pose = { ...POSES.introStart };
+let cameraHome = { x: 0, rotY: 0 };
 
 // Phones and reduced motion get the static image only.
 export function sceneAllowed() {
@@ -37,7 +38,7 @@ export function findObject(name) {
   return obj || null;
 }
 
-// Set the camera tilt, height and distance. Safe to call before the scene has loaded:
+// Set the camera tilt, height and distance (plus optional sideways offsets dx and rotY). Safe to call before the scene has loaded:
 // the pose is remembered and applied as soon as the camera exists.
 export function setCameraPose(next) {
   pose = { ...pose, ...next };
@@ -45,6 +46,9 @@ export function setCameraPose(next) {
   camera.rotation.x = pose.rotX;
   camera.position.y = pose.y;
   camera.position.z = pose.z;
+  // Sideways offsets (cursor tracking) are added on top of where the camera stands in the Spline file.
+  camera.position.x = cameraHome.x + (pose.dx || 0);
+  camera.rotation.y = cameraHome.rotY + (pose.rotY || 0);
 }
 
 // Slide the static image up as the page scrolls (0 = start, 1 = fully slid).
@@ -74,6 +78,7 @@ export async function initScene() {
     }
 
     camera = found[0];
+    cameraHome = { x: camera.position.x, rotY: camera.rotation.y };
     setCameraPose(pose);
 
     // The runtime adds an iframe for the scene's own script. Keep it out of the Tab order.
