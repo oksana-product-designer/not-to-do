@@ -23,19 +23,32 @@
 }
 .intro__part { display: block; text-wrap: balance; }
 
-/* Skip intro: fixed top right, there from the first frame */
+/* Skip intro: in the page for screen readers and keyboard users from the first frame,
+   but not drawn. It becomes visible, top right, only while it has keyboard focus. */
 .skip-intro {
   position: fixed;
   top: var(--space-4);
   right: var(--space-4);
   z-index: var(--z-skip);
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--size-touch-target);
-  padding: var(--space-2) var(--space-4);
+  width: var(--size-visually-hidden);
+  height: var(--size-visually-hidden);
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
   color: var(--color-intro-text);
   font-weight: var(--weight-medium);
   text-underline-offset: var(--space-1);
+}
+.skip-intro:focus-visible {
+  width: auto;
+  height: auto;
+  min-height: var(--size-touch-target);
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  overflow: visible;
+  clip-path: none;
 }
 .is-past-intro .skip-intro { visibility: hidden; }
 

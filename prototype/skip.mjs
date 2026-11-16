@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+await p.goto('http://127.0.0.1:5173/'); await p.waitForTimeout(1500);
+const box = () => p.evaluate(() => { const e = document.querySelector('.skip-intro'); const r = e.getBoundingClientRect(); return { w: r.width, h: r.height, clip: getComputedStyle(e).clipPath }; });
+console.log('idle', await box(), 'a11y name:', await p.evaluate(() => document.querySelector('.skip-intro').textContent));
+await p.screenshot({ path: 'design/screenshots/intro-1440x900-skip-hidden.png' });
+await p.keyboard.press('Tab'); await p.waitForTimeout(200);
+console.log('focused', await box(), await p.evaluate(() => document.activeElement.className));
+await p.screenshot({ path: 'design/screenshots/intro-1440x900-skip-focused.png', clip: { x: 1100, y: 0, width: 340, height: 120 } });
+await p.keyboard.press('Enter'); await p.waitForTimeout(2500);
+console.log('after Enter scrollY', await p.evaluate(() => Math.round(scrollY)), 'heroTop', await p.evaluate(() => document.getElementById('hero').offsetTop));
+await b.close();

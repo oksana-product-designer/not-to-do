@@ -81,6 +81,7 @@
   --size-hint-travel: 10px;
   --size-stroke: 2px;
   --size-touch-target: 44px;
+  --size-visually-hidden: 1px;             /* skip link: present for screen readers, invisible until focused */
   --measure-title: 16ch;
   --content-max: 1120px;
   --length-intro-scroll: 280vh;            /* scroll distance while the intro is pinned (4 parts x 70vh) */
