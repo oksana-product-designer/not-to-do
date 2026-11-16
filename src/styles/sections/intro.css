@@ -1,0 +1,80 @@
+/* Screen 0 · Intro. One screen tall; scrolling it away is the intro "playing". */
+.intro {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--color-intro-text);
+  text-align: center;
+}
+
+.intro__lines { display: flex; flex-direction: column; gap: var(--space-4); will-change: transform, opacity; }
+.intro__line { display: block; font-family: var(--font-display); line-height: var(--line-height-title); }
+.intro__line--small { font-size: var(--text-title-s); }
+.intro__line--large { font-size: var(--text-title-xl); }
+
+/* Skip intro: fixed top right, there from the first frame */
+.skip-intro {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-skip);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  padding: var(--space-2) var(--space-4);
+  color: var(--color-intro-text);
+  font-weight: var(--weight-medium);
+  text-underline-offset: var(--space-1);
+}
+.is-past-intro .skip-intro { visibility: hidden; }
+
+/* Scroll hint: a link to #hero pinned to the bottom of the intro */
+.intro__hint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-8);
+  transform: translateX(-50%);
+  min-height: var(--size-touch-target);
+  color: var(--color-intro-text);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  transition: opacity var(--duration-base) var(--ease-standard), visibility var(--duration-base);
+}
+.intro__hint.is-hidden { opacity: 0; visibility: hidden; }
+.intro__hint-inner { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); }
+.intro__hint-variant { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); }
+.intro__hint-variant--touch { display: none; }
+.intro__hint svg { width: var(--size-hint-icon-w); height: var(--size-hint-icon-h); fill: none; stroke: currentColor; stroke-width: var(--size-stroke); stroke-linecap: round; stroke-linejoin: round; }
+.intro__hint .hint-dot { fill: currentColor; stroke: none; }
+
+@media (hover: none) and (pointer: coarse) {
+  .intro__hint-variant--mouse { display: none; }
+  .intro__hint-variant--touch { display: flex; }
+}
+
+@keyframes intro-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hint-wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
+@keyframes hint-swipe { 0% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(0); opacity: 0; } }
+
+/* Entrance animation. Only when JS is running, motion is welcome and this is a first visit.
+   Without any of those the text is simply visible. */
+@media (prefers-reduced-motion: no-preference) {
+  .js:not(.intro-seen) .intro__line,
+  .js:not(.intro-seen) .intro__hint-inner {
+    opacity: 0;
+    animation: intro-fade-in var(--duration-intro-line) var(--ease-standard) forwards;
+  }
+  .js:not(.intro-seen) .intro__line--large { animation-delay: var(--duration-intro-line2-delay); }
+  .js:not(.intro-seen) .intro__hint-inner { animation-delay: var(--duration-intro-hint-delay); }
+  /* Keyboard users who Tab to the hint early see it at once */
+  .js:not(.intro-seen) .intro__hint:focus-visible .intro__hint-inner { animation: none; opacity: 1; }
+
+  .hint-dot { animation: hint-wheel var(--duration-hint-loop) var(--ease-standard) infinite; }
+  .intro__hint-variant--touch .hint-dot { animation-name: hint-swipe; }
+}

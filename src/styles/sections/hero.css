@@ -1,0 +1,19 @@
+/* Screen 1 · Hero. Placeholder layout: headline and main button only. */
+.hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-9) var(--space-4);
+  text-align: center;
+}
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  max-width: var(--content-max);
+  will-change: transform;
+}
+.hero__title { max-width: var(--measure-title); }

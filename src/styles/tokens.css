@@ -14,6 +14,7 @@
   --color-cta-bg: #f9a8f0;
   --color-cta-text: #141414;
   --color-focus-ring: #141414;
+  --color-intro-text: #141414;      /* text on the sky; checked for AA against the scene */
 
   /* Type scale (fluid between phone and desktop) */
   --text-title-xl: clamp(2.75rem, 1.5rem + 5vw, 6rem);   /* intro line 2, H1, high score */
@@ -55,8 +56,27 @@
   --duration-fast: 150ms;
   --duration-base: 300ms;
   --duration-slow: 600ms;
-  --duration-intro-line2-delay: 1200ms;
+  --duration-intro-line: 600ms;            /* each intro line fades in */
+  --duration-intro-line2-delay: 1200ms;    /* line 2 starts this long after line 1 starts */
+  --duration-intro-hint-delay: 2600ms;     /* line 2 start + its fade + 0.8 s */
+  --duration-hint-loop: 1600ms;            /* wheel dot / swipe loop */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Layers */
+  --z-scene: 0;
+  --z-content: 1;
+  --z-nav: 10;
+  --z-skip: 20;
+
+  /* Sizes */
+  --size-hint-icon-w: 24px;
+  --size-hint-icon-h: 40px;
+  --size-hint-dot: 4px;
+  --size-hint-travel: 10px;
+  --size-stroke: 2px;
+  --size-touch-target: 44px;
+  --measure-title: 16ch;
+  --content-max: 1120px;
 
   /* Breakpoints (documentation only: CSS variables cannot be used inside @media) */
   --bp-phone: 390px;

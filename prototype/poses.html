@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset="UTF-8"><style>html,body{margin:0}canvas{position:fixed;inset:0;width:100vw;height:100vh}</style></head>
+<body><canvas id="c"></canvas>
+<script type="module">
+import { Application } from '@splinetool/runtime';
+const app = new Application(document.getElementById('c'));
+await app.load('https://prod.spline.design/gy8pOJOY0CmAM2FX/scene.splinecode');
+const cam = app.findObjectByName('Hero Camera');
+window.__cam = cam; window.__ready = true;
+</script></body></html>
