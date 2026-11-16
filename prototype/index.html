@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scroll prototype (throwaway)</title>
+<style>
+  html, body { margin: 0; background: #f4f9fd; font-family: system-ui, sans-serif; }
+  #scene { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; }
+  .page { position: relative; z-index: 1; height: 400vh; }
+  .block { position: absolute; left: 50%; transform: translateX(-50%); width: min(560px, 86vw); padding: 24px; background: rgba(255,255,255,.85); border-radius: 24px; }
+  .block h2 { margin: 0 0 8px; }
+  #hud { position: fixed; top: 8px; left: 8px; z-index: 2; font: 12px monospace; background: rgba(0,0,0,.7); color: #0f0; padding: 6px 8px; border-radius: 6px; white-space: pre; }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="hud">loading...</div>
+<div class="page">
+  <div class="block" style="top: 10vh"><h2>Block 1</h2><p>Placeholder text. Camera looks up here.</p></div>
+  <div class="block" style="top: 110vh"><h2>Block 2</h2><p>Placeholder text.</p></div>
+  <div class="block" style="top: 210vh"><h2>Block 3</h2><p>Placeholder text.</p></div>
+  <div class="block" style="top: 310vh"><h2>Block 4</h2><p>Placeholder text. Camera level here.</p></div>
+</div>
+<script type="module" src="./prototype.js"></script>
+</body>
+</html>
