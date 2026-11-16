@@ -39,3 +39,11 @@
 - Back to the earlier speed: in 0.7 s, out 0.35 s, 0.32 s wait. The softer curves, shorter travel (0.25em) and lighter scaling (0.98) stay.
 - Cursor tracking is back at the hero, now driven by the site (scroll.js), not the Spline file. It fades in as the hero arrives and is off during the intro, on touch and with reduced motion. Amounts match the old Spline values: 120 units sideways, 30 up and down, about 1.2 and 2.5 degrees of lean.
 - Skip intro is no longer drawn. It stays in the page for screen readers and keyboard users and shows (top right) only while focused, so keyboard-only sighted users can still see where focus is. This changes the CLAUDE.md rule 'visible and focusable from the first frame' to 'present and focusable from the first frame'; CLAUDE.md itself is not edited.
+
+## 2026-11-16 · Intro text tied to scroll
+- Problem: a part change was a short timed animation fired at a scroll point, so a quick scroll could pass a part before it was read.
+- Now each part's arrival and exit follow scroll distance. Pinned scroll grew from 280vh to 440vh (110vh per part). Exit takes 42% of a step, arrival 28%. Text trails the scrollbar by 0.8 s.
+- Cursor tracking now runs during the intro as well as the hero.
+- Removed tokens no longer used: --duration-part-out, --ease-exit, --scale-intro-part. --delay-part-in is now the load delay (0.2 s).
+- Intro camera stands closer to the clouds (z 0 to z -1800).
+- Intro to hero is now a swoop, not a straight line: fast pull-back that slows, early lift of the camera's nose, and a soft drop so the hills rise in from the bottom. A first try that tipped the camera forward showed the far edge of the Ground plane, so it was dropped. The camera trails the scrollbar by 0.5 s.

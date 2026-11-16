@@ -13,8 +13,8 @@ const REQUIRED_OBJECTS = [
 // y is the camera height, z is how far forward it stands (smaller = closer to the clouds).
 // Later screens add entries here.
 export const POSES = {
-  introStart: { rotX: 0, y: 7000, z: 0 },     // close to the clouds, their tops at the bottom edge
-  introEnd: { rotX: 0.05, y: 3400, z: 0 },    // sunk into the cloud layer
+  introStart: { rotX: 0, y: 7000, z: -1800 }, // right up against the clouds, their tops at the bottom edge
+  introEnd: { rotX: 0.05, y: 3400, z: -1800 }, // sunk into the cloud layer
   hero: { rotX: 0.297, y: 226, z: 3733 },     // pulled back and down: the full scene, hills along the bottom
 };
 

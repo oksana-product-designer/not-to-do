@@ -9,17 +9,32 @@ gsap.registerPlugin(ScrollTrigger);
 const mix = (a, b, t) => a + (b - a) * t;
 const clamp01 = (t) => Math.min(1, Math.max(0, t));
 
+// The move from the clouds to the hero is not a straight line:
+// - the camera backs away fast at first, so the clouds rush off, then slows down
+// - it lifts its nose early, which keeps the far edge of the ground out of sight
+// - it drops with a soft start and a soft landing, so the hills rise in from the bottom at the end
+function swoop(from, to, t) {
+  const soft = t * t * (3 - 2 * t);
+  const fastThenSlow = 1 - Math.pow(1 - t, 3);
+  return {
+    rotX: mix(from.rotX, to.rotX, fastThenSlow),
+    y: mix(from.y, to.y, soft),
+    z: mix(from.z, to.z, fastThenSlow),
+  };
+}
+const straight = (from, to, t) => ({ rotX: mix(from.rotX, to.rotX, t), y: mix(from.y, to.y, t), z: mix(from.z, to.z, t) });
+
 // One entry per stretch of scroll. Later screens add entries here.
 const SEGMENTS = [
   // Intro, pinned: the camera sinks through the clouds while the four parts take turns.
-  { trigger: '#intro', start: 'top top', end: 'bottom bottom', from: POSES.introStart, to: POSES.introEnd, onProgress: showIntroPart },
-  // Intro scrolls away: the camera pulls back, the clouds fly off and the full scene with the hills appears.
-  { trigger: '#intro', start: 'bottom bottom', end: 'bottom top', from: POSES.introEnd, to: POSES.hero },
+  { trigger: '#intro', start: 'top top', end: 'bottom bottom', from: POSES.introStart, to: POSES.introEnd },
+  // Intro scrolls away: the camera pulls back fast and drops, the clouds fly off and the hills rise into view.
+  { trigger: '#intro', start: 'bottom bottom', end: 'bottom top', from: POSES.introEnd, to: POSES.hero, path: swoop },
 ];
 const progress = SEGMENTS.map(() => 0);
 let nudge = 0; // small extra progress used by the idle "dip" in intro.js
 
-// Cursor tracking at the hero: the camera leans a little toward the pointer.
+// Cursor tracking: the camera leans a little toward the pointer, in the intro and at the hero.
 // Same amounts the Spline file used before the site took over the camera.
 const TRACK = { slide: 120, lift: 30, tilt: 0.021, turn: 0.044, ease: 0.05 };
 const pointer = { x: 0, y: 0, targetX: 0, targetY: 0 }; // -1..1 from the screen center
@@ -30,8 +45,8 @@ function trackPointer() {
   pointer.y += (pointer.targetY - pointer.y) * TRACK.ease;
   applyCamera();
   const settled = Math.abs(pointer.targetX - pointer.x) < 0.001 && Math.abs(pointer.targetY - pointer.y) < 0.001;
-  // Stop the loop when the camera has caught up or the hero is not on screen.
-  if (settled || progress[1] === 0) { tracking = false; return; }
+  // Stop the loop when the camera has caught up.
+  if (settled) { tracking = false; return; }
   requestAnimationFrame(trackPointer);
 }
 
@@ -39,7 +54,7 @@ function onPointerMove(event) {
   if (event.pointerType === 'touch') return;
   pointer.targetX = (event.clientX / window.innerWidth) * 2 - 1;
   pointer.targetY = (event.clientY / window.innerHeight) * 2 - 1;
-  if (!tracking && progress[1] > 0) { tracking = true; requestAnimationFrame(trackPointer); }
+  if (!tracking) { tracking = true; requestAnimationFrame(trackPointer); }
 }
 
 function applyCamera() {
@@ -48,17 +63,18 @@ function applyCamera() {
   progress.forEach((value, i) => { if (value > 0) index = i; });
   const segment = SEGMENTS[index];
   const t = clamp01(progress[index] + (index === 0 ? nudge : 0));
-  // Cursor tracking fades in as the hero arrives (0 during the intro, full at the hero).
-  const follow = progress[1];
+  // Cursor tracking runs through the intro and the hero alike.
+  const follow = 1;
+  const at = (segment.path || straight)(segment.from, segment.to, t);
   setCameraPose({
-    rotX: mix(segment.from.rotX, segment.to.rotX, t) - pointer.y * TRACK.tilt * follow,
-    y: mix(segment.from.y, segment.to.y, t) - pointer.y * TRACK.lift * follow,
-    z: mix(segment.from.z, segment.to.z, t),
+    rotX: at.rotX - pointer.y * TRACK.tilt * follow,
+    y: at.y - pointer.y * TRACK.lift * follow,
+    z: at.z,
     dx: pointer.x * TRACK.slide * follow,
     rotY: -pointer.x * TRACK.turn * follow,
   });
   // The static image slides the same way, for phones and before the scene has loaded.
-  setFallbackShift(clamp01((progress[0] * 2.8 + progress[1]) / 3.8)); // weighted by scroll length
+  setFallbackShift(clamp01((progress[0] * 4.4 + progress[1]) / 5.4)); // weighted by scroll length
 }
 
 // Lets intro.js push the camera a little along its path and back.
@@ -67,18 +83,38 @@ export function setCameraNudge(value) {
   applyCamera();
 }
 
-// Intro text: four parts, one visible at a time. CSS does the animation (intro.css);
-// this only says which part is active, which are already passed and which still wait.
-let activePart = -1;
-function showIntroPart(t) {
-  const parts = document.querySelectorAll('.intro__part');
-  const index = Math.min(parts.length - 1, Math.floor(t * parts.length));
-  if (index === activePart) return;
-  activePart = index;
-  parts.forEach((part, i) => {
-    part.classList.toggle('is-active', i === index);
-    part.classList.toggle('is-before', i < index);
+// Intro text: four parts, one visible at a time, tied to scroll distance.
+// Each part owns one equal stretch of the pinned scroll: it rises in over the first 28%,
+// rests, then drifts up and fades slowly over the last 42%. The next part only starts
+// once the old one is gone, so a part cannot be skipped without being seen leaving.
+const PART = { in: 0.28, outStart: 0.58, out: 0.42, shift: 22, scale: 0.98, smoothing: 0.8 };
+
+function buildIntroText() {
+  const parts = gsap.utils.toArray('.intro__part');
+  if (!parts.length) return;
+  const timeline = gsap.timeline({
+    defaults: { overwrite: false },
+    // smoothing: the text takes 0.8 s to catch up with the scrollbar, so a fast flick still plays each change
+    scrollTrigger: { trigger: '#intro', start: 'top top', end: 'bottom bottom', scrub: PART.smoothing },
   });
+  parts.forEach((part, i) => {
+    const last = i === parts.length - 1;
+    if (i === 0) {
+      gsap.set(part, { opacity: 1 });
+    } else {
+      timeline.fromTo(part,
+        { opacity: 0, yPercent: PART.shift, scale: PART.scale },
+        { opacity: 1, yPercent: 0, scale: 1, duration: PART.in, ease: 'power2.out' },
+        i + 0.02);
+    }
+    if (!last) {
+      timeline.to(part,
+        { opacity: 0, yPercent: -PART.shift, scale: PART.scale, duration: PART.out, ease: 'power1.in' },
+        i + PART.outStart);
+    }
+  });
+  // Pad the timeline so the last part rests until the intro unpins.
+  timeline.to({}, { duration: 0.001 }, parts.length - 0.001);
 }
 
 export function initScroll() {
@@ -87,15 +123,16 @@ export function initScroll() {
 
   window.addEventListener('pointermove', onPointerMove, { passive: true });
 
-  // Two frames later, so part 1 eases in instead of just being there.
-  requestAnimationFrame(() => requestAnimationFrame(() => {
+  buildIntroText();
+  {
     SEGMENTS.forEach((segment, i) => {
       const update = (self) => {
         progress[i] = self.progress;
         if (segment.onProgress) segment.onProgress(self.progress);
         applyCamera();
       };
-      ScrollTrigger.create({ trigger: segment.trigger, start: segment.start, end: segment.end, scrub: true, onUpdate: update, onRefresh: update });
+      // scrub 0.5: the camera trails the scrollbar by half a second, which gives it some weight
+      ScrollTrigger.create({ trigger: segment.trigger, start: segment.start, end: segment.end, scrub: 0.5, onUpdate: update, onRefresh: update });
     });
-  }));
+  }
 }

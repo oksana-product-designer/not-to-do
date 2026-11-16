@@ -45,9 +45,9 @@ async function run(tag, ctxOpts) {
   r.hintHiddenAfterScroll = await p.evaluate(() => document.getElementById('intro-hint').classList.contains('is-hidden'));
   // Each part
   r.parts = {};
-  for (const [n, f] of [[2, 0.37], [3, 0.62], [4, 0.87]]) { await go(pinned * f); r.parts[n] = await p.evaluate(visibleParts); await p.screenshot({ path: `${dir}/intro-${tag}-4-part-${n}.png` }); }
+  for (const [n, f] of [[2, 0.36], [3, 0.61], [4, 0.9]]) { await go(pinned * f); r.parts[n] = await p.evaluate(visibleParts); await p.screenshot({ path: `${dir}/intro-${tag}-4-part-${n}.png` }); }
   // Mid-swap between part 2 and 3
-  await go(pinned * 0.37); await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), pinned * 0.52); await p.waitForTimeout(330);
+  await go(pinned * 0.37); await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), pinned * 0.46); await p.waitForTimeout(330);
   await p.screenshot({ path: `${dir}/intro-${tag}-5-mid-swap.png` });
   await go(pinned + vh * 0.5, 900); await p.screenshot({ path: `${dir}/intro-${tag}-6-clouds-leaving.png` });
   await go(pinned + vh, 1000); await p.screenshot({ path: `${dir}/intro-${tag}-7-hero.png` });

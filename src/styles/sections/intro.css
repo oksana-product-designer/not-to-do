@@ -78,6 +78,7 @@
 }
 
 @keyframes intro-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes intro-rise-in { from { opacity: 0; transform: translateY(var(--shift-intro-part)); } to { opacity: 1; transform: none; } }
 @keyframes hint-wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
 @keyframes hint-swipe { 0% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(0); opacity: 0; } }
 
@@ -88,25 +89,13 @@
 
   .js .intro__lines { display: grid; width: 100%; font-size: var(--text-display); }
 
-  /* Every part sits in the same spot. Waiting parts rest just below, passed parts just above. */
-  .js .intro__part {
-    grid-area: 1 / 1;
-    align-self: center;
-    opacity: 0;
-    transform: translateY(var(--shift-intro-part)) scale(var(--scale-intro-part));
-    transition:
-      opacity var(--duration-part-out) var(--ease-exit),
-      transform var(--duration-part-out) var(--ease-exit);
-    will-change: transform, opacity;
-  }
-  .js .intro__part.is-before { transform: translateY(calc(var(--shift-intro-part) * -1)) scale(var(--scale-intro-part)); }
-  .js .intro__part.is-active {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity var(--duration-part-in) var(--ease-enter) var(--delay-part-in),
-      transform var(--duration-part-in) var(--ease-enter) var(--delay-part-in);
-  }
+  /* Every part sits in the same spot. scroll.js fades them in and out with scroll;
+     until it runs, only the first part shows. */
+  .js .intro__part { grid-area: 1 / 1; align-self: center; opacity: 0; will-change: transform, opacity; }
+  .js .intro__part:first-child { opacity: 1; }
+
+  /* On load the text block eases in once */
+  .js .intro__lines { animation: intro-rise-in var(--duration-part-in) var(--ease-enter) var(--delay-part-in) backwards; }
 
   /* Hint fades in after part 1 on a first visit */
   .js:not(.intro-seen) .intro__hint-inner {
