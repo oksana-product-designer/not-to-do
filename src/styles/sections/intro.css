@@ -52,13 +52,13 @@
 }
 .is-past-intro .skip-intro { visibility: hidden; }
 
-/* Scroll hint: a link to #hero at the bottom of the stage */
+/* Scroll label: a small pill. Default spot is the bottom of the stage
+   (reduced motion and no JS, where the text fills the middle). */
 .intro__hint {
   position: absolute;
   left: 50%;
   bottom: var(--space-8);
   transform: translateX(-50%);
-  min-height: var(--size-touch-target);
   color: var(--color-intro-text);
   font-size: var(--text-label);
   font-weight: var(--weight-medium);
@@ -67,16 +67,17 @@
   transition: opacity var(--duration-fast) var(--ease-exit), visibility var(--duration-fast);
 }
 .intro__hint.is-hidden { opacity: 0; visibility: hidden; }
-.intro__hint-inner { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); }
-.intro__hint-variant { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); }
-.intro__hint-variant--touch { display: none; }
-.intro__hint svg { width: var(--size-hint-icon-w); height: var(--size-hint-icon-h); fill: none; stroke: currentColor; stroke-width: var(--size-stroke); stroke-linecap: round; stroke-linejoin: round; }
-.intro__hint .hint-dot { fill: currentColor; stroke: none; }
-
-@media (hover: none) and (pointer: coarse) {
-  .intro__hint-variant--mouse { display: none; }
-  .intro__hint-variant--touch { display: flex; }
+.intro__hint-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-touch-target);
+  padding: var(--space-2) var(--space-5);
+  background: var(--color-label-bg);
+  border-radius: var(--radius-chip);
+  box-shadow: var(--shadow-card);
 }
+.intro__hint svg { width: var(--size-hint-icon); height: var(--size-hint-icon); fill: none; stroke: currentColor; stroke-width: var(--size-stroke); stroke-linecap: round; stroke-linejoin: round; }
 
 @keyframes intro-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes intro-part-in {
@@ -84,8 +85,7 @@
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 @keyframes intro-part-out { from { opacity: 1; } to { opacity: 0; } }
-@keyframes hint-wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
-@keyframes hint-swipe { 0% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(0); opacity: 0; } }
+@keyframes hint-float { from { transform: translateY(calc(var(--shift-hint-float) * -1)); } to { transform: translateY(var(--shift-hint-float)); } }
 
 /* Staged mode */
 @media (prefers-reduced-motion: no-preference) {
@@ -100,17 +100,11 @@
   .js .intro__part.is-in { animation: intro-part-in var(--duration-part-in) var(--ease-enter) var(--delay-part-in) both; }
   .js .intro__part.is-out { animation: intro-part-out var(--duration-part-out) var(--ease-exit) both; }
 
-  /* Invisible markers, one per part, that intro.js watches to know which part is due */
-  .intro__step { position: absolute; left: 0; width: 100%; pointer-events: none; }
-
-  /* Hint fades in after part 1 on a first visit */
-  .js:not(.intro-seen) .intro__hint-inner {
-    opacity: 0;
-    animation: intro-fade-in var(--duration-intro-hint-fade) var(--ease-standard) var(--duration-intro-hint-delay) forwards;
+  /* Scroll label: floats in the middle of the empty sky until the first scroll */
+  .js .intro__hint { bottom: auto; top: 50%; transform: translate(-50%, -50%); }
+  .js .intro__hint-inner {
+    animation:
+      intro-fade-in var(--duration-intro-hint-fade) var(--ease-standard) var(--duration-intro-hint-delay) backwards,
+      hint-float var(--duration-hint-float) ease-in-out infinite alternate;
   }
-  /* Keyboard users who Tab to the hint early see it at once */
-  .js:not(.intro-seen) .intro__hint:focus-visible .intro__hint-inner { animation: none; opacity: 1; }
-
-  .hint-dot { animation: hint-wheel var(--duration-hint-loop) var(--ease-standard) infinite; }
-  .intro__hint-variant--touch .hint-dot { animation-name: hint-swipe; }
 }

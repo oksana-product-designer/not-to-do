@@ -15,6 +15,7 @@
   --color-cta-text: #141414;
   --color-focus-ring: #141414;
   --color-intro-text: #141414;      /* text on the sky; checked for AA against the scene */
+  --color-label-bg: rgba(255, 255, 255, 0.72); /* Scroll label pill over the sky */
 
   /* Type scale (fluid between phone and desktop) */
   --text-display: clamp(3.5rem, 1rem + 11vw, 12rem);     /* intro parts */
@@ -64,8 +65,9 @@
   --duration-part-out: 200ms;              /* the old part giving way */
   --duration-crossfade: 400ms;             /* static image to live scene */
   --duration-intro-hint-fade: 250ms;
-  --duration-intro-hint-delay: 1850ms;     /* part 1 reveal (0.25 + 0.8 s) + 0.8 s */
-  --duration-hint-loop: 1600ms;            /* wheel dot / swipe loop */
+  --duration-intro-hint-delay: 300ms;      /* Scroll label appears just after load */
+  --duration-hint-float: 3000ms;           /* one bob of the Scroll label */
+  --duration-part-hold: 700ms;             /* a part stays at least this long once fully shown (read by intro.js) */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);    /* fast start, soft landing */
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);          /* soft start, quick leave */
@@ -77,10 +79,8 @@
   --z-skip: 20;
 
   /* Sizes */
-  --size-hint-icon-w: 24px;
-  --size-hint-icon-h: 40px;
-  --size-hint-dot: 4px;
-  --size-hint-travel: 10px;
+  --size-hint-icon: 16px;
+  --shift-hint-float: 6px;                 /* how far the Scroll label bobs */
   --size-stroke: 2px;
   --shift-button-hover: -1px;              /* button lifts a hair on hover */
   --scale-button-press: 0.98;

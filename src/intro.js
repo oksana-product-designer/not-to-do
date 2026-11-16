@@ -31,37 +31,78 @@ export function initIntro() {
     root.style.scrollBehavior = '';
   }
 
-  // Intro text: one part at a time, revealed when its stretch of the intro reaches the middle of the screen.
-  // The intro is split into one invisible "step" per part. An IntersectionObserver watches a thin
-  // line across the middle of the screen; whichever step crosses it decides the visible part.
-  // The reveal itself is a CSS animation (intro.css) and replays every time a part comes back.
+  // Intro text. Nothing shows at the very top except the "Scroll" label.
+  // After the first scroll the parts play strictly in order, one at a time.
+  // Each part gets its reveal plus a short hold before the next may start,
+  // even if the scrollbar is already further down. Scrolling is never blocked.
   const intro = document.getElementById('intro');
   const parts = Array.from(document.querySelectorAll('.intro__part'));
   if (intro && parts.length && !reduced) {
-    let current = -1;
-    const showPart = (index) => {
-      if (index === current) return;
+    const ms = (name) => parseFloat(getComputedStyle(root).getPropertyValue(name)) || 0;
+    const REVEAL_MS = ms('--delay-part-in') + ms('--duration-part-in');
+    const HOLD_MS = ms('--duration-part-hold');
+    const TOP_PX = 8; // closer to the top than this counts as "not scrolled yet"
+
+    let shown = -1;   // part on screen now (-1 = none, the label shows)
+    let target = -1;  // part the scroll position asks for
+    let freeAt = 0;   // time when the part on screen has had its reveal and hold
+    let timer = null;
+
+    const render = (index) => {
       parts.forEach((part, i) => {
-        part.classList.toggle('is-out', i === current);
+        part.classList.toggle('is-out', i === shown && i !== index);
         part.classList.toggle('is-in', i === index);
       });
-      current = index;
+      if (hint) hint.classList.toggle('is-hidden', index !== -1);
+      shown = index;
     };
-    const stepObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) showPart(Number(entry.target.dataset.part));
+
+    const advance = () => {
+      clearTimeout(timer);
+      if (target === shown) return;
+      const now = performance.now();
+      if (target < shown) {
+        // Scrolling back up: go straight there.
+        render(target);
+        freeAt = target === -1 ? now : now + REVEAL_MS + HOLD_MS;
+        return;
+      }
+      if (now < freeAt) { timer = setTimeout(advance, freeAt - now); return; }
+      render(shown + 1); // forward: one part at a time, never a jump
+      freeAt = now + REVEAL_MS + HOLD_MS;
+      if (target !== shown) timer = setTimeout(advance, REVEAL_MS + HOLD_MS);
+    };
+
+    const readScroll = () => {
+      const y = window.scrollY;
+      const height = intro.offsetHeight;
+      if (y >= height) {
+        // The intro has left the screen: nothing to play, rest on the last part.
+        clearTimeout(timer);
+        target = parts.length - 1;
+        if (shown !== target) render(target);
+        freeAt = 0;
+        return;
+      }
+      target = y < TOP_PX ? -1 : Math.min(parts.length - 1, Math.floor((y + window.innerHeight / 2) / (height / parts.length)));
+      advance();
+    };
+
+    let queued = false;
+    window.addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; readScroll(); });
+    }, { passive: true });
+    readScroll();
+
+    // Clicking the label does what it says: scrolls a little, which starts the first part.
+    if (hint) {
+      hint.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.scrollTo({ top: window.innerHeight * 0.3, behavior: 'smooth' });
       });
-    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
-    parts.forEach((part, i) => {
-      const step = document.createElement('div');
-      step.className = 'intro__step';
-      step.dataset.part = String(i);
-      step.style.top = `${(100 / parts.length) * i}%`;
-      step.style.height = `${100 / parts.length}%`;
-      step.setAttribute('aria-hidden', 'true');
-      intro.appendChild(step);
-      stepObserver.observe(step);
-    });
+    }
   }
 
   // Hero reached: show the nav, hide "Skip intro", remember the visit.
@@ -100,13 +141,11 @@ export function initIntro() {
     idleTimer = setTimeout(playDip, IDLE_MS);
   }
 
-  // First scroll: hide the hint and call off the dip. Reduced motion keeps the hint.
+  // First scroll: call off the dip.
   const onFirstScroll = () => {
     if (window.scrollY < 2) return;
     window.removeEventListener('scroll', onFirstScroll);
     cancelDip();
-    if (hint && !reduced) hint.classList.add('is-hidden');
   };
   window.addEventListener('scroll', onFirstScroll, { passive: true });
-  if (returning && hint && !reduced) hint.classList.add('is-hidden');
 }

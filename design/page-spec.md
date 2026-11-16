@@ -14,19 +14,19 @@ Scene: sky with big clouds close to the camera. The clouds drift, and move up th
   3. be the most
   4. inefficient player.
 - Top right link: Skip intro
-- Scroll hint: mouse icon + "Scroll to start the game". Phone: swipe icon + "Swipe up to start the game".
+- Scroll label: a small pill reading "Scroll" with a down arrow, floating in the center of the screen.
 
 Motion:
-- On load: part 1 is revealed the same way. Then the page waits.
+- On load: only the sky and the Scroll label. No text yet. The page waits.
+- First scroll: the label fades out and part 1 is revealed. Back at the very top, the text goes and the label returns.
 - Trigger: scroll only (wheel, swipe, arrow keys, Space). No timer advances the page.
 - The intro stays pinned while the reader scrolls through 4.4 screens. Only one part is visible at a time.
 - Each part owns a quarter of the intro. When its quarter reaches the middle of the screen, the part is revealed: it fades in, rises 30px and comes out of an 8px blur over 0.8 s. The part before it fades out in 0.2 s first.
-- The reveal is timed, not tied to scroll position, and replays every time a part comes back, in either scroll direction.
+- The parts always play in order. Each one gets its full reveal plus a 0.7 s hold before the next may start, even if the scrollbar is already further down. Scrolling itself is never blocked. Scrolling back up goes straight to the earlier part.
 - The camera descends through the clouds with scroll progress. Scrolling up reverses it.
-- Hint fades in 0.8 s after part 1, wheel dot loops, hides on first scroll.
 - After 6 s idle: the camera dips so the hero headline peeks above the bottom edge, then settles back.
-- The hint is a link to `#hero`, so click and Enter also work.
-- Return visits skip the intro. Reduced motion: all four parts shown together as static text, hint shown, no pinning.
+- Clicking the label (or Enter on it) scrolls a little, which starts part 1.
+- Return visits skip the intro. Reduced motion: all four parts shown together as static text, the label at the bottom, no pinning.
 
 ## Floating nav (appears after the intro)
 

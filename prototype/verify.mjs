@@ -16,10 +16,10 @@ async function run(tag, ctxOpts) {
   await p.goto(URL, { waitUntil: 'domcontentloaded' });
   const t0 = Date.now();
   const at = async (ms) => { const d = ms - (Date.now() - t0); if (d > 0) await p.waitForTimeout(d); };
-  const go = async (y, wait = 1300) => { await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), y); await p.waitForTimeout(wait); };
+  const go = async (y, wait = 2400) => { await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), y); await p.waitForTimeout(wait); };
   await p.screenshot({ path: `${dir}/intro-${tag}-1-first-frame.png` });
   r.skipVisibleAtFirstFrame = await p.evaluate(() => { const e = document.querySelector('.skip-intro'); const s = getComputedStyle(e); const b = e.getBoundingClientRect(); return s.visibility === 'visible' && s.opacity === '1' && b.width > 0 && b.top >= 0; });
-  await at(3000); await p.screenshot({ path: `${dir}/intro-${tag}-2-part-1-hint.png` });
+  await at(3000); await p.screenshot({ path: `${dir}/intro-${tag}-1b-label-at-3s.png` });
   r.sceneLoaded = await p.evaluate(() => document.getElementById('scene').classList.contains('is-loaded'));
   r.navHiddenInIntro = await p.evaluate(() => document.getElementById('nav').hidden);
   r.partsAtStart = await p.evaluate(visibleParts);
