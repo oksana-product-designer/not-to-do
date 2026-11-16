@@ -59,11 +59,12 @@
   --duration-fast: 150ms;
   --duration-base: 300ms;
   --duration-slow: 600ms;
-  --duration-part-in: 500ms;               /* intro text easing in on load */
-  --delay-part-in: 100ms;
+  --duration-part-in: 800ms;               /* an intro part being revealed */
+  --delay-part-in: 250ms;                  /* waits for the old part to fade */
+  --duration-part-out: 200ms;              /* the old part giving way */
   --duration-crossfade: 400ms;             /* static image to live scene */
   --duration-intro-hint-fade: 250ms;
-  --duration-intro-hint-delay: 1400ms;     /* text arrival (0.1 + 0.5 s) + 0.8 s */
+  --duration-intro-hint-delay: 1850ms;     /* part 1 reveal (0.25 + 0.8 s) + 0.8 s */
   --duration-hint-loop: 1600ms;            /* wheel dot / swipe loop */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);    /* fast start, soft landing */
@@ -88,7 +89,8 @@
   --measure-title: 16ch;
   --content-max: 1120px;
   --length-intro-scroll: 440vh;            /* scroll distance while the intro is pinned (4 parts x 110vh) */
-  --shift-intro-part: 0.25em;              /* how far a part travels in and out */
+  --shift-intro-part: 30px;                /* how far a part rises as it is revealed */
+  --blur-intro-part: 8px;                  /* blur that clears during the reveal */
   --size-scene-fallback: 200%;             /* image is taller than the screen so it can slide with scroll */
 
   /* Breakpoints (documentation only: CSS variables cannot be used inside @media) */

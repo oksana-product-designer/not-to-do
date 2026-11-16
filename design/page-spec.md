@@ -17,10 +17,11 @@ Scene: sky with big clouds close to the camera. The clouds drift, and move up th
 - Scroll hint: mouse icon + "Scroll to start the game". Phone: swipe icon + "Swipe up to start the game".
 
 Motion:
-- On load: part 1 eases in. Then the page waits.
+- On load: part 1 is revealed the same way. Then the page waits.
 - Trigger: scroll only (wheel, swipe, arrow keys, Space). No timer advances the page.
-- The intro stays pinned while the reader scrolls through four equal steps of 1.1 screens each. Only one part is visible at a time.
-- Part change follows the scroll, not a timer. Within its step a part rises in (first 28%), rests, then drifts up and fades slowly (last 42%). The next part starts only when the old one is gone. Scrolling up plays it backwards. The text and the camera trail the scrollbar by 0.5 s so a fast flick still shows every change.
+- The intro stays pinned while the reader scrolls through 4.4 screens. Only one part is visible at a time.
+- Each part owns a quarter of the intro. When its quarter reaches the middle of the screen, the part is revealed: it fades in, rises 30px and comes out of an 8px blur over 0.8 s. The part before it fades out in 0.2 s first.
+- The reveal is timed, not tied to scroll position, and replays every time a part comes back, in either scroll direction.
 - The camera descends through the clouds with scroll progress. Scrolling up reverses it.
 - Hint fades in 0.8 s after part 1, wheel dot loops, hides on first scroll.
 - After 6 s idle: the camera dips so the hero headline peeks above the bottom edge, then settles back.

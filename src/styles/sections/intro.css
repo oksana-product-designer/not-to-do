@@ -79,7 +79,11 @@
 }
 
 @keyframes intro-fade-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes intro-rise-in { from { opacity: 0; transform: translateY(var(--shift-intro-part)); } to { opacity: 1; transform: none; } }
+@keyframes intro-part-in {
+  from { opacity: 0; transform: translateY(var(--shift-intro-part)); filter: blur(var(--blur-intro-part)); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes intro-part-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes hint-wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
 @keyframes hint-swipe { 0% { transform: translateY(var(--size-hint-travel)); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(0); opacity: 0; } }
 
@@ -90,13 +94,14 @@
 
   .js .intro__lines { display: grid; width: 100%; font-size: var(--text-display); }
 
-  /* Every part sits in the same spot. scroll.js fades them in and out with scroll;
-     until it runs, only the first part shows. */
-  .js .intro__part { grid-area: 1 / 1; align-self: center; opacity: 0; will-change: transform, opacity; }
-  .js .intro__part:first-child { opacity: 1; }
+  /* Every part sits in the same spot and is hidden until intro.js marks it.
+     is-in: the reveal (fade, rise, blur clearing). is-out: a quick fade as it gives way. */
+  .js .intro__part { grid-area: 1 / 1; align-self: center; opacity: 0; will-change: transform, opacity, filter; }
+  .js .intro__part.is-in { animation: intro-part-in var(--duration-part-in) var(--ease-enter) var(--delay-part-in) both; }
+  .js .intro__part.is-out { animation: intro-part-out var(--duration-part-out) var(--ease-exit) both; }
 
-  /* On load the text block eases in once */
-  .js .intro__lines { animation: intro-rise-in var(--duration-part-in) var(--ease-enter) var(--delay-part-in) backwards; }
+  /* Invisible markers, one per part, that intro.js watches to know which part is due */
+  .intro__step { position: absolute; left: 0; width: 100%; pointer-events: none; }
 
   /* Hint fades in after part 1 on a first visit */
   .js:not(.intro-seen) .intro__hint-inner {

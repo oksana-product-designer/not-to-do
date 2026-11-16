@@ -57,3 +57,8 @@
 - Scene crossfade 0.6 s to 0.4 s.
 - Button: hover lift and press feedback, 0.1 s. New tokens --duration-micro, --duration-crossfade, --shift-button-hover, --scale-button-press.
 - Kept on purpose: scroll-tied part changes (ease-out in, ease-in out), the swoop curves, the 4.4-screen pinned scroll, the hint loop.
+
+## 2026-11-16 · Intro text: on-scroll reveal
+- The scroll-tied part changes are replaced by a timed reveal (animation-on-scroll skill): fade, 30px rise and an 8px blur clearing over 0.8 s, replaying every time a part comes back. The old part fades out in 0.2 s first.
+- Built with plain CSS keyframes and an IntersectionObserver in intro.js, not the skill's Tailwind classes, because the project has no Tailwind.
+- Trade-off accepted: a fast scroll can pass a part before its reveal finishes again. Animated blur on large text is also the most expensive effect on the page.

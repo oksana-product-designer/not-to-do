@@ -89,42 +89,8 @@ export function setCameraNudge(value) {
   applyCamera();
 }
 
-// Intro text: four parts, one visible at a time, tied to scroll distance.
-// Each part owns one equal stretch of the pinned scroll: it rises in over the first 28%,
-// rests, then drifts up and fades slowly over the last 42%. The next part only starts
-// once the old one is gone, so a part cannot be skipped without being seen leaving.
-const PART = { in: 0.28, outStart: 0.58, out: 0.42, shift: 22, scale: 0.98 };
-
-// Text and camera trail the scrollbar by the same half second, so they move as one.
+// The camera trails the scrollbar by half a second, which gives it some weight.
 const SMOOTHING = 0.5;
-
-function buildIntroText() {
-  const parts = gsap.utils.toArray('.intro__part');
-  if (!parts.length) return;
-  const timeline = gsap.timeline({
-    defaults: { overwrite: false },
-    // the trailing means a fast flick still plays each change
-    scrollTrigger: { trigger: '#intro', start: 'top top', end: 'bottom bottom', scrub: SMOOTHING },
-  });
-  parts.forEach((part, i) => {
-    const last = i === parts.length - 1;
-    if (i === 0) {
-      gsap.set(part, { opacity: 1 });
-    } else {
-      timeline.fromTo(part,
-        { opacity: 0, yPercent: PART.shift, scale: PART.scale },
-        { opacity: 1, yPercent: 0, scale: 1, duration: PART.in, ease: 'power2.out' },
-        i + 0.02);
-    }
-    if (!last) {
-      timeline.to(part,
-        { opacity: 0, yPercent: -PART.shift, scale: PART.scale, duration: PART.out, ease: 'power1.in' },
-        i + PART.outStart);
-    }
-  });
-  // Pad the timeline so the last part rests until the intro unpins.
-  timeline.to({}, { duration: 0.001 }, parts.length - 0.001);
-}
 
 export function initScroll() {
   // Reduced motion: no scroll-linked animation at all. The page scrolls normally.
@@ -132,7 +98,6 @@ export function initScroll() {
 
   window.addEventListener('pointermove', onPointerMove, { passive: true });
 
-  buildIntroText();
   {
     SEGMENTS.forEach((segment, i) => {
       const update = (self) => {
