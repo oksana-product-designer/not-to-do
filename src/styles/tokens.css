@@ -1,0 +1,66 @@
+/* Design tokens. The only place raw values live.
+   Colors are STARTING values sampled from the app screenshot, not final. */
+:root {
+  /* Fonts (fallbacks are defined in base.css to avoid layout shift) */
+  --font-display: 'Imbue', 'Imbue Fallback', Georgia, serif;
+  --font-text: 'Inter', 'Inter Fallback', Arial, sans-serif;
+
+  /* Colors */
+  --color-text: #141414;
+  --color-text-muted: #5c5c5c;
+  --color-surface-card: #ffffff;
+  --color-page-bg: #eaf3ff;
+  --color-activity: #facc15;
+  --color-cta-bg: #f9a8f0;
+  --color-cta-text: #141414;
+  --color-focus-ring: #141414;
+
+  /* Type scale (fluid between phone and desktop) */
+  --text-title-xl: clamp(2.75rem, 1.5rem + 5vw, 6rem);   /* intro line 2, H1, high score */
+  --text-title-l: clamp(2rem, 1.2rem + 3vw, 4rem);       /* H2 */
+  --text-title-s: clamp(1.25rem, 1rem + 1vw, 1.75rem);   /* intro line 1 */
+  --text-body-l: 1.25rem;
+  --text-body: 1rem;
+  --text-label: 0.875rem;
+  --line-height-title: 1.05;
+  --line-height-text: 1.5;
+
+  /* Font weights in use */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-strong: 600;
+
+  /* Spacing, 4px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* Radii */
+  --radius-card: 24px;
+  --radius-button: 999px;
+  --radius-chip: 999px;
+
+  /* Shadows */
+  --shadow-card: 0 8px 24px rgba(20, 20, 20, 0.08);
+  --shadow-float: 0 16px 48px rgba(20, 20, 20, 0.16);
+
+  /* Durations and easing */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --duration-intro-line2-delay: 1200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Breakpoints (documentation only: CSS variables cannot be used inside @media) */
+  --bp-phone: 390px;
+  --bp-tablet: 768px;
+  --bp-desktop: 1280px;
+  --bp-wide: 1440px;
+}

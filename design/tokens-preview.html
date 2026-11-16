@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tokens preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Imbue&family=Inter:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="../src/styles/tokens.css" />
+<link rel="stylesheet" href="../src/styles/base.css" />
+<style>
+  /* Preview-only layout. Throwaway. */
+  main { max-width: 1100px; margin: 0 auto; padding: var(--space-6) var(--space-4) var(--space-9); }
+  section { margin-top: var(--space-8); }
+  h3 { font-size: var(--text-label); text-transform: uppercase; letter-spacing: .08em; color: var(--color-text-muted); margin-bottom: var(--space-4); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--space-4); }
+  .swatch { background: var(--color-surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; font-size: var(--text-label); }
+  .swatch i { display: block; height: 80px; border-bottom: 1px solid rgba(0,0,0,.1); }
+  .swatch span { display: block; padding: var(--space-3); }
+  .row { display: flex; align-items: baseline; gap: var(--space-4); padding: var(--space-3) 0; border-bottom: 1px solid rgba(0,0,0,.1); }
+  .row code { flex: 0 0 200px; font-size: var(--text-label); color: var(--color-text-muted); }
+  .bar { background: var(--color-activity); height: 24px; }
+  .btn { display: inline-block; padding: var(--space-3) var(--space-5); background: var(--color-cta-bg); color: var(--color-cta-text); border-radius: var(--radius-button); font-weight: var(--weight-strong); border: 0; }
+  .chip { display: inline-block; padding: var(--space-2) var(--space-4); background: var(--color-activity); border-radius: var(--radius-chip); font-weight: var(--weight-medium); }
+  .card { background: var(--color-surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: var(--space-5); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Token preview</h1>
+  <p>Starting values, to be confirmed. Fonts: Imbue for titles, Inter for text.</p>
+
+  <section><h3>Colors</h3><div class="grid">
+    <div class="swatch"><i style="background:var(--color-text)"></i><span>--color-text<br>#141414</span></div>
+    <div class="swatch"><i style="background:var(--color-text-muted)"></i><span>--color-text-muted<br>#5c5c5c</span></div>
+    <div class="swatch"><i style="background:var(--color-surface-card)"></i><span>--color-surface-card<br>#ffffff</span></div>
+    <div class="swatch"><i style="background:var(--color-page-bg)"></i><span>--color-page-bg<br>#eaf3ff</span></div>
+    <div class="swatch"><i style="background:var(--color-activity)"></i><span>--color-activity<br>#facc15</span></div>
+    <div class="swatch"><i style="background:var(--color-cta-bg)"></i><span>--color-cta-bg<br>#f9a8f0</span></div>
+  </div></section>
+
+  <section><h3>Type: Imbue (titles)</h3>
+    <div class="row"><code>--text-title-xl</code><span style="font-family:var(--font-display);font-size:var(--text-title-xl);line-height:var(--line-height-title)">Climb nothing</span></div>
+    <div class="row"><code>--text-title-l</code><span style="font-family:var(--font-display);font-size:var(--text-title-l);line-height:var(--line-height-title)">How to play</span></div>
+    <div class="row"><code>--text-title-s</code><span style="font-family:var(--font-display);font-size:var(--text-title-s);line-height:var(--line-height-title)">In a world of career ladders</span></div>
+  </section>
+
+  <section><h3>Type: Inter (everything else)</h3>
+    <div class="row"><code>--text-body-l</code><span style="font-size:var(--text-body-l)">Not To Do logs the work you dodge.</span></div>
+    <div class="row"><code>--text-body</code><span style="font-size:var(--text-body)">Choose a task you have no plans to finish.</span></div>
+    <div class="row"><code>--text-label</code><span style="font-size:var(--text-label)">4h scrolling</span></div>
+    <div class="row"><code>weights 400 / 500 / 600</code><span><span style="font-weight:400">Regular</span> · <span style="font-weight:500">Medium</span> · <span style="font-weight:600">Strong</span></span></div>
+  </section>
+
+  <section><h3>Spacing (4px base)</h3>
+    <div class="row"><code>--space-1 · 4</code><div class="bar" style="width:var(--space-1)"></div></div>
+    <div class="row"><code>--space-2 · 8</code><div class="bar" style="width:var(--space-2)"></div></div>
+    <div class="row"><code>--space-3 · 12</code><div class="bar" style="width:var(--space-3)"></div></div>
+    <div class="row"><code>--space-4 · 16</code><div class="bar" style="width:var(--space-4)"></div></div>
+    <div class="row"><code>--space-5 · 24</code><div class="bar" style="width:var(--space-5)"></div></div>
+    <div class="row"><code>--space-6 · 32</code><div class="bar" style="width:var(--space-6)"></div></div>
+    <div class="row"><code>--space-7 · 48</code><div class="bar" style="width:var(--space-7)"></div></div>
+    <div class="row"><code>--space-8 · 64</code><div class="bar" style="width:var(--space-8)"></div></div>
+    <div class="row"><code>--space-9 · 96</code><div class="bar" style="width:var(--space-9)"></div></div>
+    <div class="row"><code>--space-10 · 128</code><div class="bar" style="width:var(--space-10)"></div></div>
+  </section>
+
+  <section><h3>Radii, shadows, components</h3>
+    <div class="grid">
+      <div class="card">--radius-card 24px<br>--shadow-card</div>
+      <div class="card" style="box-shadow:var(--shadow-float)">--shadow-float</div>
+      <div><button class="btn">Start avoiding</button></div>
+      <div><span class="chip">4h scrolling</span></div>
+    </div>
+  </section>
+
+  <section><h3>Durations and breakpoints</h3>
+    <div class="row"><code>--duration-fast</code>150ms</div>
+    <div class="row"><code>--duration-base</code>300ms</div>
+    <div class="row"><code>--duration-slow</code>600ms</div>
+    <div class="row"><code>--duration-intro-line2-delay</code>1200ms</div>
+    <div class="row"><code>breakpoints</code>390 phone · 768 tablet · 1280 desktop · 1440 wide</div>
+  </section>
+</main>
+</body>
+</html>

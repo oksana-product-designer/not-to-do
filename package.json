@@ -1,0 +1,19 @@
+{
+  "name": "not-to-do-landing",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@splinetool/runtime": "^2.0.184",
+    "gsap": "^3.15.1",
+    "vite": "^8.3.8"
+  },
+  "devDependencies": {
+    "playwright": "^1.65.1"
+  }
+}

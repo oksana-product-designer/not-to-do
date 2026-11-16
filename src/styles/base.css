@@ -1,0 +1,46 @@
+/* Fallback fonts sized to match the web fonts, so text does not jump on load.
+   Inter values are the standard Arial match. Imbue values are approximate
+   and should be tuned by eye once the fonts are reviewed. */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107.4%;
+  ascent-override: 90.2%;
+  descent-override: 22.5%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Imbue Fallback';
+  src: local('Georgia');
+  size-adjust: 88%;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--line-height-text);
+  color: var(--color-text);
+  background: var(--color-page-bg);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  line-height: var(--line-height-title);
+}
+h1 { font-size: var(--text-title-xl); }
+h2 { font-size: var(--text-title-l); }
+img, svg, canvas { display: block; max-width: 100%; }
+button, input { font: inherit; color: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--color-focus-ring); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
