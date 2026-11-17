@@ -111,3 +111,7 @@
 - Site served from the /not-to-do/ subfolder, so vite.config.js sets base: '/not-to-do/'. Vite rewrites the two root paths in index.html (fallback image, main script) at build time; the JS has no root-relative paths.
 - .github/workflows/deploy.yml builds and deploys dist/ with the official Pages actions on every push to main. It is added through the GitHub website, because the saved access token on this Mac cannot push workflow files.
 - netlify.toml left in place (unused); delete only on request.
+
+## 2026-11-17 · Fix: live site animations ran far too fast
+- The production build minifies CSS durations ("800ms" becomes ".8s"). The JS read tokens with parseFloat as milliseconds, so live timings became 1000x too short: the opening ended at once and the intro lines raced through. Localhost (dev server, unminified CSS) was fine.
+- New src/tokens.js reads duration tokens in either unit (tokenMs) and plain numbers (tokenNumber); intro.js and scroll.js use it.

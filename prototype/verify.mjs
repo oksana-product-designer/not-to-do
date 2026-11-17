@@ -1,7 +1,7 @@
 // Throwaway: screenshots and checks for the intro. Usage: node prototype/verify.mjs
 import { chromium } from 'playwright';
 const GPU = ['--ignore-gpu-blocklist', '--enable-gpu', '--use-angle=metal'];
-const URL = 'http://127.0.0.1:5173/';
+const URL = 'http://127.0.0.1:5173/not-to-do/';
 const dir = 'design/screenshots';
 const report = {};
 const visibleParts = () => [...document.querySelectorAll('.intro__part')].filter((e) => +getComputedStyle(e).opacity > 0.5).map((e) => e.textContent);

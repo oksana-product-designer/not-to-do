@@ -1,6 +1,7 @@
 // Intro screen behavior. This file decides which text part shows; intro.css animates it.
 // This file handles: hiding the hint on first scroll, the one-time idle dip,
 // remembering that the intro was seen, and what changes once the hero is reached.
+import { tokenMs } from './tokens.js';
 import gsap from 'gsap';
 import { setCameraNudge } from './scroll.js';
 
@@ -41,7 +42,7 @@ export function initIntro() {
   const intro = document.getElementById('intro');
   const parts = Array.from(document.querySelectorAll('.intro__part'));
   if (intro && parts.length && !reduced) {
-    const ms = (name) => parseFloat(getComputedStyle(root).getPropertyValue(name)) || 0;
+    const ms = (name) => tokenMs(name);
     const LINE_MS = ms('--delay-part-in') + ms('--duration-part-in') + ms('--duration-part-hold');
     const TOP_PX = 8; // closer to the top than this counts as "not scrolled yet"
     // The lines share the first 75% of the pinned scroll. The last 25% is runway for the

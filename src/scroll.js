@@ -3,6 +3,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { POSES, setCameraPose, setFallbackShift, setFallbackZoom } from './scene.js';
+import { tokenMs, tokenNumber } from './tokens.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,7 +56,7 @@ window.addEventListener('intro:lines', (event) => {
   if (done && event.detail.instant) { gate.value = 1; applyCamera(); return; }
   // Opening the view to the hills: unhurried, but with a strong middle so it still feels like a swoop
   // (power3.inOut: eases away from the clouds, sweeps, then lands softly). Closing (back into the intro): quick.
-  const reveal = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--duration-hero-reveal')) || 2400) / 1000;
+  const reveal = tokenMs('--duration-hero-reveal', 3200) / 1000;
   gsap.to(gate, { value: done ? 1 : 0, duration: done ? reveal : 0.3, ease: done ? 'power3.inOut' : 'power2.out', onUpdate: applyCamera });
 });
 
@@ -159,9 +160,8 @@ const opening = { value: document.documentElement.classList.contains('is-opening
 export function playOpening(sceneShowing) {
   const root = document.documentElement;
   if (!root.classList.contains('is-opening')) return;
-  const css = getComputedStyle(root);
-  const seconds = (parseFloat(css.getPropertyValue('--duration-opening')) || 1800) / 1000;
-  const zoom = parseFloat(css.getPropertyValue('--scale-opening-fallback')) || 1.4;
+  const seconds = tokenMs('--duration-opening', 2000) / 1000;
+  const zoom = tokenNumber('--scale-opening-fallback', 1.4);
   const veil = { value: 1 };
   const paint = () => {
     root.style.setProperty('--opening-veil', veil.value.toFixed(3));
