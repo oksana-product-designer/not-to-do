@@ -1,6 +1,6 @@
 import { chromium } from 'playwright';
 const b = await chromium.launch({ args: ['--ignore-gpu-blocklist', '--enable-gpu', '--use-angle=metal'] });
-for (const [w, h] of [[1440, 900], [1088, 979], [768, 1024], [390, 844]]) {
+for (const [w, h] of [[1440, 900], [1280, 800], [1088, 979], [768, 1024], [390, 844]]) {
   const p = await (await b.newContext({ viewport: { width: w, height: h } })).newPage();
   await p.goto('http://localhost:5173/not-to-do/#hero'); await p.waitForTimeout(9000);
   await p.screenshot({ path: `design/screenshots/hero-final-${w}x${h}-quick.png` });

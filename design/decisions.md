@@ -167,3 +167,7 @@
 - Undone: the headline no longer grows to fill the header (Oksana: "text size should not be adaptive, only text frame width"). Removed --text-hero-title and --size-header-width.
 - The headline frame is as wide as the header pill at every screen width (measured: identical edges at 1440, 1088, 768, 390). The text uses the title size from the type scale (--text-title-xl, 96px on desktop) and wraps inside the frame when it does not fit (one line from 768 up, two lines on phones).
 - Note: --text-title-xl is itself a fluid token from the start of the project (44px on phones up to 96px at about 1440). A single fixed size would be a type-scale change; not done.
+
+## 2026-11-17 · Hero headline: fixed size
+- The hero H1 no longer scales with the screen (Oksana). New tokens: --text-hero-title 96px (768 and up) and --text-hero-title-phone 44px (under 768). Measured: 96px at 1440, 1280, 1088 and 768; 44px at 390. It wraps inside the header-wide frame (one line from about 960 wide, two lines at 768 and on phones).
+- --text-title-xl (fluid) is unchanged and still used by the intro; only the hero H1 moved to the fixed tokens.

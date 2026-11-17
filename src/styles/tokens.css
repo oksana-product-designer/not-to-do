@@ -22,6 +22,8 @@
   /* Type scale (fluid between phone and desktop) */
   --text-display: clamp(3.5rem, 1rem + 11vw, 12rem);     /* intro parts */
   --text-title-xl: clamp(2.75rem, 1.5rem + 5vw, 6rem);   /* intro line 2, H1, high score */
+  --text-hero-title: 6rem;                 /* hero H1, tablet and up: fixed 96px, does not scale with the screen */
+  --text-hero-title-phone: 2.75rem;        /* hero H1 on phones (under 768): fixed 44px */
   --text-title-l: clamp(2rem, 1.2rem + 3vw, 4rem);       /* H2 */
   --text-title-s: clamp(1.25rem, 1rem + 1vw, 1.75rem);   /* intro line 1 */
   --text-body-l: 1.25rem;
