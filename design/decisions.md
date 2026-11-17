@@ -184,3 +184,6 @@
 - Measured: 60 fps through the wipe on desktop and on phone emulation with 4x CPU slowdown (no frame over 17 ms). Layout shift 0 over the whole act. Intro label, first line and intro-to-hero move unchanged against the live site. Hero after scrolling back matches the live hero.
 - Known, not changed: opening the page directly at #hero still makes the hero wait for the intro's "lingering" state (about 6 s locally, live got lucky with timing). Pre-existing in intro.js, out of scope here.
 - Tokens: --length-wipe-scroll, --length-problem-reveal, --wipe-fade-start, --wipe-fade-end, --wipe-cover-start, --wipe-full, --wipe-break, --size-wipe-edge, --size-puff-core-dense, --opacity-cloud-cover, --opacity-sky-wash, --color-sky-pale-top/-mid/-bottom, --color-cloud-cover-edge, --text-problem-title, --text-problem-title-phone, --opacity-problem-word-start, --measure-problem, --z-cloud-cover.
+
+## 2026-11-17 · Problem: white card
+- The statement and sub now sit in a white card with rounded corners on the pale sky (Oksana; replaces "no card" from the brief). Existing card tokens: --color-surface-card, --radius-card (24px), --shadow-card. Padding 96/64px on tablet and up, 48/24px on phones. No new tokens.

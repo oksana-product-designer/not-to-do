@@ -1,4 +1,4 @@
-/* Screen 2 · Problem. Centered, light, text straight on a pale sky. No card.
+/* Screen 2 · Problem. Centered, on a pale sky, the text in a white card with rounded corners.
    The statement is one heading in three line groups (one per sentence).
    Word reveal (JS + motion welcome): problem.js scrubs each word from faint to full as the reader scrolls;
    the sub follows the last word. Without JS or with reduced motion everything is fully shown. */
@@ -19,6 +19,7 @@
   inset: 0;
   background: linear-gradient(to bottom, var(--color-cloud-cover), var(--color-sky-pale-top) 20%, var(--color-sky-pale-mid) 65%, var(--color-sky-pale-bottom));
 }
+/* White card with rounded corners holding the statement and the sub (Oksana) */
 .problem__content {
   position: relative; /* above the sky */
   display: flex;
@@ -26,6 +27,13 @@
   align-items: center;
   gap: var(--space-5);
   width: min(100%, var(--content-max));
+  padding: var(--space-7) var(--space-5);
+  background: var(--color-surface-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 768px) {
+  .problem__content { padding: var(--space-9) var(--space-8); }
 }
 .problem__title {
   font-size: var(--text-problem-title-phone);
