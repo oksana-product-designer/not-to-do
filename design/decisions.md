@@ -106,3 +106,8 @@
 - Now: 3.2 s with power3.inOut (2.4 s was tried first: visible move 1.6 s, headline landed before the camera) (eases out of the clouds, sweeps through the middle, lands softly). Scrolling through it, the camera trails by 1 s instead of 0.5 s.
 - Choreography: background first, then text. The hero headline starts 2 s into the move and fades in while rising 24px over 0.8 s.
 - New tokens: --duration-hero-reveal, --delay-hero-in, --duration-hero-in, --shift-hero-in.
+
+## 2026-11-17 · Hosting moved to GitHub Pages
+- Site served from the /not-to-do/ subfolder, so vite.config.js sets base: '/not-to-do/'. Vite rewrites the two root paths in index.html (fallback image, main script) at build time; the JS has no root-relative paths.
+- .github/workflows/deploy.yml builds and deploys dist/ with the official Pages actions on every push to main. It is added through the GitHub website, because the saved access token on this Mac cannot push workflow files.
+- netlify.toml left in place (unused); delete only on request.

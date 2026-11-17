@@ -17,17 +17,18 @@ Read `design/page-spec.md` before any UI work. It holds the section order, copy 
 - Vite + vanilla HTML, CSS and JavaScript (ES modules). No framework, no TypeScript, no Tailwind.
 - 3D: Spline scene loaded with `@splinetool/runtime`.
 - Scroll animation: GSAP + ScrollTrigger.
-- Hosting: Netlify.
+- Hosting: GitHub Pages, at https://oksana-product-designer.github.io/not-to-do/ (deployed by `.github/workflows/deploy.yml` on every push to `main`).
+- Base path rule: the site lives in the `/not-to-do/` subfolder (`base` in `vite.config.js`). Never hard-code a path starting with `/` in JS: use `import.meta.env.BASE_URL` (for example `${import.meta.env.BASE_URL}images/scene-fallback.jpg`). Paths in `index.html` that start with `/` are rewritten by Vite at build time.
 - Ask before adding any other dependency. Explain what it does and why plain JS isn't enough.
 
 ## Commands
 
 ```
 npm install        # first time
-npm run dev        # local server at http://localhost:5173
+npm run dev        # local server at http://localhost:5173/not-to-do/
 npm run build      # production build into dist/
 npm run preview    # serve dist/ locally
-netlify deploy     # draft deploy; add --prod only when I say so
+git push           # deploys to GitHub Pages via the workflow; only when I say so
 ```
 
 ## Structure
