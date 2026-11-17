@@ -132,7 +132,7 @@
   --color-sky-pale-top: #9fc8ef;           /* pale sky without the 3D scene (phones, reduced motion, no JS); sampled from the washed 3D sky */
   --color-sky-pale-mid: #c9e0f4;
   --color-sky-pale-bottom: #f5f9fd;
-  --color-htp-inactive: #2f3a4a;           /* inactive level label and title on the sky (dark slate: the usual muted grey fails AA on mid blue) */
+  --color-htp-inactive: #263040;           /* inactive level label and title on the sky: dark slate, about 4.8:1 on the darkest blue behind the list (the usual muted grey fails AA there) */
   --color-htp-label: var(--color-text);    /* "Level 1.0" on the active level */
   --size-htp-progress: 3px;                /* progress bar height */
   --color-htp-progress-track: rgba(20, 20, 20, 0.12);

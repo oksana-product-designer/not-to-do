@@ -18,6 +18,7 @@ export const POSES = {
   hero: { rotX: 0.297, y: 226, z: 3733 },
   opening: { rotX: 0, y: 5200, z: -5400 },    // buried in the clouds: the whole screen is cloud     // pulled back and down: the full scene, hills along the bottom
   problem: { rotX: -0.12, y: 10500, z: 3733 }, // above the cloud layer: open sky, cloud tops along the bottom, no hills
+  htp: { rotX: 0.02, y: 7200, z: -600 },      // How to play: sunk into the top of the cloud layer, clouds drifting behind the card
 };
 
 let app = null;

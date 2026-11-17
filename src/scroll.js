@@ -77,6 +77,9 @@ function climb(from, to, t) {
   return straight(cloud, to, wipeEase(clamp01((t - S.brk) / (1 - S.brk))));
 }
 
+// Slow, even sink with a soft start and a soft landing (the opening's curve).
+const sink = (from, to, t) => straight(from, to, wipeEase(t));
+
 // One entry per stretch of scroll. Later screens add entries here.
 const SEGMENTS = [
   // Intro, pinned: the camera sinks through the clouds while the four parts take turns.
@@ -86,6 +89,8 @@ const SEGMENTS = [
   { trigger: '#intro', start: 'bottom bottom', end: 'bottom top', from: POSES.introEnd, to: POSES.hero, path: swoop, smoothing: 1 },
   // Cloud wipe: hero to Problem through the cloud layer, after a short hold on the hero. Same length and trailing as the front clouds (wipe.js).
   { trigger: '#act', start: () => `top+=${holdLengthPx()} top`, end: () => `+=${wipeLengthPx()}`, from: POSES.hero, to: POSES.problem, path: climb, smoothing: WIPE_SMOOTHING },
+  // How to play: while the section is pinned, the camera sinks slowly from the sky into the top of the cloud layer.
+  { trigger: '#how-to-play', start: 'top top', end: 'bottom bottom', from: POSES.problem, to: POSES.htp, path: sink, smoothing: WIPE_SMOOTHING },
 ];
 const progress = SEGMENTS.map(() => 0);
 let nudge = 0; // small extra progress used by the idle "dip" in intro.js
