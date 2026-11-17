@@ -6,7 +6,9 @@ import './styles/sections/hero.css';
 import { initScene } from './scene.js';
 import { initScroll, playOpening } from './scroll.js';
 import { initIntro } from './intro.js';
+import { initHero } from './hero.js';
 
+initHero();
 initIntro();
 initScroll();
 

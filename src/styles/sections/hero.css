@@ -16,3 +16,42 @@
   max-width: var(--content-max);
 }
 .hero__title { max-width: var(--measure-title); }
+
+/* Entrance (hero.js splits the headline into words and adds is-hero-in when it should play).
+   Each word sits in its own window and rises up through it, one after another,
+   straightening from a small tilt as it lands. The button follows and settles in.
+   Without JS or with reduced motion, everything is simply visible. */
+.hero__word { display: inline-block; overflow: hidden; vertical-align: top;
+  /* room for descenders (g, y) and the tilt, so the window does not cut them */
+  padding: 0 0.06em 0.14em; margin: 0 -0.06em -0.14em; }
+.hero__word > span { display: inline-block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Before: words below their windows, button small, low and blurred */
+  .hero__content.is-hero-ready:not(.is-hero-in) .hero__word > span {
+    transform: translateY(105%) rotate(var(--rotate-hero-word));
+    opacity: 0;
+  }
+  .hero__content.is-hero-ready:not(.is-hero-in) > .button {
+    opacity: 0;
+    transform: translateY(var(--shift-hero-cta)) scale(var(--scale-hero-cta));
+    filter: blur(var(--blur-hero-cta));
+  }
+  .js .hero__word > span { transform-origin: left bottom; }
+  /* During: words land one after another, then the button */
+  .js .hero__content.is-hero-in:not(.is-hero-done) .hero__word > span {
+    will-change: transform, opacity;
+    transition:
+      transform var(--duration-hero-word) var(--ease-hero),
+      opacity var(--duration-hero-word) var(--ease-hero);
+    transition-delay: calc(var(--hero-delay, 0ms) + var(--i) * var(--stagger-hero-word));
+  }
+  .js .hero__content.is-hero-in:not(.is-hero-done) > .button {
+    transition:
+      opacity var(--duration-hero-cta) var(--ease-hero),
+      transform var(--duration-hero-cta) var(--ease-hero),
+      filter var(--duration-hero-cta) var(--ease-hero);
+    transition-delay: calc(var(--hero-delay, 0ms) + var(--words, 1) * var(--stagger-hero-word) + var(--delay-hero-cta));
+  }
+  /* After (is-hero-done): the button's usual quick hover and press feedback applies again. */
+}

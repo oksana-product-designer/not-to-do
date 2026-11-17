@@ -1,6 +1,6 @@
 // Throwaway: a browser that already has the old "seen" flag opens the page fresh. It must start at the top with the opening.
 import { chromium } from 'playwright';
-const URL = 'http://localhost:5173/not-to-do/';
+const URL = process.env.URL || 'http://localhost:5173/not-to-do/';
 const b = await chromium.launch({ args: ['--ignore-gpu-blocklist', '--enable-gpu', '--use-angle=metal'] });
 for (const [w, h] of [[1440, 900], [390, 844]]) {
   const ctx = await b.newContext({ viewport: { width: w, height: h } });

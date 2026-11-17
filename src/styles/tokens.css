@@ -87,9 +87,17 @@
 
   /* Intro to hero */
   --duration-hero-reveal: 3200ms;          /* clouds part and the hills rise (read by scroll.js) */
-  --delay-hero-in: 2000ms;                 /* headline waits until the hills have mostly landed */
-  --duration-hero-in: 800ms;
-  --shift-hero-in: 24px;                   /* headline rises this much as it arrives */
+  --delay-hero-in: 2000ms;                 /* after the intro hands over: headline waits until the hills have mostly landed (read by hero.js) */
+  --delay-hero-in-scroll: 120ms;           /* reader scrolled to the hero: headline starts almost at once (read by hero.js) */
+  --duration-hero-word: 1100ms;            /* one headline word rising out of its mask */
+  --stagger-hero-word: 80ms;               /* gap between one word starting and the next */
+  --rotate-hero-word: 4deg;                /* each word starts slightly tilted and straightens as it lands */
+  --duration-hero-cta: 800ms;              /* Start avoiding button settling in */
+  --delay-hero-cta: 450ms;                 /* button starts this long after the last word starts */
+  --shift-hero-cta: 16px;                  /* button rises this much */
+  --scale-hero-cta: 0.94;                  /* button grows from this size */
+  --blur-hero-cta: 6px;                    /* blur that clears as the button lands */
+  --ease-hero: cubic-bezier(0.16, 1, 0.3, 1);  /* long, silky deceleration for the headline */
 
   /* Layers */
   --z-scene: 0;

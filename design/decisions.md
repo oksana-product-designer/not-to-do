@@ -119,3 +119,9 @@
 ## 2026-11-17 · Every visit plays the intro
 - Removed the "return visit" rule. Before, reaching the hero saved a flag in the browser (localStorage `ntd-intro-seen`), and every later new visit jumped straight to the hero; only a reload replayed the intro. Oksana wants the opening and intro on every open.
 - The page no longer stores anything. The old flag may still sit in browsers that visited before; it is ignored.
+
+## 2026-11-17 · Hero entrance: word-by-word reveal
+- Replaced the single fade-and-rise of the whole hero block with a choreographed entrance: headline words rise through their own masks in sequence (80 ms stagger, 1.1 s, new --ease-hero), each straightening from a 4 degree tilt, then the Start avoiding button settles in (fade, 16px rise, 94% to 100%, 6px blur clearing, 0.8 s).
+- It now also plays when the reader scrolls or skips to the hero (before, only the intro handover animated it), and replays after scrolling back up into the intro, like the intro lines.
+- New src/hero.js splits the headline into words (screen readers get the full sentence via aria-label). Hidden state applies only once JS is ready, so text stays visible if JS fails.
+- Tokens: removed --duration-hero-in, --shift-hero-in. Added --delay-hero-in-scroll, --duration-hero-word, --stagger-hero-word, --rotate-hero-word, --duration-hero-cta, --delay-hero-cta, --shift-hero-cta, --scale-hero-cta, --blur-hero-cta, --ease-hero.

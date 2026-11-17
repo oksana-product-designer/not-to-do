@@ -4,6 +4,7 @@
 import { tokenMs } from './tokens.js';
 import gsap from 'gsap';
 import { setCameraNudge } from './scroll.js';
+import { peekHero } from './hero.js';
 
 const IDLE_MS = 6000;      // wait this long without scrolling before the dip
 const DIP_AMOUNT = 0.06;   // how far the camera moves along its intro path (0 to 1)
@@ -182,6 +183,7 @@ export function initIntro() {
     if (!heroContent) return;
     const title = heroContent.querySelector('h1');
     const gap = (title || heroContent).getBoundingClientRect().top - window.innerHeight;
+    peekHero(); // the headline rises into the peek
     dip = gsap.timeline({ onUpdate: applyDip })
       .to(state, { nudge: DIP_AMOUNT, lift: Math.max(0, gap + PEEK_PX), duration: 0.6, ease: 'power2.inOut' })
       .to(state, { nudge: 0, lift: 0, duration: 0.6, ease: 'power2.inOut' }, '+=0.5');
