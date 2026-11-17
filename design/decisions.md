@@ -69,3 +69,10 @@
 - Lines play in order with a minimum time on screen: reveal (1.05 s) plus a 0.7 s hold. Scroll is not locked (chosen over a scroll lock for accessibility), so a hard fling past the whole intro can still miss the last lines.
 - New tokens: --color-label-bg, --size-hint-icon, --shift-hint-float, --duration-hint-float, --duration-part-hold. Removed the mouse and swipe icon tokens.
 - Scroll label is now plain text: no pill background, shadow or chevron. Removed tokens --color-label-bg and --size-hint-icon. Contrast relies on #141414 over the sky and clouds (about 6.6 or better on the sky, higher on clouds).
+
+## 2026-11-17 · Intro: scroll lock per line
+- The line-hold queue is removed. It let the first line sit while the scroll ran on to the hero, so the other lines were missed.
+- Now scrolling is locked for about 1.2 s each time a new line appears (wheel, touch and scroll keys are swallowed, the page is held in place). Going down moves one line at a time; a larger jump is pulled back to the next line. Going up is free.
+- Known cost, accepted by Oksana: this overrides the reader's scroll. CLAUDE.md says the intro must never trap anyone, so the Skip intro link bypasses the lock, Tab is never blocked, and reduced motion has no lock at all.
+- --duration-part-hold is now 150 ms and means the rest after a reveal before the lock lifts.
+- page-spec.md had been emptied by a script bug in the plain-label commit (a6f4270); restored from the commit before it.

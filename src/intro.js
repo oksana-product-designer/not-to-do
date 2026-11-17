@@ -32,21 +32,26 @@ export function initIntro() {
   }
 
   // Intro text. Nothing shows at the very top except the "Scroll" label.
-  // After the first scroll the parts play strictly in order, one at a time.
-  // Each part gets its reveal plus a short hold before the next may start,
-  // even if the scrollbar is already further down. Scrolling is never blocked.
+  // Each part owns a quarter of the intro. When the scroll reaches a new part, the part is
+  // revealed and scrolling is locked until the reveal has finished, so no part can be skipped.
+  // Scrolling back up never locks. "Skip intro" bypasses the lock.
   const intro = document.getElementById('intro');
   const parts = Array.from(document.querySelectorAll('.intro__part'));
   if (intro && parts.length && !reduced) {
     const ms = (name) => parseFloat(getComputedStyle(root).getPropertyValue(name)) || 0;
-    const REVEAL_MS = ms('--delay-part-in') + ms('--duration-part-in');
-    const HOLD_MS = ms('--duration-part-hold');
+    const LOCK_MS = ms('--delay-part-in') + ms('--duration-part-in') + ms('--duration-part-hold');
     const TOP_PX = 8; // closer to the top than this counts as "not scrolled yet"
+    const last = parts.length - 1;
 
-    let shown = -1;   // part on screen now (-1 = none, the label shows)
-    let target = -1;  // part the scroll position asks for
-    let freeAt = 0;   // time when the part on screen has had its reveal and hold
-    let timer = null;
+    let shown = -1;      // part on screen now (-1 = none, the label shows)
+    let locked = false;
+    let lockY = 0;       // where the page is held while locked
+    let bypass = false;  // true while "Skip intro" is carrying the reader to the hero
+
+    const stepHeight = () => intro.offsetHeight / parts.length;
+    const partAt = (y) => (y < TOP_PX ? -1 : Math.min(last, Math.floor((y + window.innerHeight / 2) / stepHeight())));
+    const startOf = (index) => Math.max(TOP_PX, Math.ceil(index * stepHeight() - window.innerHeight / 2)) + 1;
+    const jumpTo = (y) => window.scrollTo({ top: y, behavior: 'instant' });
 
     const render = (index) => {
       parts.forEach((part, i) => {
@@ -57,43 +62,61 @@ export function initIntro() {
       shown = index;
     };
 
-    const advance = () => {
-      clearTimeout(timer);
-      if (target === shown) return;
-      const now = performance.now();
-      if (target < shown) {
-        // Scrolling back up: go straight there.
-        render(target);
-        freeAt = target === -1 ? now : now + REVEAL_MS + HOLD_MS;
-        return;
-      }
-      if (now < freeAt) { timer = setTimeout(advance, freeAt - now); return; }
-      render(shown + 1); // forward: one part at a time, never a jump
-      freeAt = now + REVEAL_MS + HOLD_MS;
-      if (target !== shown) timer = setTimeout(advance, REVEAL_MS + HOLD_MS);
+    const unlock = () => {
+      locked = false;
+      root.classList.remove('is-scroll-locked');
+      readScroll();
+    };
+    const lock = (y) => {
+      locked = true;
+      lockY = y;
+      root.classList.add('is-scroll-locked');
+      setTimeout(unlock, LOCK_MS);
     };
 
-    const readScroll = () => {
+    function readScroll() {
       const y = window.scrollY;
-      const height = intro.offsetHeight;
-      if (y >= height) {
-        // The intro has left the screen: nothing to play, rest on the last part.
-        clearTimeout(timer);
-        target = parts.length - 1;
-        if (shown !== target) render(target);
-        freeAt = 0;
+      if (y >= intro.offsetHeight) {
+        // The intro has left the screen (hero reached, or a return visit): rest on the last part.
+        bypass = false;
+        if (shown !== last) render(last);
         return;
       }
-      target = y < TOP_PX ? -1 : Math.min(parts.length - 1, Math.floor((y + window.innerHeight / 2) / (height / parts.length)));
-      advance();
-    };
+      if (bypass) return;
+      if (locked) {
+        if (Math.abs(y - lockY) > 1) jumpTo(lockY); // hold the page where it was
+        return;
+      }
+      const wanted = partAt(y);
+      if (wanted === shown) return;
+      if (wanted < shown) { render(wanted); return; } // going back up: no lock
+      // Going down: only ever one part forward. A big jump is pulled back to the next part.
+      const next = shown + 1;
+      const holdAt = wanted > next ? startOf(next) : y;
+      if (holdAt !== y) jumpTo(holdAt);
+      render(next);
+      lock(holdAt);
+    }
 
-    let queued = false;
-    window.addEventListener('scroll', () => {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => { queued = false; readScroll(); });
-    }, { passive: true });
+    window.addEventListener('scroll', readScroll, { passive: true });
+
+    // While locked, swallow the inputs that scroll the page. Tab and everything else still work.
+    const SCROLL_KEYS = [' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'End', 'Home'];
+    const block = (event) => { if (locked) event.preventDefault(); };
+    window.addEventListener('wheel', block, { passive: false });
+    window.addEventListener('touchmove', block, { passive: false });
+    window.addEventListener('keydown', (event) => { if (locked && SCROLL_KEYS.includes(event.key)) event.preventDefault(); });
+
+    // "Skip intro" must always get through.
+    const skip = document.querySelector('.skip-intro');
+    if (skip) {
+      skip.addEventListener('click', () => {
+        bypass = true;
+        locked = false;
+        root.classList.remove('is-scroll-locked');
+      });
+    }
+
     readScroll();
 
     // Clicking the label does what it says: scrolls a little, which starts the first part.
