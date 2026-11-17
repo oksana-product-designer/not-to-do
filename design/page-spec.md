@@ -52,7 +52,34 @@ Scene: deep blue sky, one small cloud drifting.
 - Entrance: each headline word rises up through its own invisible window, one after another (80 ms apart, 1.1 s each, long soft landing), straightening from a 4 degree tilt as it lands. Order: the header slides down first; 120 ms later the words start; then, each 120 ms after the previous, starting 120 ms after the last word starts: the sub, the button row, the scroll cue. Each fades in, rises 16px and comes out of a 6px blur over 0.8 s (the button row also grows from 94%); the header slides down instead of rising. It waits 2 s after the intro hands over (hills first), or starts at once when the reader scrolls or skips to the hero. The idle dip shows the headline rising into the peek. Scrolling back up into the intro resets it, so it plays again. Reduced motion or no JS: shown static.
 - Scroll cue: Scroll down. Slowly is fine.
 
-## Screen 2 · How to play
+## Transition 1 to 2 · Cloud wipe
+
+The page passes through the clouds again, the way it entered them in the opening. Scroll-driven and reversible: the hero, the clouds and the Problem screen share one pinned stage for about 1.5 screens of scroll. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay).
+
+Storyboard by scroll progress:
+- 0 to 25%: soft cloud tops rise from below the hills. The hero text and scroll cue fade out from 15%.
+- 25 to 50%: the cloud bank rolls up over the hero text. At the same time the 3D camera climbs from the hero into the cloud layer, so the clouds in front and behind move together.
+- 50 to 60%: the whole screen is cloud (the opening's cloud white). A short beat of nothing.
+- 60 to 100%: the cover breaks up and sinks off the bottom while the camera rises above the cloud layer. The Problem screen appears on a pale sky above the clouds, no hills.
+
+Two layers moving as one: the 3D camera (scroll-linked path through the clouds) and large soft CSS clouds in front of the page, built from the same cloud shape as the intro wisps but dense and fully opaque at the peak. Both use the opening's in-and-out curve.
+
+- The header stays on top and usable throughout. Nothing under the cloud cover can be clicked or focused.
+- Phone (under 768px): the front CSS clouds over the static image, no camera move. Problem gets its own pale sky.
+- Reduced motion: no pin; the hero and Problem follow each other, with a 0.4 s crossfade through cloud white between them.
+- No JS: the hero and Problem follow each other, no clouds.
+- Performance: transform and opacity only, no animated blur on large layers.
+
+## Screen 2 · Problem
+
+Scene: pale sky just above the cloud layer. No hills.
+
+- Statement (H2): Every productivity app assumes you want to work. We did some research. You don't.
+- Sub: Not To Do is a tracker for the other seven hours of the workday.
+- Layout: centered, light, text straight on the sky. No card, no dark background. The statement breaks into three line groups, one per sentence.
+- Scroll reveal: the statement starts light grey and each word turns to full text color in turn as the reader scrolls (scrubbed, reversible). The sub fades in after the last word. Reduced motion and no JS: fully shown.
+
+## Screen 3 · How to play
 
 Scene: camera tilts into the cloud layer. Cards drift in one at a time, staggered on desktop, stacked on phone.
 
@@ -62,7 +89,7 @@ Scene: camera tilts into the cloud layer. Cards drift in one at a time, staggere
 - Move 2, Choose a side quest: Gaming, shopping, one more video. Pick what you'll do instead.
 - Move 3, Start avoiding: Press the button. Every minute the task stays untouched goes on your score.
 
-## Screen 3 · High score
+## Screen 4 · High score
 
 Scene: camera level, haze, hills enter at the bottom edge. Number counts up on arrival.
 
@@ -72,7 +99,7 @@ Scene: camera level, haze, hills enter at the bottom edge. Number counts up on a
 - Chips: 4h scrolling · 2h YouTube · 40m shopping
 - Note: A leaderboard of one. Nobody else needs to see it.
 
-## Screen 4 · Stealth
+## Screen 5 · Stealth
 
 Scene: camera drifts over the first hill. App screenshot slides in from the right.
 
@@ -81,7 +108,7 @@ Scene: camera drifts over the first hill. App screenshot slides in from the righ
 - Body: Your manager sees a plan. You see a score.
 - Image: app screenshot, Today's Not-to-do's
 
-## Screen 5 · Final
+## Screen 6 · Final
 
 Scene: camera settles low, hills fill the lower half, text sits in the sky.
 
