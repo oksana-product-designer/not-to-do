@@ -152,3 +152,9 @@
 - Fix: on opening the page the header was briefly drawn and then slid away (its hidden style arrived after the first frame, and the slide transition animated the change). The show/hide motion now switches on only after load (is-animated, set by nav.js), so the header starts out hidden. Checked on dev and production builds; it still slides in at the hero, before the text.
 - Header links centered in the pill (tablet and up): three columns, wordmark left, links centered, Start avoiding right. Pill padding made even (8px all round, the wordmark has its own 16px), so the links sit exactly in the middle. Requested by Oksana.
 - Hero scroll cue now 40px from the bottom edge (--offset-hero-cue, between the 32 and 48 steps). Requested by Oksana. At 768x1024 the "Built with Spline" badge covers the cue's arrow (the badge comes from the Spline export and sits bottom right). At 1440x900 and on phones it is clear.
+
+## 2026-11-17 · Hero: headline as wide as the header, smaller sub, cue lifted on tablet
+- Headline as wide as the header pill and growing with the screen (Oksana). Tablet and up: one line, font size = header width x 0.103 (--text-hero-title; the Imbue line is 9.5 times its font size), so it runs edge to edge of the pill: 76px at 768, 109px at 1088, 115px from 1280 (header capped at --content-max). Phones (under 768): one line would shrink it to about 37px, so it keeps --text-title-xl (44px), wraps to two lines and uses the full width. --measure-title is no longer used by the hero.
+- Sub smaller: --text-body (16px) instead of --text-body-l (20px) (Oksana).
+- Scroll cue on tablet (768 to 1279) sits 96px from the bottom (--offset-hero-cue-tablet) so the Spline badge no longer covers its arrow. Desktop and phones keep 40px.
+- New token --size-header-width (the pill width), used by the headline size.
