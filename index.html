@@ -28,8 +28,28 @@
 
     <a class="skip-intro" href="#hero">Skip intro</a>
 
-    <!-- Floating nav: built in a later session. Hidden during the intro. -->
-    <header class="nav" id="nav" hidden></header>
+    <!-- Floating header. Hidden (and inert) during the intro: intro.js shows it when the hero is reached. Without JS it is a plain visible bar. -->
+    <header class="nav" id="nav">
+      <nav class="nav__pill" aria-label="Main">
+        <a class="nav__wordmark" href="#hero">Not To Do</a>
+        <ul class="nav__links" role="list">
+          <li><a class="nav__link" href="#how-to-play">How to play</a></li>
+          <li><a class="nav__link" href="#high-score">High score</a></li>
+          <li><a class="nav__link" href="#stealth">Stealth mode</a></li>
+          <li><a class="nav__link" href="#login">Log in</a></li>
+        </ul>
+        <a class="button nav__cta" href="#signup">Start avoiding</a>
+        <button class="nav__menu-button" type="button" aria-expanded="false" aria-controls="nav-panel">Menu</button>
+        <div class="nav__panel" id="nav-panel" hidden>
+          <ul class="nav__panel-links" role="list">
+            <li><a class="nav__link" href="#how-to-play">How to play</a></li>
+            <li><a class="nav__link" href="#high-score">High score</a></li>
+            <li><a class="nav__link" href="#stealth">Stealth mode</a></li>
+            <li><a class="nav__link" href="#login">Log in</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
     <main>
       <!-- Screen 0 · Intro -->
@@ -59,12 +79,33 @@
         </div>
       </section>
 
-      <!-- Screen 1 · Hero (placeholder: final layout comes next session) -->
-      <section class="hero" id="hero">
+      <!-- Screen 1 · Hero -->
+      <section class="hero" id="hero" aria-labelledby="hero-title">
         <div class="hero__content" id="hero-content">
-          <h1 class="hero__title">Climb nothing. Track everything.</h1>
-          <a class="button" href="#signup">Start avoiding</a>
+          <h1 class="hero__title" id="hero-title">Climb nothing. Track everything.</h1>
+          <p class="hero__sub hero__item">Not To Do logs the work you dodge, what you do instead, and how long you get away with it.</p>
+          <div class="hero__actions hero__item">
+            <a class="button" href="#signup">Start avoiding</a>
+            <a class="text-link" href="#how-to-play">How to play</a>
+          </div>
         </div>
+        <a class="scroll-cue hero__cue hero__item" href="#how-to-play">
+          <span class="scroll-cue__inner">
+            Scroll down. Slowly is fine.
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v12M3 9l5 5 5-5" /></svg>
+          </span>
+        </a>
+      </section>
+
+      <!-- PLACEHOLDER sections: anchor targets for the header links. Content comes in later sessions. -->
+      <section class="placeholder" id="how-to-play" aria-labelledby="how-to-play-title">
+        <h2 class="visually-hidden" id="how-to-play-title">How to play</h2>
+      </section>
+      <section class="placeholder" id="high-score" aria-labelledby="high-score-title">
+        <h2 class="visually-hidden" id="high-score-title">High score</h2>
+      </section>
+      <section class="placeholder" id="stealth" aria-labelledby="stealth-title">
+        <h2 class="visually-hidden" id="stealth-title">Stealth mode</h2>
       </section>
     </main>
 

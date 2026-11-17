@@ -15,6 +15,9 @@
   --color-cta-text: #141414;
   --color-focus-ring: #141414;
   --color-intro-text: #141414;      /* text on the sky; checked for AA against the scene */
+  --color-nav-link: var(--color-text-muted);  /* header section links and Log in, on the white pill */
+  --color-nav-link-current: var(--color-text);
+  --color-nav-surface: var(--color-surface-card);
 
   /* Type scale (fluid between phone and desktop) */
   --text-display: clamp(3.5rem, 1rem + 11vw, 12rem);     /* intro parts */
@@ -92,11 +95,12 @@
   --duration-hero-word: 1100ms;            /* one headline word rising out of its mask */
   --stagger-hero-word: 80ms;               /* gap between one word starting and the next */
   --rotate-hero-word: 4deg;                /* each word starts slightly tilted and straightens as it lands */
-  --duration-hero-cta: 800ms;              /* Start avoiding button settling in */
-  --delay-hero-cta: 450ms;                 /* button starts this long after the last word starts */
-  --shift-hero-cta: 16px;                  /* button rises this much */
-  --scale-hero-cta: 0.94;                  /* button grows from this size */
-  --blur-hero-cta: 6px;                    /* blur that clears as the button lands */
+  --stagger-hero-step: 120ms;              /* after the headline: sub, buttons, header, scroll cue each start this much after the previous */
+  --duration-hero-item: 800ms;             /* sub, buttons, scroll cue settling in */
+  --shift-hero-item: 16px;                 /* they rise this much */
+  --scale-hero-item: 0.94;                 /* the button row grows from this size */
+  --blur-hero-item: 6px;                   /* blur that clears as they land */
+  --duration-nav: 700ms;                   /* header sliding down (and back up) */
   --ease-hero: cubic-bezier(0.16, 1, 0.3, 1);  /* long, silky deceleration for the headline */
 
   /* Layers */
@@ -115,6 +119,13 @@
   --size-visually-hidden: 1px;             /* skip link: present for screen readers, invisible until focused */
   --measure-title: 16ch;
   --content-max: 1120px;
+  --measure-sub: 34em;                     /* hero sub line length */
+  --offset-nav-top: 16px;                  /* header distance from the top of the screen */
+  --size-nav-height: 64px;                 /* header pill height */
+  --offset-nav: calc(var(--offset-nav-top) + var(--size-nav-height) + var(--space-4)); /* room left above a section when a header link scrolls to it */
+  --offset-hero-top: calc(var(--offset-nav) + var(--space-6));  /* hero text starts below the header */
+  --offset-hero-cue: 28vh;                 /* hero scroll cue distance from the bottom, kept above the hills (tablet and up) */
+  --offset-hero-cue-phone: 40vh;           /* same on phones, where the hills start higher on the screen */
   --length-intro-scroll: 440vh;            /* scroll distance while the intro is pinned (4 parts x 110vh) */
   --shift-intro-part: 30px;                /* how far a part rises as it is revealed */
   --blur-intro-part: 8px;                  /* blur that clears during the reveal */

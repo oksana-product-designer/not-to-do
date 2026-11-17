@@ -2,13 +2,17 @@
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/sections/intro.css';
+import './styles/sections/nav.css';
 import './styles/sections/hero.css';
+import './styles/sections/placeholders.css';
 import { initScene } from './scene.js';
 import { initScroll, playOpening } from './scroll.js';
 import { initIntro } from './intro.js';
 import { initHero } from './hero.js';
+import { initNav } from './nav.js';
 
 initHero();
+initNav();
 initIntro();
 initScroll();
 

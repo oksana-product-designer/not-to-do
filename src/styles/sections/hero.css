@@ -1,57 +1,87 @@
-/* Screen 1 · Hero. Placeholder layout: headline and main button only. */
+/* Screen 1 · Hero. Headline, sub, buttons, and the scroll cue at the bottom.
+   The text sits in the sky, above the hills: it starts below the header and the cue stays above the hill line. */
 .hero {
+  position: relative;
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: var(--space-9) var(--space-4);
+  padding: var(--offset-hero-top) var(--space-4) var(--space-9);
   text-align: center;
 }
 .hero__content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-5);
   max-width: var(--content-max);
 }
 .hero__title { max-width: var(--measure-title); }
+.hero__sub { max-width: var(--measure-sub); font-size: var(--text-body-l); text-wrap: pretty; }
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3) var(--space-5);
+  margin-top: var(--space-2);
+}
+.hero__cue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--offset-hero-cue-phone);
+  width: fit-content;
+  margin-inline: auto;
+}
+@media (min-width: 768px) {
+  .hero__cue { bottom: var(--offset-hero-cue); }
+}
 
-/* Entrance (hero.js splits the headline into words and adds is-hero-in when it should play).
-   Each word sits in its own window and rises up through it, one after another,
-   straightening from a small tilt as it lands. The button follows and settles in.
+/* Entrance. hero.js splits the headline into words and puts the state classes on .hero:
+   is-hero-ready (JS is running: the "before" state applies), is-hero-in (play), is-hero-done (landed).
+   1. Each headline word rises through its own window, one after another, straightening from a small tilt.
+   2. Then sub, button row and scroll cue (and the header, see nav.css) settle in, one step apart:
+      fade, small rise, blur clearing. The button row also grows slightly.
    Without JS or with reduced motion, everything is simply visible. */
 .hero__word { display: inline-block; overflow: hidden; vertical-align: top;
   /* room for descenders (g, y) and the tilt, so the window does not cut them */
   padding: 0 0.06em 0.14em; margin: 0 -0.06em -0.14em; }
 .hero__word > span { display: inline-block; }
+.hero__sub { --k: 1; }
+.hero__actions { --k: 2; }
+.hero__cue { --k: 4; } /* step 3 is the header */
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Before: words below their windows, button small, low and blurred */
-  .hero__content.is-hero-ready:not(.is-hero-in) .hero__word > span {
+  /* Before */
+  .hero.is-hero-ready:not(.is-hero-in) .hero__word > span {
     transform: translateY(105%) rotate(var(--rotate-hero-word));
     opacity: 0;
   }
-  .hero__content.is-hero-ready:not(.is-hero-in) > .button {
+  .hero.is-hero-ready:not(.is-hero-in) .hero__item {
     opacity: 0;
-    transform: translateY(var(--shift-hero-cta)) scale(var(--scale-hero-cta));
-    filter: blur(var(--blur-hero-cta));
+    translate: 0 var(--shift-hero-item);
+    filter: blur(var(--blur-hero-item));
   }
+  .hero.is-hero-ready:not(.is-hero-in) .hero__actions { scale: var(--scale-hero-item); }
   .js .hero__word > span { transform-origin: left bottom; }
-  /* During: words land one after another, then the button */
-  .js .hero__content.is-hero-in:not(.is-hero-done) .hero__word > span {
+
+  /* During */
+  .hero.is-hero-in:not(.is-hero-done) .hero__word > span {
     will-change: transform, opacity;
     transition:
       transform var(--duration-hero-word) var(--ease-hero),
       opacity var(--duration-hero-word) var(--ease-hero);
     transition-delay: calc(var(--hero-delay, 0ms) + var(--i) * var(--stagger-hero-word));
   }
-  .js .hero__content.is-hero-in:not(.is-hero-done) > .button {
+  .hero.is-hero-in:not(.is-hero-done) .hero__item {
     transition:
-      opacity var(--duration-hero-cta) var(--ease-hero),
-      transform var(--duration-hero-cta) var(--ease-hero),
-      filter var(--duration-hero-cta) var(--ease-hero);
-    transition-delay: calc(var(--hero-delay, 0ms) + var(--words, 1) * var(--stagger-hero-word) + var(--delay-hero-cta));
+      opacity var(--duration-hero-item) var(--ease-hero),
+      translate var(--duration-hero-item) var(--ease-hero),
+      scale var(--duration-hero-item) var(--ease-hero),
+      filter var(--duration-hero-item) var(--ease-hero);
+    /* counted from the start of the last headline word */
+    transition-delay: calc(var(--hero-delay, 0ms) + (var(--words, 1) - 1) * var(--stagger-hero-word) + var(--k) * var(--stagger-hero-step));
   }
-  /* After (is-hero-done): the button's usual quick hover and press feedback applies again. */
 }

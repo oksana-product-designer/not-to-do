@@ -117,3 +117,14 @@ main { position: relative; z-index: var(--z-content); }
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Text link: a secondary action next to a button. Underlined, full touch height. */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  padding-inline: var(--space-2);
+  font-weight: var(--weight-medium);
+  text-decoration: underline;
+  text-underline-offset: var(--space-1);
+}

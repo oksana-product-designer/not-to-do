@@ -1,5 +1,6 @@
 // Hero entrance. This file splits the headline into words and decides when the entrance plays;
-// hero.css does the motion (each word rises through its own window, then the button settles in).
+// hero.css does the motion (each word rises through its own window, then sub, buttons, header
+// and scroll cue settle in, one step apart).
 //
 // When it plays:
 // - The intro hands over (the reader scrolled ahead while the last lines finished): it waits
@@ -40,26 +41,37 @@ export function initHero() {
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // static, fully visible
 
-  content.style.setProperty('--words', words.length);
-  content.classList.add('is-hero-ready'); // from here on, the hidden "before" state applies
+  const hero = content.closest('.hero') || content;
+  const nav = document.getElementById('nav');
+  hero.style.setProperty('--words', words.length);
+  hero.classList.add('is-hero-ready'); // from here on, the hidden "before" state applies
 
   let played = false;
   let visible = false;
   let handedOver = false; // the intro was lingering: wait for the hills
   let doneTimer = null;
+  let navTimer = null;
 
   const play = (delayMs) => {
     if (played) return;
     played = true;
-    content.style.setProperty('--hero-delay', `${delayMs}ms`);
-    void content.offsetWidth; // commit the hidden state so the transition has somewhere to start
-    content.classList.add('is-hero-in');
-    const words = Number(content.style.getPropertyValue('--words'));
     const stagger = tokenMs('--stagger-hero-word', 80);
-    const wordsEnd = (words - 1) * stagger + tokenMs('--duration-hero-word', 1100);
-    const ctaEnd = words * stagger + tokenMs('--delay-hero-cta', 450) + tokenMs('--duration-hero-cta', 800);
+    const step = tokenMs('--stagger-hero-step', 120);
+    const lastWord = delayMs + (words.length - 1) * stagger; // when the last headline word starts
+    hero.style.setProperty('--hero-delay', `${delayMs}ms`);
+    // The header's slot in the sequence (step 3). intro.js still decides whether it shows;
+    // this only delays its slide-down for this one entrance.
+    if (nav) {
+      nav.style.setProperty('--nav-delay', `${lastWord + 3 * step}ms`);
+      clearTimeout(navTimer);
+      navTimer = setTimeout(() => nav.style.removeProperty('--nav-delay'), lastWord + 3 * step + tokenMs('--duration-nav', 700));
+    }
+    void hero.offsetWidth; // commit the hidden state so the transition has somewhere to start
+    hero.classList.add('is-hero-in');
+    const wordsEnd = lastWord + tokenMs('--duration-hero-word', 1100);
+    const itemsEnd = lastWord + 4 * step + tokenMs('--duration-hero-item', 800);
     clearTimeout(doneTimer);
-    doneTimer = setTimeout(() => content.classList.add('is-hero-done'), delayMs + Math.max(wordsEnd, ctaEnd));
+    doneTimer = setTimeout(() => hero.classList.add('is-hero-done'), Math.max(wordsEnd, itemsEnd));
   };
   playFn = play;
 
@@ -67,7 +79,7 @@ export function initHero() {
     if (!played) return;
     played = false;
     clearTimeout(doneTimer);
-    content.classList.remove('is-hero-in', 'is-hero-done');
+    hero.classList.remove('is-hero-in', 'is-hero-done');
   };
 
   const check = () => {

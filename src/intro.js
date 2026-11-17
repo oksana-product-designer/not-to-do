@@ -167,7 +167,7 @@ export function initIntro() {
   const observer = new IntersectionObserver(([entry]) => {
     const past = entry.isIntersecting;
     root.classList.toggle('is-past-intro', past);
-    if (nav) nav.hidden = !past;
+    if (nav) { nav.inert = !past; nav.classList.toggle('is-shown', past); } // nav.css decides how it appears
   }, { threshold: 0.6 });
   observer.observe(hero);
 

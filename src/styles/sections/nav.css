@@ -1,0 +1,108 @@
+/* Floating header: a white pill, centered, inset from the top.
+   Desktop: wordmark · section links + Log in · Start avoiding.
+   Phone (under 768px): wordmark · Start avoiding · Menu; the menu opens a panel under the pill.
+   When it shows: intro.js (class is-shown, after the intro). How it shows: this file. */
+.nav {
+  position: fixed;
+  top: var(--offset-nav-top);
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  width: min(100% - 2 * var(--space-4), var(--content-max));
+  margin-inline: auto;
+}
+.nav__pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-nav-height);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
+  background: var(--color-nav-surface);
+  border-radius: var(--radius-button);
+  box-shadow: var(--shadow-card);
+}
+.nav__wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  margin-right: auto;
+  font-family: var(--font-display);
+  font-size: var(--text-title-s);
+  line-height: 1;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav__links, .nav__panel-links { list-style: none; padding: 0; }
+.nav__links { display: none; }
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-button);
+  color: var(--color-nav-link);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.nav__link:hover, .nav__link[aria-current] { color: var(--color-nav-link-current); }
+.nav__link[aria-current] { text-decoration: underline; text-underline-offset: var(--space-1); }
+.nav__cta { padding-inline: var(--space-5); font-size: var(--text-label); white-space: nowrap; }
+.nav__menu-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  padding-inline: var(--space-4);
+  border: 0;
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+.nav__panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  right: 0;
+  padding: var(--space-2);
+  background: var(--color-nav-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+.nav__panel-links { display: grid; }
+.nav__panel .nav__link { display: flex; padding: var(--space-3) var(--space-4); font-size: var(--text-body); }
+
+/* Tablet and up: links inline, no Menu */
+@media (min-width: 768px) {
+  .nav__links { display: flex; align-items: center; gap: var(--space-1); }
+  .nav__menu-button, .nav__panel { display: none; }
+  .nav__cta { margin-left: var(--space-2); }
+}
+
+/* Show and hide (JS only; without JS the header is simply there).
+   Hidden: above the screen, faded, out of reach (visibility also keeps it out of the Tab order).
+   Arriving: slides down and fades in with the hero's soft landing, waiting --nav-delay
+   (set by hero.js for its slot in the hero entrance). Leaving: slides back up, quicker start. */
+.js .nav {
+  transition:
+    opacity var(--duration-nav) var(--ease-exit),
+    translate var(--duration-nav) var(--ease-exit),
+    visibility 0s linear var(--duration-nav);
+}
+.js .nav:not(.is-shown), .is-intro-lingering .nav {
+  opacity: 0;
+  translate: 0 calc(-100% - var(--offset-nav-top));
+  visibility: hidden;
+}
+.js .nav.is-shown {
+  transition:
+    opacity var(--duration-nav) var(--ease-hero) var(--nav-delay, 0ms),
+    translate var(--duration-nav) var(--ease-hero) var(--nav-delay, 0ms),
+    visibility 0s linear var(--nav-delay, 0ms);
+}

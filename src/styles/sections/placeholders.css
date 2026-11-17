@@ -1,0 +1,7 @@
+/* PLACEHOLDER: empty anchor targets for the header links (How to play, High score, Stealth mode).
+   Each is one screen tall so the links and the active-link highlight can be tested.
+   Replace with the real sections in later sessions. */
+.placeholder { min-height: 100vh; min-height: 100svh; }
+
+/* Header links land the section below the floating header, not under it. */
+.placeholder { scroll-margin-top: var(--offset-nav); }
