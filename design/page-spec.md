@@ -17,7 +17,7 @@ Scene: sky with big clouds close to the camera. The clouds drift, and move up th
 - Scroll label: plain text reading "Scroll down" with a down arrow after it (no background), floating in the center of the screen.
 
 Motion:
-- Opening (first visits only): the page starts inside the clouds, fully covered, and the veil lifts off the 3D clouds (0.4 s), then the camera flies back out to the first view in 2 s, starting from rest, speeding up as the clouds part and landing softly. It starts as soon as the scene is drawn, at most 1.5 s after load; without the 3D scene the static image zooms out from inside a cloud-white veil instead. Not shown on return visits or with reduced motion.
+- Opening (every visit): the page starts inside the clouds, fully covered, and the veil lifts off the 3D clouds (0.4 s), then the camera flies back out to the first view in 2 s, starting from rest, speeding up as the clouds part and landing softly. It starts as soon as the scene is drawn, at most 1.5 s after load; without the 3D scene the static image zooms out from inside a cloud-white veil instead. Not shown with reduced motion or when the page is opened at a link target such as #hero.
 - After the opening: only the sky and the Scroll label. No text yet. The page waits.
 - First scroll: the "Scroll down" label fades out and part 1 is revealed. Back at the very top, the text goes and the label returns.
 - Trigger: scroll only (wheel, swipe, arrow keys, Space). No timer advances the page.
@@ -28,7 +28,7 @@ Motion:
 - The camera descends through the clouds at an even pace: it follows the scroll, but never runs ahead of the lines. Each line unlocks an equal quarter of the descent, spread over the time the line is on screen, so a fast scroll gives a steady glide instead of a jump and a freeze. Scrolling up reverses it.
 - After 6 s idle: the camera dips so the hero headline peeks above the bottom edge, then settles back.
 - Clicking the label (or Enter on it) scrolls a little, which starts part 1.
-- Return visits (a new visit after the hero was reached) skip the intro. A reload always starts again at the top with the opening; the browser's own scroll restore is switched off so the page never jumps to an old position. Reduced motion: all four parts shown together as static text, the label at the bottom, no pinning.
+- Every visit, new or reload, starts at the top with the opening and the intro. Nothing is remembered between visits; the browser's own scroll restore is switched off so the page never jumps to an old position. Reduced motion: all four parts shown together as static text, the label at the bottom, no pinning.
 
 ## Floating nav (appears after the intro)
 

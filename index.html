@@ -6,19 +6,12 @@
     <title>Not To Do</title>
     <meta name="description" content="Not To Do logs the work you dodge, what you do instead, and how long you get away with it." />
     <script>
-      // Runs before first paint: marks that JS works, and whether the intro was already seen.
+      // Runs before first paint: marks that JS works.
       document.documentElement.classList.add('js');
-      // The browser must not restore an old scroll position: the intro always starts where we say.
+      // The browser must not restore an old scroll position: every visit starts at the top with the intro.
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-      // A reload replays the intro from the top. Only a new visit counts as a return visit.
-      var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
-      var reloaded = nav && nav.type === 'reload';
-      try {
-        if (!reloaded && localStorage.getItem('ntd-intro-seen') === '1') document.documentElement.classList.add('intro-seen');
-      } catch (e) {}
-      // Opening: the page starts inside the clouds and flies out. First visits only, at the top, motion welcome.
-      if (!document.documentElement.classList.contains('intro-seen') && !location.hash &&
-          !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Opening: the page starts inside the clouds and flies out. Every visit, at the top, motion welcome.
+      if (!location.hash && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('is-opening');
       }
     </script>

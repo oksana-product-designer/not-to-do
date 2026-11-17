@@ -115,3 +115,7 @@
 ## 2026-11-17 · Fix: live site animations ran far too fast
 - The production build minifies CSS durations ("800ms" becomes ".8s"). The JS read tokens with parseFloat as milliseconds, so live timings became 1000x too short: the opening ended at once and the intro lines raced through. Localhost (dev server, unminified CSS) was fine.
 - New src/tokens.js reads duration tokens in either unit (tokenMs) and plain numbers (tokenNumber); intro.js and scroll.js use it.
+
+## 2026-11-17 · Every visit plays the intro
+- Removed the "return visit" rule. Before, reaching the hero saved a flag in the browser (localStorage `ntd-intro-seen`), and every later new visit jumped straight to the hero; only a reload replayed the intro. Oksana wants the opening and intro on every open.
+- The page no longer stores anything. The old flag may still sit in browsers that visited before; it is ignored.

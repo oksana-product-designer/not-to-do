@@ -5,14 +5,9 @@ import { tokenMs } from './tokens.js';
 import gsap from 'gsap';
 import { setCameraNudge } from './scroll.js';
 
-const SEEN_KEY = 'ntd-intro-seen';
 const IDLE_MS = 6000;      // wait this long without scrolling before the dip
 const DIP_AMOUNT = 0.06;   // how far the camera moves along its intro path (0 to 1)
 const PEEK_PX = 56;        // how much of the hero headline shows above the bottom edge
-
-function markSeen() {
-  try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) { /* storage blocked: intro plays again next time */ }
-}
 
 export function initIntro() {
   const root = document.documentElement;
@@ -23,15 +18,6 @@ export function initIntro() {
   if (!hero) return;
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const returning = root.classList.contains('intro-seen');
-
-  // Return visit: start at the hero (unless the browser already restored a scroll position or a link target).
-  if (returning && window.scrollY === 0 && !window.location.hash) {
-    root.style.scrollBehavior = 'auto';
-    window.scrollTo(0, hero.offsetTop);
-    root.style.scrollBehavior = '';
-  }
-
   // Intro text. Nothing shows at the very top except the "Scroll" label.
   // Scrolling is never locked: the camera and clouds follow the scroll as usual.
   // Only the text is locked into a sequence: lines play strictly in order, and each one
@@ -159,8 +145,8 @@ export function initIntro() {
     const skip = document.querySelector('.skip-intro');
     if (skip) skip.addEventListener('click', () => { bypass = true; clearTimeout(timer); release(); linger(false); announce(true); });
 
-    // Return visits start at the hero: the lines count as played.
-    if (window.scrollY >= intro.offsetHeight || root.classList.contains('intro-seen')) {
+    // Arriving below the intro (a link to #hero): the lines count as played.
+    if (window.scrollY >= intro.offsetHeight) {
       render(last);
       freeAt = 0;
       announce(true, true);
@@ -176,12 +162,11 @@ export function initIntro() {
     }
   }
 
-  // Hero reached: show the nav, hide "Skip intro", remember the visit.
+  // Hero reached: show the nav, hide "Skip intro".
   const observer = new IntersectionObserver(([entry]) => {
     const past = entry.isIntersecting;
     root.classList.toggle('is-past-intro', past);
     if (nav) nav.hidden = !past;
-    if (past) markSeen();
   }, { threshold: 0.6 });
   observer.observe(hero);
 
@@ -208,7 +193,7 @@ export function initIntro() {
       gsap.to(state, { nudge: 0, lift: 0, duration: 0.25, ease: 'power2.out', onUpdate: applyDip });
     }
   };
-  if (!reduced && !returning && window.scrollY === 0) {
+  if (!reduced && window.scrollY === 0) {
     idleTimer = setTimeout(playDip, IDLE_MS);
   }
 
