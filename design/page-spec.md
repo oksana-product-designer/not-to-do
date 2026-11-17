@@ -36,7 +36,7 @@ Not To Do · How to play · High score · Stealth mode · Log in · [Start avoid
 
 - Not To Do: wordmark, links to the hero.
 - How to play, High score, Stealth mode: section links. The link of the section in view is highlighted. No highlight on the hero.
-- Log in: same muted style as the section links.
+- Log in: same muted style as the section links, placed right next to Start avoiding.
 - Start avoiding: the only filled element.
 - Phone (under 768px): Not To Do · [Start avoiding] · Menu. Menu opens a panel under the pill: How to play, High score, Stealth mode, Log in.
 - Look: a floating white pill, centered, inset from the top.

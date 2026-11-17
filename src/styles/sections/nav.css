@@ -1,5 +1,5 @@
 /* Floating header: a white pill, centered, inset from the top.
-   Tablet and up: wordmark left · section links + Log in centered · Start avoiding right.
+   Tablet and up: wordmark left · section links centered · Log in + Start avoiding right.
    Phone (under 768px): wordmark · Start avoiding · Menu; the menu opens a panel under the pill.
    When it shows: intro.js (class is-shown, after the intro). How it shows: this file. */
 .nav {
@@ -53,6 +53,9 @@
 .nav__link[href]:hover, .nav__link[aria-current] { color: var(--color-nav-link-current); }
 .nav__link[aria-current] { text-decoration: underline; text-underline-offset: var(--space-1); }
 .nav__cta { padding-inline: var(--space-5); font-size: var(--text-label); white-space: nowrap; }
+/* Log in sits next to Start avoiding. Phones: it lives in the Menu panel instead. */
+.nav__actions { display: flex; align-items: center; gap: var(--space-2); }
+.nav__login { display: none; }
 .nav__menu-button {
   display: inline-flex;
   align-items: center;
@@ -85,7 +88,8 @@
   .nav__pill { display: grid; grid-template-columns: 1fr auto 1fr; }
   .nav__wordmark { justify-self: start; margin-right: 0; }
   .nav__links { display: flex; align-items: center; gap: var(--space-1); }
-  .nav__cta { justify-self: end; }
+  .nav__actions { justify-self: end; }
+  .nav__login { display: inline-flex; }
   .nav__menu-button, .nav__panel { display: none; }
 }
 

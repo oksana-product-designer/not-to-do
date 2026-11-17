@@ -158,3 +158,7 @@
 - Sub smaller: --text-body (16px) instead of --text-body-l (20px) (Oksana).
 - Scroll cue on tablet (768 to 1279) sits 96px from the bottom (--offset-hero-cue-tablet) so the Spline badge no longer covers its arrow. Desktop and phones keep 40px.
 - New token --size-header-width (the pill width), used by the headline size.
+
+## 2026-11-17 · Header: Log in next to Start avoiding
+- Log in moved out of the centered link group and sits right before Start avoiding (8px apart), same muted link style (Oksana). The centered group is now the three section links. Phones: unchanged (Log in stays in the Menu panel). Tab order follows: wordmark, section links (currently off), Log in, Start avoiding.
+- At 768 wide the right group (Log in + Start avoiding) is wider than the left (wordmark), so the section links sit 23px left of the exact center. From about 900 wide up they are exactly centered (720 of 720 at 1440).
