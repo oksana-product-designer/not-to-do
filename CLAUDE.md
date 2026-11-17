@@ -71,7 +71,7 @@ design/
 ## 3D scene
 
 - Spline file: https://app.spline.design/file/d1fdf642-2947-4765-a86b-1b5a1361b28e
-- Object names code depends on: `Hero Camera`, `Hill Back Ridge`, `Hill Far Right`, `Hill Right`, `Hill Mid Left`, `Hill Front Left`, `Ground`, `Sky Backdrop`, `Cloud 0` to `Cloud 16`, `Directional Light`. If a name is missing at load, log a warning and keep the page usable.
+- Object names code depends on: `Hero Camera`, `Hill Back Ridge`, `Hill Far Right`, `Hill Right`, `Hill Mid Left`, `Hill Front Left`, `Ground`, `Sky Backdrop`, `Cloud 0` to `Cloud 33`, `Directional Light`. If a name is missing at load, log a warning and keep the page usable.
 - The Spline file also carries its own motion code (cloud drift, pointer parallax, click gust). One owner per property: if the site drives the camera on scroll, the Spline parallax must not also move it. Decide with me before changing who owns what.
 - The scene is decoration. Text and buttons never depend on it to render or be readable.
 - Show `public/images/scene-fallback.jpg` until the scene reports loaded, then crossfade.
@@ -90,7 +90,7 @@ design/
 ## Quality bar
 
 - Accessibility: WCAG 2.1 AA contrast, real `<button>` and `<a>` elements, visible focus, the whole page usable by keyboard, `prefers-reduced-motion` respected.
-- The intro must never trap anyone: "Skip intro" is visible and focusable from the first frame.
+- The intro must never trap anyone: "Skip intro" is present and focusable from the first frame (drawn only while it has keyboard focus).
 - Performance: Lighthouse performance 85+ on mobile, LCP under 2.5 s. The scene loads after the first paint.
 - No layout shift when the scene or fonts load.
 
