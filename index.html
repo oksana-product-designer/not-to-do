@@ -83,6 +83,11 @@
         </div>
       </section>
 
+      <!-- Screens 1 and 2 share one pinned stage: the cloud wipe passes between them (wipe.js).
+           Without JS or with reduced motion they simply follow each other. -->
+      <div class="act" id="act">
+      <div class="act__stage">
+
       <!-- Screen 1 · Hero -->
       <section class="hero" id="hero" aria-labelledby="hero-title">
         <div class="hero__content" id="hero-content">
@@ -100,6 +105,43 @@
           </span>
         </a>
       </section>
+
+      <!-- Screen 2 · Problem. The words are spans inside the heading, so it still reads as one sentence. -->
+      <section class="problem" id="problem" aria-labelledby="problem-title">
+        <div class="problem__sky" aria-hidden="true"></div>
+        <div class="problem__content">
+          <h2 class="problem__title" id="problem-title">
+            <span class="problem__line"><span class="problem__word">Every</span> <span class="problem__word">productivity</span> <span class="problem__word">app</span> <span class="problem__word">assumes</span> <span class="problem__word">you</span> <span class="problem__word">want</span> <span class="problem__word">to</span> <span class="problem__word">work.</span></span>
+            <span class="problem__line"><span class="problem__word">We</span> <span class="problem__word">did</span> <span class="problem__word">some</span> <span class="problem__word">research.</span></span>
+            <span class="problem__line"><span class="problem__word">You</span> <span class="problem__word">don't.</span></span>
+          </h2>
+          <p class="problem__sub">Not To Do is a tracker for the other seven hours of the workday.</p>
+        </div>
+      </section>
+
+      <!-- Cloud wipe: front clouds, decoration only. A bank with a puffy top edge and a solid body,
+           plus two looser layers in front and behind that drift at their own pace as it breaks up. -->
+      <div class="wipe" aria-hidden="true">
+        <div class="wipe__layer wipe__layer--back">
+          <span class="cloud-puff cloud-puff--dense wipe__puff wipe__puff--1"></span>
+          <span class="cloud-puff cloud-puff--dense wipe__puff wipe__puff--2"></span>
+        </div>
+        <div class="wipe__bank">
+          <span class="cloud-puff cloud-puff--dense wipe__puff wipe__puff--3"></span>
+          <span class="cloud-puff cloud-puff--dense wipe__puff wipe__puff--4"></span>
+          <span class="cloud-puff cloud-puff--dense wipe__puff wipe__puff--5"></span>
+          <span class="wipe__body"></span>
+        </div>
+        <div class="wipe__layer wipe__layer--front">
+          <span class="cloud-puff cloud-puff--dense wipe__puff wipe__puff--6"></span>
+          <span class="cloud-puff cloud-puff--dense wipe__puff wipe__puff--7"></span>
+        </div>
+      </div>
+
+      </div>
+      </div>
+      <!-- Reduced motion: cloud-white veil for the short crossfade between hero and Problem (wipe.js) -->
+      <div class="act__veil" aria-hidden="true"></div>
 
       <!-- PLACEHOLDER sections: anchor targets for the header links. Content comes in later sessions. -->
       <section class="placeholder" id="how-to-play" aria-labelledby="how-to-play-title">

@@ -17,6 +17,7 @@ export const POSES = {
   introEnd: { rotX: 0.05, y: 3400, z: -1800 }, // sunk into the cloud layer
   hero: { rotX: 0.297, y: 226, z: 3733 },
   opening: { rotX: 0, y: 5200, z: -5400 },    // buried in the clouds: the whole screen is cloud     // pulled back and down: the full scene, hills along the bottom
+  problem: { rotX: -0.12, y: 10500, z: 3733 }, // above the cloud layer: open sky, cloud tops along the bottom, no hills
 };
 
 let app = null;

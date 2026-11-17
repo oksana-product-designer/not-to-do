@@ -4,17 +4,23 @@ import './styles/base.css';
 import './styles/sections/intro.css';
 import './styles/sections/nav.css';
 import './styles/sections/hero.css';
+import './styles/sections/wipe.css';
+import './styles/sections/problem.css';
 import './styles/sections/placeholders.css';
 import { initScene } from './scene.js';
 import { initScroll, playOpening } from './scroll.js';
 import { initIntro } from './intro.js';
 import { initHero } from './hero.js';
 import { initNav } from './nav.js';
+import { initWipe } from './wipe.js';
+import { initProblem } from './problem.js';
 
 initHero();
 initNav();
 initIntro();
 initScroll();
+initWipe();
+initProblem();
 
 // The 3D scene starts loading only after the first paint, so text never waits for it.
 const sceneReady = new Promise((resolve) => {

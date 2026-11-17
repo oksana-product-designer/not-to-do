@@ -106,9 +106,32 @@
   --duration-nav: 700ms;                   /* header sliding down (and back up) */
   --ease-hero: cubic-bezier(0.16, 1, 0.3, 1);  /* long, silky deceleration for the headline */
 
+  /* Cloud wipe: hero to Problem (wipe.js, scroll.js and problem.js read the numbers) */
+  --length-wipe-scroll: 150vh;             /* scroll distance of the wipe while the stage is pinned */
+  --length-problem-reveal: 120vh;          /* scroll distance of the Problem word reveal, after the wipe */
+  --wipe-fade-start: 0.15;                 /* wipe progress: hero text starts fading */
+  --wipe-fade-end: 0.4;                    /* hero text gone (and out of reach) */
+  --wipe-cover-start: 0.25;                /* the cloud bank starts rolling over the hero text; the camera starts climbing */
+  --wipe-full: 0.5;                        /* whole screen is cloud */
+  --wipe-break: 0.6;                       /* the cover starts breaking up and sinking; Problem is reachable from here */
+  --size-wipe-edge: 45vh;                  /* height of the puffy top edge of the cloud bank */
+  --size-puff-core-dense: 48%;             /* a dense puff stays solid this far from each center, so its top reads as a cloud, not fog */
+  --opacity-cloud-cover: 1;               /* the bank's body at full cover: nothing behind it shows */
+  --opacity-sky-wash: 0.45;                /* cloud-white wash over the 3D sky behind Problem, so it reads as a pale sky (approved by Oksana) */
+  --color-sky-pale-top: #9fc8ef;           /* pale sky without the 3D scene (phones, reduced motion, no JS); sampled from the washed 3D sky */
+  --color-sky-pale-mid: #c9e0f4;
+  --color-sky-pale-bottom: #f5f9fd;
+
+  /* Screen 2 · Problem */
+  --text-problem-title: 4rem;              /* statement, tablet and up: fixed 64px (the H2 size on desktop, not scaling) */
+  --text-problem-title-phone: 2.25rem;     /* statement on phones: fixed 36px */
+  --opacity-problem-word-start: 0.2;       /* a word before its turn: the text color this faint reads light grey (decorative) */
+  --measure-problem: 22em;                 /* statement line length: each sentence is one line group */
+
   /* Layers */
   --z-scene: 0;
   --z-content: 1;
+  --z-cloud-cover: 2;                      /* the wipe's clouds, above hero and Problem, inside the page layer (the header stays above) */
   --z-nav: 10;
   --z-skip: 20;
 

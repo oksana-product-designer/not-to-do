@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { POSES, setCameraPose, setFallbackShift, setFallbackZoom } from './scene.js';
 import { tokenMs, tokenNumber } from './tokens.js';
+import { wipeStages, wipeEase, wipeLengthPx, WIPE_SMOOTHING } from './wipe.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -62,6 +63,20 @@ window.addEventListener('intro:lines', (event) => {
 
 const straight = (from, to, t) => ({ rotX: mix(from.rotX, to.rotX, t), y: mix(from.y, to.y, t), z: mix(from.z, to.z, t) });
 
+// Hero to Problem, through the cloud layer (the cloud wipe; wipe.js moves the front clouds in step).
+// The camera holds while the cloud tops rise, climbs into the clouds as the bank rolls over the text,
+// stays buried in them (the opening's pose) during the beat of white, then rises out above them.
+// Climbing in: height leads and distance follows, so the path clears the hills.
+function climb(from, to, t) {
+  const S = wipeStages();
+  const cloud = POSES.opening;
+  if (t < S.brk) {
+    const a = wipeEase(clamp01((t - S.cover) / (S.full - S.cover)));
+    return { rotX: mix(from.rotX, cloud.rotX, a), y: mix(from.y, cloud.y, 1 - (1 - a) * (1 - a)), z: mix(from.z, cloud.z, a * a) };
+  }
+  return straight(cloud, to, wipeEase(clamp01((t - S.brk) / (1 - S.brk))));
+}
+
 // One entry per stretch of scroll. Later screens add entries here.
 const SEGMENTS = [
   // Intro, pinned: the camera sinks through the clouds while the four parts take turns.
@@ -69,6 +84,8 @@ const SEGMENTS = [
   // Intro scrolls away: the camera pulls back fast and drops, the clouds fly off and the hills rise into view.
   // It trails the scrollbar by a full second, so even a quick scroll becomes an unhurried glide.
   { trigger: '#intro', start: 'bottom bottom', end: 'bottom top', from: POSES.introEnd, to: POSES.hero, path: swoop, smoothing: 1 },
+  // Cloud wipe: hero to Problem through the cloud layer. Same length and trailing as the front clouds (wipe.js).
+  { trigger: '#act', start: 'top top', end: () => `+=${wipeLengthPx()}`, from: POSES.hero, to: POSES.problem, path: climb, smoothing: WIPE_SMOOTHING },
 ];
 const progress = SEGMENTS.map(() => 0);
 let nudge = 0; // small extra progress used by the idle "dip" in intro.js
