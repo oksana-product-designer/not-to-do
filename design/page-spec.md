@@ -22,7 +22,7 @@ Motion:
 - Trigger: scroll only (wheel, swipe, arrow keys, Space). No timer advances the page.
 - The intro stays pinned while the reader scrolls through 4.4 screens. Only one part is visible at a time.
 - Each part owns a quarter of the intro. When its quarter reaches the middle of the screen, the part is revealed: it fades in, rises 30px and comes out of an 8px blur over 0.8 s. The part before it fades out in 0.2 s first.
-- No part can be skipped. When the scroll reaches a new part, scrolling is locked for about 1.2 s while it is revealed (0.25 s wait, 0.8 s reveal, 0.15 s rest), then released. A jump of more than one part is pulled back to the next part. Scrolling back up is never locked. Skip intro bypasses the lock.
+- Scrolling is never locked: the camera and clouds follow the scroll as before. Only the text is locked into a sequence: lines play strictly in order, one at a time, and each stays for its full reveal plus a short rest (about 1.2 s) before the next may replace it. If the reader reaches the end of the intro before the last line has played, the page waits there until the lines catch up. Scrolling back up is free. Skip intro bypasses everything.
 - The camera descends through the clouds with scroll progress. Scrolling up reverses it.
 - After 6 s idle: the camera dips so the hero headline peeks above the bottom edge, then settles back.
 - Clicking the label (or Enter on it) scrolls a little, which starts part 1.

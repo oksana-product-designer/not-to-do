@@ -66,7 +66,7 @@
   --duration-intro-hint-fade: 250ms;
   --duration-intro-hint-delay: 300ms;      /* Scroll label appears just after load */
   --duration-hint-float: 3000ms;           /* one bob of the Scroll label */
-  --duration-part-hold: 150ms;             /* scroll stays locked this long after a part is fully shown (read by intro.js) */
+  --duration-part-hold: 150ms;             /* a line rests this long after its reveal before the next may replace it (read by intro.js) */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);    /* fast start, soft landing */
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);          /* soft start, quick leave */

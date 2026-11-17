@@ -76,3 +76,8 @@
 - Known cost, accepted by Oksana: this overrides the reader's scroll. CLAUDE.md says the intro must never trap anyone, so the Skip intro link bypasses the lock, Tab is never blocked, and reduced motion has no lock at all.
 - --duration-part-hold is now 150 ms and means the rest after a reveal before the lock lifts.
 - page-spec.md had been emptied by a script bug in the plain-label commit (a6f4270); restored from the commit before it.
+
+## 2026-11-17 · Intro: lock the text, not the scroll
+- The page-wide scroll lock is removed: it froze the camera and clouds while each line appeared.
+- Scroll is free again and drives the camera as before. Lines play in a locked sequence: in order, one at a time, about 1.2 s each.
+- To keep lines unskippable, the only hold left is at the exit of the pinned intro: the page cannot scroll past it until the last line has played (at most about 4.8 s from the first scroll). Skip intro bypasses it.

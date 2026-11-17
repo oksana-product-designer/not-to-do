@@ -32,26 +32,29 @@ export function initIntro() {
   }
 
   // Intro text. Nothing shows at the very top except the "Scroll" label.
-  // Each part owns a quarter of the intro. When the scroll reaches a new part, the part is
-  // revealed and scrolling is locked until the reveal has finished, so no part can be skipped.
-  // Scrolling back up never locks. "Skip intro" bypasses the lock.
+  // Scrolling is never locked: the camera and clouds follow the scroll as usual.
+  // Only the text is locked into a sequence: lines play strictly in order, and each one
+  // stays for its full reveal plus a short rest before the next may replace it.
+  // If the reader reaches the end of the intro before the last line has played,
+  // the page waits there (the pinned intro stays on screen) until the lines catch up.
+  // Scrolling back up is free. "Skip intro" bypasses everything.
   const intro = document.getElementById('intro');
   const parts = Array.from(document.querySelectorAll('.intro__part'));
   if (intro && parts.length && !reduced) {
     const ms = (name) => parseFloat(getComputedStyle(root).getPropertyValue(name)) || 0;
-    const LOCK_MS = ms('--delay-part-in') + ms('--duration-part-in') + ms('--duration-part-hold');
+    const LINE_MS = ms('--delay-part-in') + ms('--duration-part-in') + ms('--duration-part-hold');
     const TOP_PX = 8; // closer to the top than this counts as "not scrolled yet"
     const last = parts.length - 1;
 
-    let shown = -1;      // part on screen now (-1 = none, the label shows)
-    let locked = false;
-    let lockY = 0;       // where the page is held while locked
-    let bypass = false;  // true while "Skip intro" is carrying the reader to the hero
+    let shown = -1;     // line on screen now (-1 = none, the label shows)
+    let target = -1;    // line the scroll position asks for
+    let freeAt = 0;     // time when the line on screen may be replaced
+    let timer = null;
+    let bypass = false; // true while "Skip intro" carries the reader to the hero
 
-    const stepHeight = () => intro.offsetHeight / parts.length;
-    const partAt = (y) => (y < TOP_PX ? -1 : Math.min(last, Math.floor((y + window.innerHeight / 2) / stepHeight())));
-    const startOf = (index) => Math.max(TOP_PX, Math.ceil(index * stepHeight() - window.innerHeight / 2)) + 1;
-    const jumpTo = (y) => window.scrollTo({ top: y, behavior: 'instant' });
+    const exitY = () => intro.offsetHeight - window.innerHeight; // last scroll position with the intro pinned
+    const partAt = (y) => (y < TOP_PX ? -1 : Math.min(last, Math.floor((y / Math.max(1, exitY())) * parts.length)));
+    const sequenceDone = () => shown === last && performance.now() >= freeAt;
 
     const render = (index) => {
       parts.forEach((part, i) => {
@@ -62,64 +65,53 @@ export function initIntro() {
       shown = index;
     };
 
-    const unlock = () => {
-      locked = false;
-      root.classList.remove('is-scroll-locked');
-      readScroll();
-    };
-    const lock = (y) => {
-      locked = true;
-      lockY = y;
-      root.classList.add('is-scroll-locked');
-      setTimeout(unlock, LOCK_MS);
+    const advance = () => {
+      clearTimeout(timer);
+      const now = performance.now();
+      if (target < shown) { render(target); freeAt = now + LINE_MS; return; } // back up: straight there
+      if (target === shown) {
+        if (shown === last && now < freeAt) timer = setTimeout(advance, freeAt - now); // re-check the exit gate
+        return;
+      }
+      if (now < freeAt) { timer = setTimeout(advance, freeAt - now); return; }
+      render(shown + 1); // forward: one line at a time, never a jump
+      freeAt = now + LINE_MS;
+      timer = setTimeout(advance, LINE_MS);
     };
 
-    function readScroll() {
+    const readScroll = () => {
       const y = window.scrollY;
-      if (y >= intro.offsetHeight) {
-        // The intro has left the screen (hero reached, or a return visit): rest on the last part.
-        bypass = false;
-        if (shown !== last) render(last);
+      if (bypass) {
+        if (y >= intro.offsetHeight) { bypass = false; render(last); freeAt = 0; }
         return;
       }
-      if (bypass) return;
-      if (locked) {
-        if (Math.abs(y - lockY) > 1) jumpTo(lockY); // hold the page where it was
+      // Exit gate: until every line has played, the page cannot scroll past the pinned intro.
+      // Everything before that point scrolls freely, so the camera keeps moving.
+      const gate = exitY();
+      if (y > gate && !sequenceDone()) {
+        window.scrollTo({ top: gate, behavior: 'instant' });
+        target = last;
+        advance();
         return;
       }
-      const wanted = partAt(y);
-      if (wanted === shown) return;
-      if (wanted < shown) { render(wanted); return; } // going back up: no lock
-      // Going down: only ever one part forward. A big jump is pulled back to the next part.
-      const next = shown + 1;
-      const holdAt = wanted > next ? startOf(next) : y;
-      if (holdAt !== y) jumpTo(holdAt);
-      render(next);
-      lock(holdAt);
-    }
+      target = partAt(Math.min(y, gate));
+      advance();
+    };
 
     window.addEventListener('scroll', readScroll, { passive: true });
 
-    // While locked, swallow the inputs that scroll the page. Tab and everything else still work.
-    const SCROLL_KEYS = [' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'End', 'Home'];
-    const block = (event) => { if (locked) event.preventDefault(); };
-    window.addEventListener('wheel', block, { passive: false });
-    window.addEventListener('touchmove', block, { passive: false });
-    window.addEventListener('keydown', (event) => { if (locked && SCROLL_KEYS.includes(event.key)) event.preventDefault(); });
-
     // "Skip intro" must always get through.
     const skip = document.querySelector('.skip-intro');
-    if (skip) {
-      skip.addEventListener('click', () => {
-        bypass = true;
-        locked = false;
-        root.classList.remove('is-scroll-locked');
-      });
-    }
+    if (skip) skip.addEventListener('click', () => { bypass = true; clearTimeout(timer); });
 
+    // Return visits start at the hero: the lines count as played.
+    if (window.scrollY >= intro.offsetHeight || root.classList.contains('intro-seen')) {
+      render(last);
+      freeAt = 0;
+    }
     readScroll();
 
-    // Clicking the label does what it says: scrolls a little, which starts the first part.
+    // Clicking the label does what it says: scrolls a little, which starts the first line.
     if (hint) {
       hint.addEventListener('click', (event) => {
         event.preventDefault();
