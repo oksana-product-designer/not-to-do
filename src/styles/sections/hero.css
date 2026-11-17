@@ -40,8 +40,9 @@
 
 /* Entrance. hero.js splits the headline into words and puts the state classes on .hero:
    is-hero-ready (JS is running: the "before" state applies), is-hero-in (play), is-hero-done (landed).
-   1. Each headline word rises through its own window, one after another, straightening from a small tilt.
-   2. Then sub, button row and scroll cue (and the header, see nav.css) settle in, one step apart:
+   0. The header slides down first (nav.css, timed by hero.js).
+   1. One step later, each headline word rises through its own window, one after another, straightening from a small tilt.
+   2. Then sub, button row and scroll cue settle in, one step apart:
       fade, small rise, blur clearing. The button row also grows slightly.
    Without JS or with reduced motion, everything is simply visible. */
 .hero__word { display: inline-block; overflow: hidden; vertical-align: top;
@@ -50,7 +51,7 @@
 .hero__word > span { display: inline-block; }
 .hero__sub { --k: 1; }
 .hero__actions { --k: 2; }
-.hero__cue { --k: 4; } /* step 3 is the header */
+.hero__cue { --k: 3; }
 
 @media (prefers-reduced-motion: no-preference) {
   /* Before */

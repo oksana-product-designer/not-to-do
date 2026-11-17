@@ -143,3 +143,7 @@
 - Links to sections that are not built yet (How to play, High score, Stealth mode in the header and the phone menu, the hero's How to play link and its scroll cue) have data-href instead of href: not clickable, not in the Tab order, not announced as links. Same look, default cursor. Rename data-href back to href when a section is built. Requested by Oksana.
 - Hero text block centered in the screen (same room above and below, which also clears the header). Requested by Oksana.
 - Hero scroll cue 80px from the bottom edge (--offset-hero-cue, between the 64 and 96 steps). Requested by Oksana. It now sits on the hills: contrast 3.4:1 (desktop) and 3.3:1 (phone) at the darkest grass stripe, below the 4.5:1 AA minimum for 14px text. Known AA failure, accepted by Oksana: left as is (a soft white pill behind the cue was offered and declined). On phones the button row also sits on the first hill edge (5.3:1 there, passes).
+
+## 2026-11-17 · Page ends at the hero; header leads the entrance
+- The three placeholder sections are taken out of the layout (display: none in placeholders.css; markup kept). The page now ends at the hero, so scrolling stops there instead of running into empty sky. Requested by Oksana. Undo per section when it is built (remove the rule, data-href back to href).
+- Entrance order changed: the header slides down first (same start: 2 s after the intro hands over), the headline words follow 120 ms later, then sub, buttons and scroll cue, 120 ms apart. Requested by Oksana ("hero text right after the header").

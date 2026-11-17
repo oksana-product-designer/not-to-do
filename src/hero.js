@@ -1,6 +1,6 @@
 // Hero entrance. This file splits the headline into words and decides when the entrance plays;
-// hero.css does the motion (each word rises through its own window, then sub, buttons, header
-// and scroll cue settle in, one step apart).
+// hero.css does the motion. Order: the header slides down, then each headline word rises through
+// its own window, then sub, buttons and scroll cue settle in, one step apart.
 //
 // When it plays:
 // - The intro hands over (the reader scrolled ahead while the last lines finished): it waits
@@ -60,20 +60,21 @@ export function initHero() {
     played = true;
     const stagger = tokenMs('--stagger-hero-word', 80);
     const step = tokenMs('--stagger-hero-step', 120);
-    const lastWord = delayMs + (words.length - 1) * stagger; // when the last headline word starts
-    hero.style.setProperty('--hero-delay', `${delayMs}ms`);
-    // The header's slot in the sequence (step 3). intro.js still decides whether it shows;
-    // this only delays its slide-down for this one entrance.
+    // Order: the header first, then (one step later) the headline words, sub, buttons and scroll cue.
+    const textStart = delayMs + step;
+    const lastWord = textStart + (words.length - 1) * stagger; // when the last headline word starts
+    hero.style.setProperty('--hero-delay', `${textStart}ms`);
+    // intro.js still decides whether the header shows; this only times its slide-down for this entrance.
     if (nav) {
-      nav.style.setProperty('--nav-delay', `${lastWord + 3 * step}ms`);
+      nav.style.setProperty('--nav-delay', `${delayMs}ms`);
       clearTimeout(navTimer);
-      navTimer = setTimeout(() => nav.style.removeProperty('--nav-delay'), lastWord + 3 * step + tokenMs('--duration-nav', 700));
+      navTimer = setTimeout(() => nav.style.removeProperty('--nav-delay'), delayMs + tokenMs('--duration-nav', 700));
     }
     void hero.offsetWidth; // commit the hidden state so the transition has somewhere to start
     hero.classList.add('is-hero-in');
     root.classList.remove('is-hero-pending');
     const wordsEnd = lastWord + tokenMs('--duration-hero-word', 1100);
-    const itemsEnd = lastWord + 4 * step + tokenMs('--duration-hero-item', 800);
+    const itemsEnd = lastWord + 3 * step + tokenMs('--duration-hero-item', 800);
     clearTimeout(doneTimer);
     doneTimer = setTimeout(() => hero.classList.add('is-hero-done'), Math.max(wordsEnd, itemsEnd));
   };

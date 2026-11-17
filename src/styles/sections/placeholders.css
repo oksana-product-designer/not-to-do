@@ -2,6 +2,9 @@
    Each is one screen tall so the links and the active-link highlight can be tested.
    Replace with the real sections in later sessions. */
 .placeholder { min-height: 100vh; min-height: 100svh; }
+/* Not built yet: taken out of the layout so the page ends at the hero and cannot scroll into empty space.
+   Remove this rule (and turn the links back on: data-href to href) when a section gets real content. */
+.placeholder { display: none; }
 
 /* Header links land the section below the floating header, not under it. */
 .placeholder { scroll-margin-top: var(--offset-nav); }
