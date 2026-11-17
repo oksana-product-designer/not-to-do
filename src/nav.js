@@ -16,7 +16,7 @@ export function initNav() {
     const open = () => {
       panel.hidden = false;
       button.setAttribute('aria-expanded', 'true');
-      const first = panel.querySelector('a');
+      const first = panel.querySelector('a[href]');
       if (first) first.focus();
     };
     const close = ({ focusButton = true } = {}) => {
@@ -29,7 +29,7 @@ export function initNav() {
     // Link in the panel: close, let the browser jump, then put focus back on the Menu button
     // (the jump itself would otherwise drop focus to the page).
     panel.addEventListener('click', (event) => {
-      if (!event.target.closest('a')) return;
+      if (!event.target.closest('a[href]')) return;
       close({ focusButton: false });
       requestAnimationFrame(() => button.focus({ preventScroll: true }));
     });

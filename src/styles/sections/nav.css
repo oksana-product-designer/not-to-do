@@ -49,7 +49,7 @@
   white-space: nowrap;
   transition: color var(--duration-fast) var(--ease-standard);
 }
-.nav__link:hover, .nav__link[aria-current] { color: var(--color-nav-link-current); }
+.nav__link[href]:hover, .nav__link[aria-current] { color: var(--color-nav-link-current); }
 .nav__link[aria-current] { text-decoration: underline; text-underline-offset: var(--space-1); }
 .nav__cta { padding-inline: var(--space-5); font-size: var(--text-label); white-space: nowrap; }
 .nav__menu-button {

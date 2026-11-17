@@ -28,23 +28,25 @@
 
     <a class="skip-intro" href="#hero">Skip intro</a>
 
+    <!-- Links to sections that are not built yet have data-href instead of href, so they are not clickable.
+         When a section is built, rename data-href back to href. -->
     <!-- Floating header. Hidden (and inert) during the intro: intro.js shows it when the hero is reached. Without JS it is a plain visible bar. -->
     <header class="nav" id="nav">
       <nav class="nav__pill" aria-label="Main">
         <a class="nav__wordmark" href="#hero">Not To Do</a>
         <ul class="nav__links" role="list">
-          <li><a class="nav__link" href="#how-to-play">How to play</a></li>
-          <li><a class="nav__link" href="#high-score">High score</a></li>
-          <li><a class="nav__link" href="#stealth">Stealth mode</a></li>
+          <li><a class="nav__link" data-href="#how-to-play">How to play</a></li>
+          <li><a class="nav__link" data-href="#high-score">High score</a></li>
+          <li><a class="nav__link" data-href="#stealth">Stealth mode</a></li>
           <li><a class="nav__link" href="#login">Log in</a></li>
         </ul>
         <a class="button nav__cta" href="#signup">Start avoiding</a>
         <button class="nav__menu-button" type="button" aria-expanded="false" aria-controls="nav-panel">Menu</button>
         <div class="nav__panel" id="nav-panel" hidden>
           <ul class="nav__panel-links" role="list">
-            <li><a class="nav__link" href="#how-to-play">How to play</a></li>
-            <li><a class="nav__link" href="#high-score">High score</a></li>
-            <li><a class="nav__link" href="#stealth">Stealth mode</a></li>
+            <li><a class="nav__link" data-href="#how-to-play">How to play</a></li>
+            <li><a class="nav__link" data-href="#high-score">High score</a></li>
+            <li><a class="nav__link" data-href="#stealth">Stealth mode</a></li>
             <li><a class="nav__link" href="#login">Log in</a></li>
           </ul>
         </div>
@@ -86,10 +88,10 @@
           <p class="hero__sub hero__item">Not To Do logs the work you dodge, what you do instead, and how long you get away with it.</p>
           <div class="hero__actions hero__item">
             <a class="button" href="#signup">Start avoiding</a>
-            <a class="text-link" href="#how-to-play">How to play</a>
+            <a class="text-link" data-href="#how-to-play">How to play</a>
           </div>
         </div>
-        <a class="scroll-cue hero__cue hero__item" href="#how-to-play">
+        <a class="scroll-cue hero__cue hero__item" data-href="#how-to-play">
           <span class="scroll-cue__inner">
             Scroll down. Slowly is fine.
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v12M3 9l5 5 5-5" /></svg>

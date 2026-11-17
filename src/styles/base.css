@@ -128,3 +128,7 @@ main { position: relative; z-index: var(--z-content); }
   text-decoration: underline;
   text-underline-offset: var(--space-1);
 }
+
+/* Placeholder links (data-href, no href): the section they point to is not built yet.
+   Same look, but not clickable, so no pointer cursor. */
+a:not([href]) { cursor: default; }
