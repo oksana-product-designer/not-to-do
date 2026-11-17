@@ -198,3 +198,10 @@
 - Removed: the dense puff variant (.cloud-puff--dense, --size-puff-core-dense), --opacity-cloud-cover and the bank markup. .cloud-puff is back to the intro's original shape (intro unchanged against live).
 - Phones: no 3D, so the veil carries the whole move over the static image.
 - Measured: 60 fps on desktop and phone emulation with 4x CPU slowdown; intro label, first line and intro-to-hero move unchanged against live.
+
+## 2026-11-17 · Problem: plain background, no card, bigger text
+- The sky and clouds behind Problem are gone (Oksana): the screen has a plain background, --color-problem-bg = --color-cloud-cover (#f3f7fc), the same white the wipe ends on, so the hand-over is seamless. Removed the sky wash and the pale-sky gradient tokens (--opacity-sky-wash, --color-sky-pale-top/-mid/-bottom).
+- The white rounded card is removed (Oksana); the statement sits straight on the background.
+- Statement bigger: 80px from tablet up (was 64), 44px on phones (was 36), fixed. --measure-problem 16em.
+- Contrast on #f3f7fc: #141414 about 17:1, the grey line #5c5c5c about 6.2:1 (AA passes).
+- The camera still climbs to the problem pose during the wipe, now hidden behind the background. Left in place; it can be simplified if the screen stays plain.

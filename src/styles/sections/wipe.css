@@ -18,11 +18,8 @@
   /* The hero fades out as the clouds arrive (wipe.js sets --wipe-hero) */
   .js .act .hero { opacity: var(--wipe-hero, 1); }
 
-  /* Pale sky behind Problem: fades in under the full cover (--wipe-sky, set by wipe.js).
-     Without the 3D scene (phones, slow or failed load) it is the whole pale sky;
-     with it, a cloud-white wash over the 3D sky. */
+  /* Problem's plain background fades in under the full cover (--wipe-sky, set by wipe.js), so it is never seen arriving. */
   .js .problem__sky { opacity: var(--wipe-sky, 0); }
-  .js .scene.is-loaded ~ main .problem__sky { background: var(--color-cloud-cover); opacity: calc(var(--wipe-sky, 0) * var(--opacity-sky-wash)); }
 
   /* Veil in front of the page: above hero and Problem, below the header (the header lives outside main).
      The real clouds are the 3D scene's; this soft cloud-white layer rises in with a long gradient edge

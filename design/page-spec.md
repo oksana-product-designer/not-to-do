@@ -60,20 +60,20 @@ Storyboard by scroll progress:
 - 0 to 20%: the camera starts climbing from the hero toward the cloud layer. The hero text and scroll cue fade out from 10% (gone by 40%).
 - 20 to 50%: the camera flies into the 3D clouds while a soft cloud-white veil with a long gradient edge rises in front of the page, until the whole screen is white (the opening's cloud white).
 - 50 to 60%: a short beat of white.
-- 60 to 85%: the veil sinks off the bottom, uncovering the Problem card top first, while the camera rises above the cloud layer. 85 to 100%: the camera keeps rising to the pale sky above the clouds, no hills.
+- 60 to 85%: the veil sinks off the bottom, uncovering the Problem text top first on its plain cloud-white background (the 3D sky and clouds are hidden behind it).
 
 - The header stays on top and usable throughout. Nothing under the white can be clicked or focused.
-- Phone (under 768px): no 3D; the veil does the whole move over the static image. Problem gets its own pale sky.
+- Phone (under 768px): no 3D; the veil does the whole move over the static image. Problem has the same plain background.
 - Reduced motion: no pin; the hero and Problem follow each other, with a 0.4 s crossfade through cloud white between them.
 - No JS: the hero and Problem follow each other.
 - Performance: transform and opacity only, no animated blur.
 
 ## Screen 2 · Problem
 
-Scene: pale sky just above the cloud layer. No hills.
+Scene: plain cloud white (the white the wipe ends on). No sky, no clouds, no hills.
 
 - Statement (H2): Every productivity app assumes you want to work. We did some research. You don't.
-- Layout: centered on the pale sky. The statement sits in a white card with rounded corners (the app's card style). No dark background. The statement breaks into two line groups: "Every productivity app assumes you want to work." then "We did some research. You don't." on one line, in grey.
+- Layout: centered, large text straight on the plain background. No card, no dark background. The statement breaks into two line groups: "Every productivity app assumes you want to work." then "We did some research. You don't." on one line, in grey.
 - Scroll reveal: the statement starts light grey and each word turns to full text color in turn as the reader scrolls (scrubbed, reversible). Reduced motion and no JS: fully shown.
 
 ## Screen 3 · How to play

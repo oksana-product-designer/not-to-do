@@ -1,4 +1,4 @@
-/* Screen 2 · Problem. Centered, on a pale sky, the text in a white card with rounded corners.
+/* Screen 2 · Problem. Centered, large text on a plain cloud-white background (no sky, no card).
    The statement is one heading in two line groups: the first sentence, then the other two in grey.
    Word reveal (JS + motion welcome): problem.js scrubs each word from faint to full as the reader scrolls;
    Without JS or with reduced motion everything is fully shown. */
@@ -13,27 +13,16 @@
   text-align: center;
   color: var(--color-text);
 }
-/* Pale sky. In normal flow (no JS, reduced motion) it starts in cloud white so the hero's hills hand over softly. */
+/* Plain background: the same cloud white the wipe ends on, so the clouds hand over to it seamlessly.
+   It hides the 3D sky and clouds behind this screen (Oksana). */
 .problem__sky {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, var(--color-cloud-cover), var(--color-sky-pale-top) 20%, var(--color-sky-pale-mid) 65%, var(--color-sky-pale-bottom));
+  background: var(--color-problem-bg);
 }
-/* White card with rounded corners holding the statement (Oksana) */
 .problem__content {
-  position: relative; /* above the sky */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-5);
+  position: relative; /* above the background */
   width: min(100%, var(--content-max));
-  padding: var(--space-7) var(--space-5);
-  background: var(--color-surface-card);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-}
-@media (min-width: 768px) {
-  .problem__content { padding: var(--space-9) var(--space-8); }
 }
 .problem__title {
   font-size: var(--text-problem-title-phone);

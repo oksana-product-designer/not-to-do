@@ -116,17 +116,14 @@
   --wipe-break: 0.6;                       /* the cover starts breaking up and sinking; Problem is reachable from here */
   --wipe-clear: 0.85;                      /* the veil has sunk away: Problem fully uncovered (the camera keeps rising to the end) */
   --size-wipe-edge: 60vh;                  /* height of the veil's soft gradient edge */
-  --opacity-sky-wash: 0.45;                /* cloud-white wash over the 3D sky behind Problem, so it reads as a pale sky (approved by Oksana) */
-  --color-sky-pale-top: #9fc8ef;           /* pale sky without the 3D scene (phones, reduced motion, no JS); sampled from the washed 3D sky */
-  --color-sky-pale-mid: #c9e0f4;
-  --color-sky-pale-bottom: #f5f9fd;
 
   /* Screen 2 · Problem */
-  --text-problem-title: 4rem;              /* statement, tablet and up: fixed 64px (the H2 size on desktop, not scaling) */
-  --text-problem-title-phone: 2.25rem;     /* statement on phones: fixed 36px */
-  --color-problem-muted: var(--color-text-muted); /* second line of the statement, fully revealed: grey, 6.7:1 on the white card */
+  --color-problem-bg: var(--color-cloud-cover); /* plain background of the Problem screen: the white the cloud wipe ends on */
+  --text-problem-title: 5rem;              /* statement, tablet and up: fixed 80px (does not scale with the screen) */
+  --text-problem-title-phone: 2.75rem;     /* statement on phones: fixed 44px (same as the hero headline on phones) */
+  --color-problem-muted: var(--color-text-muted); /* second line of the statement, fully revealed: grey on the cloud-white background */
   --opacity-problem-word-start: 0.2;       /* a word before its turn: the text color this faint reads light grey (decorative) */
-  --measure-problem: 22em;                 /* statement line length: each sentence is one line group */
+  --measure-problem: 16em;                 /* statement line length: each sentence is one line group */
 
   /* Layers */
   --z-scene: 0;
