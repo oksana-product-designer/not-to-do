@@ -19,10 +19,9 @@
   gap: var(--space-5);
   width: min(100%, var(--content-max)); /* as wide as the header pill */
 }
-/* Headline: as wide as the header. Phones: wraps at the title size. Tablet and up: grows with the screen to fill the header width on one line. */
-@media (min-width: 768px) {
-  .hero__title { font-size: var(--text-hero-title); white-space: nowrap; }
-}
+/* Headline: the frame is as wide as the header and follows the screen width; the text keeps the
+   title size (--text-title-xl) and wraps inside the frame. */
+.hero__title { width: 100%; }
 .hero__sub { max-width: var(--measure-sub); font-size: var(--text-body); text-wrap: pretty; }
 .hero__actions {
   display: flex;

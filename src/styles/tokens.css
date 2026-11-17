@@ -22,8 +22,6 @@
   /* Type scale (fluid between phone and desktop) */
   --text-display: clamp(3.5rem, 1rem + 11vw, 12rem);     /* intro parts */
   --text-title-xl: clamp(2.75rem, 1.5rem + 5vw, 6rem);   /* intro line 2, H1, high score */
-  --size-header-width: min(100vw - 2 * var(--space-4), var(--content-max));  /* width of the floating header pill */
-  --text-hero-title: calc(var(--size-header-width) * 0.103);  /* hero H1, tablet and up: fills the header width on one line (Imbue: the line is 9.5 times its font size) */
   --text-title-l: clamp(2rem, 1.2rem + 3vw, 4rem);       /* H2 */
   --text-title-s: clamp(1.25rem, 1rem + 1vw, 1.75rem);   /* intro line 1 */
   --text-body-l: 1.25rem;

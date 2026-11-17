@@ -162,3 +162,8 @@
 ## 2026-11-17 · Header: Log in next to Start avoiding
 - Log in moved out of the centered link group and sits right before Start avoiding (8px apart), same muted link style (Oksana). The centered group is now the three section links. Phones: unchanged (Log in stays in the Menu panel). Tab order follows: wordmark, section links (currently off), Log in, Start avoiding.
 - At 768 wide the right group (Log in + Start avoiding) is wider than the left (wordmark), so the section links sit 23px left of the exact center. From about 900 wide up they are exactly centered (720 of 720 at 1440).
+
+## 2026-11-17 · Hero headline: frame width adapts, text size does not scale to fill
+- Undone: the headline no longer grows to fill the header (Oksana: "text size should not be adaptive, only text frame width"). Removed --text-hero-title and --size-header-width.
+- The headline frame is as wide as the header pill at every screen width (measured: identical edges at 1440, 1088, 768, 390). The text uses the title size from the type scale (--text-title-xl, 96px on desktop) and wraps inside the frame when it does not fit (one line from 768 up, two lines on phones).
+- Note: --text-title-xl is itself a fluid token from the start of the project (44px on phones up to 96px at about 1440). A single fixed size would be a type-scale change; not done.
