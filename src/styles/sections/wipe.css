@@ -1,8 +1,8 @@
 /* Screens 1 and 2 share one stage, and the cloud wipe passes between them.
    Default (no JS, or reduced motion): the hero and Problem simply follow each other, no clouds.
    Pinned (JS + motion welcome): the stage sticks for the wipe and the Problem word reveal.
-   Hero and Problem sit on top of each other, and the cloud bank rolls up over the hero and
-   sinks away to show Problem. wipe.js sets the positions; this file sets the layers. */
+   Hero and Problem sit on top of each other; the camera flies through the 3D clouds while a soft
+   cloud-white veil rises over the hero and sinks away to show Problem. wipe.js sets the positions; this file sets the layers. */
 .act { position: relative; }
 .act__stage { position: relative; }
 .wipe { display: none; }
@@ -24,38 +24,21 @@
   .js .problem__sky { opacity: var(--wipe-sky, 0); }
   .js .scene.is-loaded ~ main .problem__sky { background: var(--color-cloud-cover); opacity: calc(var(--wipe-sky, 0) * var(--opacity-sky-wash)); }
 
-  /* Front clouds: above hero and Problem, below the header (the header lives outside main). */
+  /* Veil in front of the page: above hero and Problem, below the header (the header lives outside main).
+     The real clouds are the 3D scene's; this soft cloud-white layer rises in with a long gradient edge
+     as the camera enters them, makes the peak fully white, then sinks away and uncovers Problem top first. */
   .js .wipe { display: block; position: absolute; inset: 0; z-index: var(--z-cloud-cover); pointer-events: none; overflow: hidden; }
-  .js .wipe__bank, .js .wipe__layer {
+  .js .wipe__veil {
     position: absolute;
     top: 0;
-    left: -10%;
-    width: 120%;
+    left: 0;
+    right: 0;
+    height: calc(100vh + var(--size-wipe-edge));
+    height: calc(100svh + var(--size-wipe-edge));
+    background: linear-gradient(to bottom, var(--color-cloud-cover-edge), var(--color-cloud-cover) var(--size-wipe-edge));
     will-change: transform;
     transform: translate3d(0, 100vh, 0); /* below the screen until wipe.js places it */
   }
-  /* The bank: a puffy top edge and a solid body as tall as the screen. Where it is, nothing behind it can be clicked. */
-  .js .wipe__bank { height: calc(100vh + var(--size-wipe-edge)); height: calc(100svh + var(--size-wipe-edge)); pointer-events: auto; }
-  .js .wipe__body {
-    position: absolute;
-    top: calc(var(--size-wipe-edge) * 0.6); /* starts inside the puffs' solid cores, so it has no visible top line */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--color-cloud-cover);
-    opacity: var(--opacity-cloud-cover);
-    will-change: opacity;
-  }
-  .js .wipe__layer { height: var(--size-wipe-edge); }
-  .js .wipe__puff { position: absolute; height: var(--size-wipe-edge); }
-  /* Puff placement along the edge (left, top as a share of the edge height, width) */
-  .js .wipe__puff--1 { left: -10%; top: 0; width: 70%; }
-  .js .wipe__puff--2 { left: 45%; top: calc(var(--size-wipe-edge) * 0.06); width: 75%; }
-  .js .wipe__puff--3 { left: -25%; top: calc(var(--size-wipe-edge) * 0.04); width: 80%; }
-  .js .wipe__puff--4 { left: 15%; top: 0; width: 75%; }
-  .js .wipe__puff--5 { left: 50%; top: calc(var(--size-wipe-edge) * 0.08); width: 80%; }
-  .js .wipe__puff--6 { left: -30%; top: calc(var(--size-wipe-edge) * 0.3); width: 65%; }
-  .js .wipe__puff--7 { left: 60%; top: calc(var(--size-wipe-edge) * 0.24); width: 70%; }
 }
 
 /* Reduced motion: no pin, no clouds. A short crossfade through cloud white between hero and Problem (wipe.js). */

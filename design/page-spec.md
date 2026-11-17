@@ -54,21 +54,19 @@ Scene: deep blue sky, one small cloud drifting.
 
 ## Transition 1 to 2 · Cloud wipe
 
-The page passes through the clouds again, the way it entered them in the opening. Scroll-driven and reversible: the hero, the clouds and the Problem screen share one pinned stage for about 1.5 screens of scroll. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay).
+The page passes through the clouds again, the way it entered them in the opening, and through the same clouds: the 3D scene's own. Scroll-driven and reversible: the hero and the Problem screen share one pinned stage for 2 screens of scroll. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay). The camera and the veil trail the scroll by 1 s, so even a quick scroll glides.
 
 Storyboard by scroll progress:
-- 0 to 25%: soft cloud tops rise from below the hills. The hero text and scroll cue fade out from 15%.
-- 25 to 50%: the cloud bank rolls up over the hero text. At the same time the 3D camera climbs from the hero into the cloud layer, so the clouds in front and behind move together.
-- 50 to 60%: the whole screen is cloud (the opening's cloud white). A short beat of nothing.
-- 60 to 100%: the cover breaks up and sinks off the bottom while the camera rises above the cloud layer. The Problem screen appears on a pale sky above the clouds, no hills.
+- 0 to 20%: the camera starts climbing from the hero toward the cloud layer. The hero text and scroll cue fade out from 10% (gone by 40%).
+- 20 to 50%: the camera flies into the 3D clouds while a soft cloud-white veil with a long gradient edge rises in front of the page, until the whole screen is white (the opening's cloud white).
+- 50 to 60%: a short beat of white.
+- 60 to 85%: the veil sinks off the bottom, uncovering the Problem card top first, while the camera rises above the cloud layer. 85 to 100%: the camera keeps rising to the pale sky above the clouds, no hills.
 
-Two layers moving as one: the 3D camera (scroll-linked path through the clouds) and large soft CSS clouds in front of the page, built from the same cloud shape as the intro wisps but dense and fully opaque at the peak. Both use the opening's in-and-out curve.
-
-- The header stays on top and usable throughout. Nothing under the cloud cover can be clicked or focused.
-- Phone (under 768px): the front CSS clouds over the static image, no camera move. Problem gets its own pale sky.
+- The header stays on top and usable throughout. Nothing under the white can be clicked or focused.
+- Phone (under 768px): no 3D; the veil does the whole move over the static image. Problem gets its own pale sky.
 - Reduced motion: no pin; the hero and Problem follow each other, with a 0.4 s crossfade through cloud white between them.
-- No JS: the hero and Problem follow each other, no clouds.
-- Performance: transform and opacity only, no animated blur on large layers.
+- No JS: the hero and Problem follow each other.
+- Performance: transform and opacity only, no animated blur.
 
 ## Screen 2 · Problem
 

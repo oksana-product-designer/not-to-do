@@ -1,12 +1,12 @@
-// Cloud wipe between the hero and Problem. wipe.css sets up the layers; this file moves them
-// with the scroll. scroll.js moves the 3D camera along the same stretch, with the same curve and the
-// same trailing, so the clouds in front (CSS) and behind (3D) travel as one.
+// Cloud wipe between the hero and Problem. The clouds are the real 3D ones: scroll.js flies the camera
+// up through the scene's cloud layer. This file moves a soft cloud-white veil in front of the page with
+// the same curve and the same trailing, fades the hero, and decides what can be reached.
 //
 // Storyboard by wipe progress (the stage boundaries are tokens):
-//   0 to cover-start: cloud tops rise from below the hills; the hero text fades from fade-start
-//   cover-start to full: the bank rolls up over the hero until the whole screen is cloud
-//   full to break: a beat of nothing (Problem is put in place under the cover)
-//   break to 1: the cover breaks up and sinks off the bottom; Problem shows on a pale sky
+//   0 to cover-start: the camera starts climbing toward the clouds; the hero text fades from fade-start
+//   cover-start to full: the veil rises with a long soft edge as the camera enters the clouds, until all is white
+//   full to break: a beat of white (Problem is put in place under it)
+//   break to 1: the veil sinks off the bottom while the camera rises above the clouds; Problem is uncovered top first
 // Scrolling back up plays it backwards. Covered content is inert: no clicks, no focus.
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -30,6 +30,7 @@ export function wipeStages() {
       cover: tokenNumber('--wipe-cover-start', 0.25),
       full: tokenNumber('--wipe-full', 0.5),
       brk: tokenNumber('--wipe-break', 0.6),
+      clear: tokenNumber('--wipe-clear', 0.85),
     };
   }
   return stages;
@@ -39,12 +40,9 @@ const vhToken = (name, fallback) => (tokenNumber(name, fallback) / 100) * window
 export const wipeLengthPx = () => vhToken('--length-wipe-scroll', 150);
 export const revealLengthPx = () => vhToken('--length-problem-reveal', 120);
 
-// The two looser cloud layers: how far ahead/behind the bank they roll in (in wipe progress),
-// and how fast they sink away compared with it.
-const LAYER = { lead: 0.04, backRate: 0.8, frontRate: 1.25 };
-
-// Same trailing as the camera segments in scroll.js.
-export const WIPE_SMOOTHING = 0.5;
+// Veil and camera trail the scrollbar by a full second (like the move from the intro to the hero),
+// so even a quick scroll becomes an unhurried glide.
+export const WIPE_SMOOTHING = 1;
 
 export function initWipe() {
   const act = document.getElementById('act');
@@ -58,11 +56,8 @@ export function initWipe() {
   }
 
   const stage = act.querySelector('.act__stage');
-  const bank = act.querySelector('.wipe__bank');
-  const body = act.querySelector('.wipe__body');
-  const back = act.querySelector('.wipe__layer--back');
-  const front = act.querySelector('.wipe__layer--front');
-  if (!stage || !bank) return;
+  const veil = act.querySelector('.wipe__veil');
+  if (!stage || !veil) return;
 
   const S = wipeStages();
   const place = (el, y) => { if (el) el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`; };
@@ -72,30 +67,15 @@ export function initWipe() {
   let uncovered = null;
   const render = (p) => {
     const vh = window.innerHeight;
-    const edge = (tokenNumber('--size-wipe-edge', 45) / 100) * vh;
-    const below = vh;               // bank top just under the screen
-    const peek = vh * 0.72;         // cloud tops over the hills
-    const covered = -edge * 0.6;    // solid body over the whole screen
-    const gone = vh * 1.05;         // top edge sunk off the bottom
-
-    const bankAt = (q) => {
-      if (q <= 0) return below;
-      if (q < S.cover) return mix(below, peek, wipeEase(q / S.cover));
-      if (q < S.full) return mix(peek, covered, wipeEase(between(q, S.cover, S.full)));
-      if (q < S.brk) return covered;
-      return mix(covered, gone, wipeEase(between(q, S.brk, 1)));
-    };
-    const y = bankAt(p);
-    place(bank, y);
-    // The looser layers give the cloud depth. Rolling in, the one behind runs slightly ahead of the bank
-    // and the one in front slightly behind it (all start below the screen, so the hero is untouched at 0).
-    // Sinking away, the one behind travels slower and the one in front faster, so the cloud pulls apart.
-    const layerAt = (lead, rate) => (p < S.brk ? bankAt(p + lead) : covered + (y - covered) * rate);
-    place(back, layerAt(LAYER.lead, LAYER.backRate));
-    place(front, layerAt(-LAYER.lead, LAYER.frontRate));
-    // Breaking up: the solid body thins out early in the exit, so Problem shows between the puffs.
-    if (body) body.style.opacity = (1 - between(p, S.brk, S.brk + 0.2)).toFixed(3);
-    if (back) back.style.opacity = (1 - between(p, 0.75, 1)).toFixed(3);
+    const edge = (tokenNumber('--size-wipe-edge', 60) / 100) * vh;
+    const below = vh;      // soft edge just under the screen
+    const covered = -edge; // solid part over the whole screen
+    let y;
+    if (p < S.cover) y = below;
+    else if (p < S.full) y = mix(below, covered, wipeEase(between(p, S.cover, S.full)));
+    else if (p < S.brk) y = covered;
+    else y = mix(covered, below, wipeEase(between(p, S.brk, S.clear)));
+    place(veil, y);
 
     stage.style.setProperty('--wipe-hero', (1 - between(p, S.fadeStart, S.fadeEnd)).toFixed(3));
     stage.style.setProperty('--wipe-sky', between(p, S.full, S.brk).toFixed(3));

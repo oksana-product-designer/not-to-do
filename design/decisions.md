@@ -191,3 +191,10 @@
 ## 2026-11-17 · Problem: no sub, second line grey
 - Sub "Not To Do is a tracker for the other seven hours of the workday." removed (Oksana). The words now share the whole reveal scroll.
 - "We did some research." and "You don't." merged into one line group, which lands grey (--color-problem-muted = --color-text-muted, #5c5c5c, 6.7:1 on the white card) instead of black (Oksana). The first sentence stays #141414.
+
+## 2026-11-17 · Cloud wipe: real 3D clouds, smoother
+- The CSS cloud bank (gradient puffs) looked flat next to the 3D clouds (Oksana). Replaced: the camera now flies through the Spline scene's own cloud layer (hero pose, into the opening's buried-in-cloud pose, out to the problem pose above the clouds), and the only CSS layer is a soft cloud-white veil with a 60vh gradient edge that rises in, holds the white beat, and sinks away to uncover the Problem card top first (Oksana chose "uncovered by clouds" over an on-scroll reveal of the card).
+- Smoother: wipe scroll 150vh to 200vh, the camera starts climbing at 0 instead of 25%, hero fades 10 to 40%, the veil clears by 85% (new token --wipe-clear) so the white does not drag, and the camera and veil (and the word reveal) trail the scrollbar by 1 s instead of 0.5 s, like the intro-to-hero move.
+- Removed: the dense puff variant (.cloud-puff--dense, --size-puff-core-dense), --opacity-cloud-cover and the bank markup. .cloud-puff is back to the intro's original shape (intro unchanged against live).
+- Phones: no 3D, so the veil carries the whole move over the static image.
+- Measured: 60 fps on desktop and phone emulation with 4x CPU slowdown; intro label, first line and intro-to-hero move unchanged against live.

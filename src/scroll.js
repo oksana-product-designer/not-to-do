@@ -63,15 +63,15 @@ window.addEventListener('intro:lines', (event) => {
 
 const straight = (from, to, t) => ({ rotX: mix(from.rotX, to.rotX, t), y: mix(from.y, to.y, t), z: mix(from.z, to.z, t) });
 
-// Hero to Problem, through the cloud layer (the cloud wipe; wipe.js moves the front clouds in step).
-// The camera holds while the cloud tops rise, climbs into the clouds as the bank rolls over the text,
-// stays buried in them (the opening's pose) during the beat of white, then rises out above them.
+// Hero to Problem, through the 3D cloud layer (the cloud wipe; wipe.js moves the front veil in step).
+// The camera starts climbing at once and reaches the heart of the clouds (the opening's pose) as the
+// screen turns fully white, stays there for the beat of white, then rises out above them.
 // Climbing in: height leads and distance follows, so the path clears the hills.
 function climb(from, to, t) {
   const S = wipeStages();
   const cloud = POSES.opening;
   if (t < S.brk) {
-    const a = wipeEase(clamp01((t - S.cover) / (S.full - S.cover)));
+    const a = wipeEase(clamp01(t / S.full));
     return { rotX: mix(from.rotX, cloud.rotX, a), y: mix(from.y, cloud.y, 1 - (1 - a) * (1 - a)), z: mix(from.z, cloud.z, a * a) };
   }
   return straight(cloud, to, wipeEase(clamp01((t - S.brk) / (1 - S.brk))));
