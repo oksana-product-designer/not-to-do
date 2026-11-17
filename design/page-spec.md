@@ -32,7 +32,15 @@ Motion:
 
 ## Floating nav (appears after the intro)
 
-Not To Do · Log in · [Start avoiding]
+Not To Do · How to play · High score · Stealth mode · Log in · [Start avoiding]
+
+- Not To Do: wordmark, links to the hero.
+- How to play, High score, Stealth mode: section links. The link of the section in view is highlighted. No highlight on the hero.
+- Log in: same muted style as the section links.
+- Start avoiding: the only filled element.
+- Phone (under 768px): Not To Do · [Start avoiding] · Menu. Menu opens a panel under the pill: How to play, High score, Stealth mode, Log in.
+- Look: a floating white pill, centered, inset from the top.
+- Hidden during the intro. When the hero is reached it slides down and fades in, in its place in the hero entrance. It slides back up when the reader scrolls back into the intro.
 
 ## Screen 1 · Hero
 
@@ -41,7 +49,7 @@ Scene: deep blue sky, one small cloud drifting.
 - H1: Climb nothing. Track everything.
 - Sub: Not To Do logs the work you dodge, what you do instead, and how long you get away with it.
 - Primary: Start avoiding · Secondary link: How to play
-- Entrance: each headline word rises up through its own invisible window, one after another (80 ms apart, 1.1 s each, long soft landing), straightening from a 4 degree tilt as it lands. The button follows 0.45 s after the last word starts: it fades in, rises 16px, grows from 94% and comes out of a 6px blur over 0.8 s. It waits 2 s after the intro hands over (hills first), or starts at once when the reader scrolls or skips to the hero. The idle dip shows the headline rising into the peek. Scrolling back up into the intro resets it, so it plays again. Reduced motion or no JS: shown static.
+- Entrance: each headline word rises up through its own invisible window, one after another (80 ms apart, 1.1 s each, long soft landing), straightening from a 4 degree tilt as it lands. Then, each 120 ms after the previous, starting 120 ms after the last word starts: the sub, the button row, the header, the scroll cue. Each fades in, rises 16px and comes out of a 6px blur over 0.8 s (the button row also grows from 94%); the header slides down instead of rising. It waits 2 s after the intro hands over (hills first), or starts at once when the reader scrolls or skips to the hero. The idle dip shows the headline rising into the peek. Scrolling back up into the intro resets it, so it plays again. Reduced motion or no JS: shown static.
 - Scroll cue: Scroll down. Slowly is fine.
 
 ## Screen 2 · How to play
