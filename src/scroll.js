@@ -29,6 +29,26 @@ function swoop(from, to, t) {
 const IN_CLOUDS = { y: -500, z: -600 }; // extra sink and forward drift over the lingering stretch
 const inClouds = (from, t) => ({ rotX: from.rotX, y: from.y + IN_CLOUDS.y * t, z: from.z + IN_CLOUDS.z * t });
 const gate = { value: 0 };
+
+// Even pace through the intro: the camera follows the scroll, but never runs ahead of the
+// lines. Each line owns an equal share of the descent (1/4 each) and the share it has
+// unlocked grows steadily over the time the line is on screen. So:
+// - a slow scroll: the camera simply follows the scroll, no pauses
+// - a fast scroll: the camera moves at a constant pace with the lines instead of jumping
+//   ahead and then freezing while the text catches up
+const lineCap = { value: 0 };
+window.addEventListener('intro:line', (event) => {
+  const { index, count, ms } = event.detail;
+  const goal = clamp01((index + 1) / count);
+  gsap.killTweensOf(lineCap);
+  if (goal <= lineCap.value) {
+    // Going back up: no waiting.
+    gsap.to(lineCap, { value: goal, duration: 0.3, ease: 'power2.out', onUpdate: applyCamera });
+  } else {
+    // Linear on purpose: a constant speed reads as one continuous move across all lines.
+    gsap.to(lineCap, { value: goal, duration: ms / 1000, ease: 'none', onUpdate: applyCamera });
+  }
+});
 window.addEventListener('intro:lines', (event) => {
   const done = event.detail.done;
   gsap.killTweensOf(gate);
@@ -83,12 +103,14 @@ function applyCamera() {
   let index = 0;
   progress.forEach((value, i) => { if (value > 0) index = i; });
   const segment = SEGMENTS[index];
-  const t = clamp01(progress[index] + (index === 0 ? nudge : 0));
+  const introT = Math.min(clamp01(progress[0] + nudge), lineCap.value);
+  const t = index === 0 ? introT : clamp01(progress[index]);
   // Cursor tracking runs through the intro and the hero alike.
   const follow = 1;
   let at = (segment.path || straight)(segment.from, segment.to, t);
   if (index === 1 && gate.value < 1) {
-    const cloud = inClouds(segment.from, t);
+    // Still in the clouds: carry on from wherever the even-paced intro descent has got to.
+    const cloud = inClouds(straight(POSES.introStart, POSES.introEnd, introT), t);
     at = { rotX: mix(cloud.rotX, at.rotX, gate.value), y: mix(cloud.y, at.y, gate.value), z: mix(cloud.z, at.z, gate.value) };
   }
   setCameraPose({
@@ -99,7 +121,7 @@ function applyCamera() {
     rotY: -pointer.x * TRACK.turn * follow,
   });
   // The static image slides the same way, for phones and before the scene has loaded.
-  setFallbackShift(clamp01((progress[0] * 4.4 + progress[1] * gate.value) / 5.4)); // weighted by scroll length; the hills wait for the hero too
+  setFallbackShift(clamp01((introT * 4.4 + progress[1] * gate.value) / 5.4)); // weighted by scroll length; the hills wait for the hero too
 }
 
 // Lets intro.js push the camera a little along its path and back.

@@ -78,6 +78,7 @@ export async function initScene() {
     }
 
     camera = found[0];
+    if (import.meta.env.DEV) window.__camRef = camera; // test hook, left out of production builds
     cameraHome = { x: camera.position.x, rotY: camera.rotation.y };
     setCameraPose(pose);
 

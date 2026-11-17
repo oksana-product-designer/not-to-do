@@ -101,6 +101,8 @@ export function initIntro() {
     };
 
     const render = (index) => {
+      // Tell scroll.js which line is up, so the camera keeps an even pace with the lines.
+      window.dispatchEvent(new CustomEvent('intro:line', { detail: { index, count: parts.length, ms: LINE_MS } }));
       parts.forEach((part, i) => {
         part.classList.toggle('is-out', i === shown && i !== index);
         part.classList.toggle('is-in', i === index);
