@@ -2,7 +2,7 @@
 // from one pose to the next. Only the intro segments exist so far.
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { POSES, setCameraPose, setFallbackShift } from './scene.js';
+import { POSES, setCameraPose, setFallbackShift, setFallbackZoom } from './scene.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,6 +113,11 @@ function applyCamera() {
     const cloud = inClouds(straight(POSES.introStart, POSES.introEnd, introT), t);
     at = { rotX: mix(cloud.rotX, at.rotX, gate.value), y: mix(cloud.y, at.y, gate.value), z: mix(cloud.z, at.z, gate.value) };
   }
+  if (opening.value < 1) {
+    // Opening: start buried in the clouds and blend out to wherever the scroll says.
+    const o = opening.value;
+    at = { rotX: mix(POSES.opening.rotX, at.rotX, o), y: mix(POSES.opening.y, at.y, o), z: mix(POSES.opening.z, at.z, o) };
+  }
   setCameraPose({
     rotX: at.rotX - pointer.y * TRACK.tilt * follow,
     y: at.y - pointer.y * TRACK.lift * follow,
@@ -140,6 +145,36 @@ function moveMist(t) {
     const y = (MIST.passAt[i] - t) * MIST.travel;
     wisp.style.transform = `translate3d(0, ${y.toFixed(2)}vh, 0)`;
   });
+}
+
+// Opening: on a first visit the page starts inside the clouds and the camera flies out
+// to the first view. It starts from rest so the covered view is actually seen, speeds up
+// as the clouds part, and lands softly (ease in and out: it moves between two places).
+// With the 3D scene the veil just lifts off the real clouds first; without it (phones,
+// slow or failed load) the static image zooms out while the veil fades with it.
+const opening = { value: document.documentElement.classList.contains('is-opening') ? 0 : 1 };
+export function playOpening(sceneShowing) {
+  const root = document.documentElement;
+  if (!root.classList.contains('is-opening')) return;
+  const css = getComputedStyle(root);
+  const seconds = (parseFloat(css.getPropertyValue('--duration-opening')) || 1800) / 1000;
+  const zoom = parseFloat(css.getPropertyValue('--scale-opening-fallback')) || 1.4;
+  const veil = { value: 1 };
+  const paint = () => {
+    root.style.setProperty('--opening-veil', veil.value.toFixed(3));
+    setFallbackZoom(mix(zoom, 1, opening.value));
+    applyCamera();
+  };
+  gsap.timeline({
+    onUpdate: paint,
+    onComplete: () => {
+      root.classList.remove('is-opening');
+      root.style.removeProperty('--opening-veil');
+      setFallbackZoom(1);
+    },
+  })
+    .to(veil, { value: 0, duration: sceneShowing ? 0.4 : seconds * 0.7, ease: 'power1.out' }, 0)
+    .to(opening, { value: 1, duration: seconds, ease: 'power2.inOut' }, sceneShowing ? 0.2 : 0);
 }
 
 // Lets intro.js push the camera a little along its path and back.

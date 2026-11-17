@@ -15,7 +15,8 @@ const REQUIRED_OBJECTS = [
 export const POSES = {
   introStart: { rotX: 0, y: 7000, z: -1800 }, // right up against the clouds, their tops at the bottom edge
   introEnd: { rotX: 0.05, y: 3400, z: -1800 }, // sunk into the cloud layer
-  hero: { rotX: 0.297, y: 226, z: 3733 },     // pulled back and down: the full scene, hills along the bottom
+  hero: { rotX: 0.297, y: 226, z: 3733 },
+  opening: { rotX: 0, y: 5200, z: -5400 },    // buried in the clouds: the whole screen is cloud     // pulled back and down: the full scene, hills along the bottom
 };
 
 let app = null;
@@ -53,11 +54,23 @@ export function setCameraPose(next) {
 
 // Slide the static image up as the page scrolls (0 = start, 1 = fully slid).
 // It is taller than the screen, so this only ever shows more of its lower part.
-export function setFallbackShift(t) {
+let fallbackShift = 0;
+let fallbackZoom = 1;
+function placeFallback() {
   const image = document.querySelector('.scene__fallback');
   if (!image) return;
   const spare = image.offsetHeight - window.innerHeight;
-  image.style.transform = `translate3d(0, ${-Math.max(0, spare) * t}px, 0)`;
+  image.style.transformOrigin = 'center top';
+  image.style.transform = `translate3d(0, ${-Math.max(0, spare) * fallbackShift}px, 0) scale(${fallbackZoom})`;
+}
+export function setFallbackShift(t) {
+  fallbackShift = t;
+  placeFallback();
+}
+// Zoom the static image during the opening (1 = normal).
+export function setFallbackZoom(z) {
+  fallbackZoom = z;
+  placeFallback();
 }
 
 // Load the scene. Resolves true if it is showing, false if the page stays on the image.

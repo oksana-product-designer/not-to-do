@@ -17,7 +17,8 @@ Scene: sky with big clouds close to the camera. The clouds drift, and move up th
 - Scroll label: plain text reading "Scroll down" with a down arrow after it (no background), floating in the center of the screen.
 
 Motion:
-- On load: only the sky and the Scroll label. No text yet. The page waits.
+- Opening (first visits only): the page starts inside the clouds, fully covered, and the veil lifts off the 3D clouds (0.4 s), then the camera flies back out to the first view in 2 s, starting from rest, speeding up as the clouds part and landing softly. It starts as soon as the scene is drawn, at most 1.5 s after load; without the 3D scene the static image zooms out from inside a cloud-white veil instead. Not shown on return visits or with reduced motion.
+- After the opening: only the sky and the Scroll label. No text yet. The page waits.
 - First scroll: the "Scroll down" label fades out and part 1 is revealed. Back at the very top, the text goes and the label returns.
 - Trigger: scroll only (wheel, swipe, arrow keys, Space). No timer advances the page.
 - The intro stays pinned while the reader scrolls through 4.4 screens. Only one part is visible at a time.

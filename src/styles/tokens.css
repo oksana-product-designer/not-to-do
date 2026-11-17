@@ -80,6 +80,11 @@
   --duration-wisp-drift: 16s;              /* slow sideways sway, on top of the scroll motion */
   --shift-wisp-drift: 3vw;
 
+  /* Opening: the page starts inside the clouds */
+  --color-cloud-cover: #f3f7fc;            /* veil over the scene until the clouds are drawn */
+  --duration-opening: 2000ms;              /* fly-out from the clouds to the first view (read by scroll.js) */
+  --scale-opening-fallback: 1.4;           /* static image starts zoomed in this much (read by scroll.js) */
+
   /* Layers */
   --z-scene: 0;
   --z-content: 1;

@@ -82,3 +82,6 @@ main { position: relative; z-index: var(--z-content); }
 .scene__canvas { opacity: 0; transition: opacity var(--duration-crossfade) var(--ease-standard); }
 .scene.is-loaded .scene__canvas { opacity: 1; }
 .scene iframe { pointer-events: none; }
+/* Opening veil: cloud-white over the scene at first paint. scroll.js fades it as the camera flies out. */
+.is-opening .scene::after { content: ''; position: absolute; inset: 0; background: var(--color-cloud-cover); opacity: var(--opening-veil, 1); }
+.is-opening .intro__hint { opacity: 0; }

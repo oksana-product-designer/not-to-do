@@ -11,6 +11,11 @@
       try {
         if (localStorage.getItem('ntd-intro-seen') === '1') document.documentElement.classList.add('intro-seen');
       } catch (e) {}
+      // Opening: the page starts inside the clouds and flies out. First visits only, at the top, motion welcome.
+      if (!document.documentElement.classList.contains('intro-seen') && !location.hash &&
+          !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('is-opening');
+      }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

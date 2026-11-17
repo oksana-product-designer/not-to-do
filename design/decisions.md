@@ -92,3 +92,10 @@
 - Each wisp crosses the text at a different point of the intro, roughly one per line, so covering is brief and partial.
 - Accessibility cost: contrast drops where a wisp overlaps letters. Kept translucent and passing; hidden with reduced motion and without JavaScript.
 - New tokens: --color-mist, --color-mist-edge, --opacity-mist, --size-wisp-w, --size-wisp-h, --duration-wisp-drift, --shift-wisp-drift.
+
+## 2026-11-17 · Opening: fly out of the clouds
+- First visits start inside the 3D cloud layer (camera at height 5200, 5400 units into the clouds, which fills the screen) and fly out to the first intro view (first version: 1.8 s, power3.out, cleared too fast; now 2 s, power2.inOut, starting 0.2 s after the veil begins to lift).
+- A cloud-white veil (#f3f7fc) covers the scene at first paint so there is no flash of clear sky while the scene loads. With the 3D scene it fades in the first 0.45 s; the real clouds do the rest.
+- Starts when the scene is drawn, at most 1.5 s after load. Phones, slow or failed loads: the static image zooms out from 1.4x while the veil fades.
+- The Scroll label waits until the opening is done. No opening on return visits, with a link target, or with reduced motion.
+- New tokens: --color-cloud-cover, --duration-opening, --scale-opening-fallback.

@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } }); const p = await ctx.newPage();
+await p.goto('http://127.0.0.1:5173/'); await p.waitForTimeout(800);
+const first = await p.evaluate(() => document.documentElement.classList.contains('is-opening'));
+await p.evaluate(() => localStorage.setItem('ntd-intro-seen', '1'));
+const p2 = await ctx.newPage(); await p2.goto('http://127.0.0.1:5173/'); await p2.waitForTimeout(300);
+const ret = await p2.evaluate(() => document.documentElement.classList.contains('is-opening'));
+const ctx2 = await b.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const p3 = await ctx2.newPage();
+await p3.goto('http://127.0.0.1:5173/'); await p3.waitForTimeout(300);
+console.log('first visit opening:', first, '| return visit opening:', ret, '| reduced motion opening:', await p3.evaluate(() => document.documentElement.classList.contains('is-opening')));
+await b.close();
