@@ -99,17 +99,8 @@
      the inner span sways sideways on its own. */
   .js .intro__mist { display: block; position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: var(--opacity-mist); }
   .js .intro__wisp { position: absolute; top: 50%; width: var(--size-wisp-w); height: var(--size-wisp-h); margin-top: calc(var(--size-wisp-h) / -2); will-change: transform; }
-  .js .intro__wisp > span {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background:
-      radial-gradient(28% 42% at 22% 58%, var(--color-mist), var(--color-mist-edge) 70%),
-      radial-gradient(30% 50% at 42% 46%, var(--color-mist), var(--color-mist-edge) 70%),
-      radial-gradient(26% 44% at 62% 54%, var(--color-mist), var(--color-mist-edge) 70%),
-      radial-gradient(22% 36% at 80% 60%, var(--color-mist), var(--color-mist-edge) 70%);
-    animation: wisp-drift var(--duration-wisp-drift) ease-in-out infinite alternate;
-  }
+  /* The cloud shape itself is the shared .cloud-puff (base.css); here it only sways. */
+  .js .intro__wisp > span { animation: wisp-drift var(--duration-wisp-drift) ease-in-out infinite alternate; }
   .js .intro__wisp--1 { left: -22vw; }
   .js .intro__wisp--2 { right: -26vw; }
   .js .intro__wisp--2 > span { animation-delay: calc(var(--duration-wisp-drift) / -3); }

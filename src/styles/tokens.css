@@ -86,7 +86,8 @@
   --shift-wisp-drift: 3vw;
 
   /* Opening: the page starts inside the clouds */
-  --color-cloud-cover: #f3f7fc;            /* veil over the scene until the clouds are drawn */
+  --color-cloud-cover: #f3f7fc;            /* veil over the scene until the clouds are drawn; also the wipe's dense clouds */
+  --color-cloud-cover-edge: rgba(243, 247, 252, 0); /* the same white, fully transparent: soft edge of a dense cloud puff */
   --duration-opening: 2000ms;              /* fly-out from the clouds to the first view (read by scroll.js) */
   --scale-opening-fallback: 1.4;           /* static image starts zoomed in this much (read by scroll.js) */
 
