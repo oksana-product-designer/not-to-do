@@ -205,3 +205,7 @@
 - Statement bigger: 80px from tablet up (was 64), 44px on phones (was 36), fixed. --measure-problem 16em.
 - Contrast on #f3f7fc: #141414 about 17:1, the grey line #5c5c5c about 6.2:1 (AA passes).
 - The camera still climbs to the problem pose during the wipe, now hidden behind the background. Left in place; it can be simplified if the screen stays plain.
+
+## 2026-11-17 · Hero hold before the wipe; lighter second line
+- The hero holds still for 60vh of scroll before the cloud wipe starts (--length-hero-hold, Oksana). The wipe, the camera climb and the Problem word reveal all start after it.
+- "We did some research. You don't." lighter (Oksana: less contrast with the black line): --color-problem-muted #888888 (was #5c5c5c), 3.3:1 on #f3f7fc. AA for large text (80px and 44px) needs 3:1, so this is close to the lightest grey that still passes.

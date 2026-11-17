@@ -37,7 +37,8 @@ export function wipeStages() {
 }
 // Scroll lengths in pixels (the tokens are in vh).
 const vhToken = (name, fallback) => (tokenNumber(name, fallback) / 100) * window.innerHeight;
-export const wipeLengthPx = () => vhToken('--length-wipe-scroll', 150);
+export const holdLengthPx = () => vhToken('--length-hero-hold', 60);
+export const wipeLengthPx = () => vhToken('--length-wipe-scroll', 200);
 export const revealLengthPx = () => vhToken('--length-problem-reveal', 120);
 
 // Veil and camera trail the scrollbar by a full second (like the move from the intro to the hero),
@@ -92,7 +93,8 @@ export function initWipe() {
 
   ScrollTrigger.create({
     trigger: act,
-    start: 'top top',
+    // the hero holds still for a moment first, then the wipe starts
+    start: () => `top+=${holdLengthPx()} top`,
     end: () => `+=${wipeLengthPx()}`,
     scrub: WIPE_SMOOTHING,
     invalidateOnRefresh: true,

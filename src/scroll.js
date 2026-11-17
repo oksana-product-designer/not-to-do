@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { POSES, setCameraPose, setFallbackShift, setFallbackZoom } from './scene.js';
 import { tokenMs, tokenNumber } from './tokens.js';
-import { wipeStages, wipeEase, wipeLengthPx, WIPE_SMOOTHING } from './wipe.js';
+import { wipeStages, wipeEase, holdLengthPx, wipeLengthPx, WIPE_SMOOTHING } from './wipe.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,8 +84,8 @@ const SEGMENTS = [
   // Intro scrolls away: the camera pulls back fast and drops, the clouds fly off and the hills rise into view.
   // It trails the scrollbar by a full second, so even a quick scroll becomes an unhurried glide.
   { trigger: '#intro', start: 'bottom bottom', end: 'bottom top', from: POSES.introEnd, to: POSES.hero, path: swoop, smoothing: 1 },
-  // Cloud wipe: hero to Problem through the cloud layer. Same length and trailing as the front clouds (wipe.js).
-  { trigger: '#act', start: 'top top', end: () => `+=${wipeLengthPx()}`, from: POSES.hero, to: POSES.problem, path: climb, smoothing: WIPE_SMOOTHING },
+  // Cloud wipe: hero to Problem through the cloud layer, after a short hold on the hero. Same length and trailing as the front clouds (wipe.js).
+  { trigger: '#act', start: () => `top+=${holdLengthPx()} top`, end: () => `+=${wipeLengthPx()}`, from: POSES.hero, to: POSES.problem, path: climb, smoothing: WIPE_SMOOTHING },
 ];
 const progress = SEGMENTS.map(() => 0);
 let nudge = 0; // small extra progress used by the idle "dip" in intro.js

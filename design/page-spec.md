@@ -54,7 +54,7 @@ Scene: deep blue sky, one small cloud drifting.
 
 ## Transition 1 to 2 · Cloud wipe
 
-The page passes through the clouds again, the way it entered them in the opening, and through the same clouds: the 3D scene's own. Scroll-driven and reversible: the hero and the Problem screen share one pinned stage for 2 screens of scroll. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay). The camera and the veil trail the scroll by 1 s, so even a quick scroll glides.
+The page passes through the clouds again, the way it entered them in the opening, and through the same clouds: the 3D scene's own. Scroll-driven and reversible: the hero and the Problem screen share one pinned stage. The hero first holds still for a moment (0.6 screen of scroll), then the wipe takes 2 screens. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay). The camera and the veil trail the scroll by 1 s, so even a quick scroll glides.
 
 Storyboard by scroll progress:
 - 0 to 20%: the camera starts climbing from the hero toward the cloud layer. The hero text and scroll cue fade out from 10% (gone by 40%).
@@ -73,7 +73,7 @@ Storyboard by scroll progress:
 Scene: plain cloud white (the white the wipe ends on). No sky, no clouds, no hills.
 
 - Statement (H2): Every productivity app assumes you want to work. We did some research. You don't.
-- Layout: centered, large text straight on the plain background. No card, no dark background. The statement breaks into two line groups: "Every productivity app assumes you want to work." then "We did some research. You don't." on one line, in grey.
+- Layout: centered, large text straight on the plain background. No card, no dark background. The statement breaks into two line groups: "Every productivity app assumes you want to work." then "We did some research. You don't." on one line, in light grey.
 - Scroll reveal: the statement starts light grey and each word turns to full text color in turn as the reader scrolls (scrubbed, reversible). Reduced motion and no JS: fully shown.
 
 ## Screen 3 · How to play

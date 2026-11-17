@@ -4,7 +4,7 @@
 // Reduced motion: nothing to do, everything is fully shown.
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { tokenNumber } from './tokens.js';
-import { wipeLengthPx, revealLengthPx, WIPE_SMOOTHING } from './wipe.js';
+import { holdLengthPx, wipeLengthPx, revealLengthPx, WIPE_SMOOTHING } from './wipe.js';
 
 const clamp01 = (t) => Math.min(1, Math.max(0, t));
 const OVERLAP = 2;      // each word takes two word-slots to arrive, so neighbours blend instead of blinking
@@ -30,7 +30,7 @@ export function initProblem() {
 
   ScrollTrigger.create({
     trigger: act,
-    start: () => `top+=${wipeLengthPx()} top`,
+    start: () => `top+=${holdLengthPx() + wipeLengthPx()} top`,
     end: () => `+=${revealLengthPx()}`,
     scrub: WIPE_SMOOTHING,
     invalidateOnRefresh: true,

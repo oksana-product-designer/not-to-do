@@ -1,6 +1,6 @@
 /* Screens 1 and 2 share one stage, and the cloud wipe passes between them.
    Default (no JS, or reduced motion): the hero and Problem simply follow each other, no clouds.
-   Pinned (JS + motion welcome): the stage sticks for the wipe and the Problem word reveal.
+   Pinned (JS + motion welcome): the stage sticks for a short hold on the hero, the wipe and the Problem word reveal.
    Hero and Problem sit on top of each other; the camera flies through the 3D clouds while a soft
    cloud-white veil rises over the hero and sinks away to show Problem. wipe.js sets the positions; this file sets the layers. */
 .act { position: relative; }
@@ -9,7 +9,7 @@
 .act__veil { display: none; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .act { height: calc(100vh + var(--length-wipe-scroll) + var(--length-problem-reveal)); height: calc(100svh + var(--length-wipe-scroll) + var(--length-problem-reveal)); }
+  .js .act { height: calc(100vh + var(--length-hero-hold) + var(--length-wipe-scroll) + var(--length-problem-reveal)); height: calc(100svh + var(--length-hero-hold) + var(--length-wipe-scroll) + var(--length-problem-reveal)); }
   .js .act__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 
   /* Problem sits on the same screen as the hero, hidden until the clouds fully cover it (wipe.js). */
