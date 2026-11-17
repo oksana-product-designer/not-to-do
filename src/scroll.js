@@ -120,8 +120,26 @@ function applyCamera() {
     dx: pointer.x * TRACK.slide * follow,
     rotY: -pointer.x * TRACK.turn * follow,
   });
+  moveMist(introT + MIST.linger * progress[1] * (1 - gate.value));
   // The static image slides the same way, for phones and before the scene has loaded.
   setFallbackShift(clamp01((introT * 4.4 + progress[1] * gate.value) / 5.4)); // weighted by scroll length; the hills wait for the hero too
+}
+
+// Cloud wisps in front of the intro text. Each one rises up through the screen and passes
+// the text at a different point of the intro (roughly one per line), so every line is
+// veiled for a moment and then clears. They follow the same even pace as the camera.
+const MIST = {
+  passAt: [0.14, 0.38, 0.62, 0.86], // intro progress at which each wisp crosses the middle
+  travel: 170,                      // screen heights (in vh) a wisp rises per whole intro
+  linger: 0.35,                     // keeps rising a little while the last lines finish
+};
+let wisps = null;
+function moveMist(t) {
+  if (!wisps) wisps = Array.from(document.querySelectorAll('.intro__wisp'));
+  wisps.forEach((wisp, i) => {
+    const y = (MIST.passAt[i] - t) * MIST.travel;
+    wisp.style.transform = `translate3d(0, ${y.toFixed(2)}vh, 0)`;
+  });
 }
 
 // Lets intro.js push the camera a little along its path and back.

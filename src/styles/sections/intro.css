@@ -22,6 +22,7 @@
   letter-spacing: var(--tracking-display);
 }
 .intro__part { display: block; text-wrap: balance; }
+.intro__mist { display: none; }
 
 /* Skip intro: in the page for screen readers and keyboard users from the first frame,
    but not drawn. It becomes visible, top right, only while it has keyboard focus. */
@@ -83,6 +84,7 @@
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 @keyframes intro-part-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes wisp-drift { from { transform: translateX(calc(var(--shift-wisp-drift) * -1)); } to { transform: translateX(var(--shift-wisp-drift)); } }
 @keyframes hint-float { from { transform: translateY(calc(var(--shift-hint-float) * -1)); } to { transform: translateY(var(--shift-hint-float)); } }
 
 /* Staged mode */
@@ -106,6 +108,30 @@
   .js .hero__content { transition: opacity var(--duration-base) var(--ease-enter); }
   .is-intro-lingering .hero__content { opacity: 0; transition: none; }
   .is-intro-leaving .intro__lines { opacity: 0; }
+
+  /* Cloud wisps in front of the text, so the lines look like they float among clouds.
+     scroll.js moves each wisp up with the intro scroll (the outer span);
+     the inner span sways sideways on its own. */
+  .js .intro__mist { display: block; position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: var(--opacity-mist); }
+  .js .intro__wisp { position: absolute; top: 50%; width: var(--size-wisp-w); height: var(--size-wisp-h); margin-top: calc(var(--size-wisp-h) / -2); will-change: transform; }
+  .js .intro__wisp > span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(28% 42% at 22% 58%, var(--color-mist), var(--color-mist-edge) 70%),
+      radial-gradient(30% 50% at 42% 46%, var(--color-mist), var(--color-mist-edge) 70%),
+      radial-gradient(26% 44% at 62% 54%, var(--color-mist), var(--color-mist-edge) 70%),
+      radial-gradient(22% 36% at 80% 60%, var(--color-mist), var(--color-mist-edge) 70%);
+    animation: wisp-drift var(--duration-wisp-drift) ease-in-out infinite alternate;
+  }
+  .js .intro__wisp--1 { left: -22vw; }
+  .js .intro__wisp--2 { right: -26vw; }
+  .js .intro__wisp--2 > span { animation-delay: calc(var(--duration-wisp-drift) / -3); }
+  .js .intro__wisp--3 { left: -8vw; }
+  .js .intro__wisp--3 > span { animation-direction: alternate-reverse; }
+  .js .intro__wisp--4 { right: -18vw; }
+  .js .intro__wisp--4 > span { animation-delay: calc(var(--duration-wisp-drift) / -2); }
 
   /* Scroll label: floats in the middle of the empty sky until the first scroll */
   .js .intro__hint { bottom: auto; top: 50%; transform: translate(-50%, -50%); }

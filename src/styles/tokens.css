@@ -71,6 +71,15 @@
   --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);    /* fast start, soft landing */
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);          /* soft start, quick leave */
 
+  /* Cloud wisps in front of the intro text */
+  --color-mist: rgba(255, 255, 255, 0.95);
+  --color-mist-edge: rgba(255, 255, 255, 0);
+  --opacity-mist: 0.8;                     /* translucent, so covered letters still read */
+  --size-wisp-w: 80vw;
+  --size-wisp-h: 30vh;
+  --duration-wisp-drift: 16s;              /* slow sideways sway, on top of the scroll motion */
+  --shift-wisp-drift: 3vw;
+
   /* Layers */
   --z-scene: 0;
   --z-content: 1;

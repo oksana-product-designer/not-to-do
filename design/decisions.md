@@ -86,3 +86,9 @@
 - Fix: on a normal scroll the lines ran behind and the page waited at the end of the intro, so the background stopped during the last two lines. Now the scroll and camera carry on into the move to the hero while the text lingers on screen; the hero headline fades in once the last line is done. The hold remains only at the hero itself.
 - Fix: the hills showed while intro lines were still playing. The camera now stays in the clouds (extra sink of 500 and forward drift of 600 over the lingering stretch) until the last line is done, then blends into the swoop to the hero over 1.2 s. Scrolling back into the intro closes it again in 0.3 s. The phone fallback image follows the same rule.
 - Fix: the background still froze on the last lines, because the camera followed the scroll and the scroll got ahead of the text. The intro descent is now capped by the lines: each line unlocks a quarter of it, linearly over its 1.2 s. Slow scroll follows the scroll; fast scroll glides at a constant pace with the lines.
+
+## 2026-11-17 · Intro: clouds in front of the text
+- The 3D scene sits behind the page, so its clouds cannot cover the text. Added a separate front layer: four soft wisps made of CSS gradients (no images, no new dependency), at 80% opacity, rising with the same even pace as the camera and swaying sideways over 16 s.
+- Each wisp crosses the text at a different point of the intro, roughly one per line, so covering is brief and partial.
+- Accessibility cost: contrast drops where a wisp overlaps letters. Kept translucent and passing; hidden with reduced motion and without JavaScript.
+- New tokens: --color-mist, --color-mist-edge, --opacity-mist, --size-wisp-w, --size-wisp-h, --duration-wisp-drift, --shift-wisp-drift.
