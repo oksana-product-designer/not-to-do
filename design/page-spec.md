@@ -78,13 +78,24 @@ Scene: plain cloud white (the white the wipe ends on). No sky, no clouds, no hil
 
 ## Screen 3 · How to play
 
-Scene: camera tilts into the cloud layer. Cards drift in one at a time, staggered on desktop, stacked on phone.
+Scene: the camera sinks slowly from the sky above the clouds into the top of the cloud layer over the pinned scroll, so clouds drift past behind the card. Its top edge fades from Problem's cloud white into the sky.
 
 - H2: How to play
-- Sub: Three moves. No training required.
-- Move 1, Pick your quest: Choose a task you have no plans to finish. Give it an honest estimate anyway.
-- Move 2, Choose a side quest: Gaming, shopping, one more video. Pick what you'll do instead.
-- Move 3, Start avoiding: Press the button. Every minute the task stays untouched goes on your score.
+- Sub: Three levels. Nobody has ever lost.
+- Level 1.0 · Pick your quest: Choose a task you have no plans to finish. Give it an honest estimate anyway.
+- Level 2.0 · Choose a distraction: Gaming, shopping, one more video. Pick what you'll do instead.
+- Level 3.0 · Start avoiding: Press the button. Every minute the task stays untouched goes on your score.
+
+Layout (tablet and desktop): title and sub centered at the top. Below, two columns: the three levels as a list on the left, one demo app card on the right. The active level shows its label, title, body and a thin progress bar that fills with the scroll inside that level. Inactive levels show label and title only, muted. Each level is a button: clicking it scrolls to that level. Everything light: white card, text on the sky.
+
+Pinned scroll: the section stays on screen for 3 screens of scroll, one per level, scrubbed and reversible. On a level change the old body fades out and the new one fades in and rises (the hero item motion).
+
+Demo card: a picture of the app's task card (title, project pill "Waffle Cone Project", When / Instead / Estimation, divider, time tracked, a light grey "Start avoiding" button). Hidden from screen readers, with one hidden sentence describing it. States follow the scroll and rewind when scrolling up:
+- Level 1.0: the title types itself in ("Prototype for usability testing"), then the estimate ticks up to 3h.
+- Level 2.0: the Instead value spins like a slot machine (Online shopping, Scrolling, Watching Netflix) and lands on "Video gaming".
+- Level 3.0: the button looks pressed, "tracked" counts up from 0h 00m to 1h 32m, and the card gets a soft glow.
+
+Phone (under 768px): no pinning. Three stacked blocks, each with its level text and a small card already in that level's final state, fading in gently as they enter the screen. Reduced motion: the same stacked layout, all final states, no typing, spinning, counting or fading. No JS: the stacked layout with final states.
 
 ## Screen 4 · High score
 
