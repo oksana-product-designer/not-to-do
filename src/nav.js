@@ -26,7 +26,13 @@ export function initNav() {
       if (focusButton) button.focus({ preventScroll: true });
     };
     button.addEventListener('click', () => (isOpen() ? close() : open()));
-    panel.addEventListener('click', (event) => { if (event.target.closest('a')) close(); });
+    // Link in the panel: close, let the browser jump, then put focus back on the Menu button
+    // (the jump itself would otherwise drop focus to the page).
+    panel.addEventListener('click', (event) => {
+      if (!event.target.closest('a')) return;
+      close({ focusButton: false });
+      requestAnimationFrame(() => button.focus({ preventScroll: true }));
+    });
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') close(); });
     document.addEventListener('pointerdown', (event) => { if (!nav.contains(event.target)) close({ focusButton: false }); });
     // Header hidden (back in the intro) or screen widened past the phone layout: close quietly.

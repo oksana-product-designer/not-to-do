@@ -88,14 +88,15 @@
 /* Show and hide (JS only; without JS the header is simply there).
    Hidden: above the screen, faded, out of reach (visibility also keeps it out of the Tab order).
    Arriving: slides down and fades in with the hero's soft landing, waiting --nav-delay
-   (set by hero.js for its slot in the hero entrance). Leaving: slides back up, quicker start. */
+   (set by hero.js for its slot in the hero entrance). Leaving: slides back up, quicker start.
+   is-hero-pending (hero.js): the hero entrance has not started yet, so the header waits for it. */
 .js .nav {
   transition:
     opacity var(--duration-nav) var(--ease-exit),
     translate var(--duration-nav) var(--ease-exit),
     visibility 0s linear var(--duration-nav);
 }
-.js .nav:not(.is-shown), .is-intro-lingering .nav {
+.js .nav:not(.is-shown), .is-intro-lingering .nav, .is-hero-pending .nav {
   opacity: 0;
   translate: 0 calc(-100% - var(--offset-nav-top));
   visibility: hidden;

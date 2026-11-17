@@ -163,13 +163,22 @@ export function initIntro() {
     }
   }
 
-  // Hero reached: show the nav, hide "Skip intro".
-  const observer = new IntersectionObserver(([entry]) => {
-    const past = entry.isIntersecting;
+  // Hero reached (its top is in the upper 40% of the screen, or the reader is further down the page):
+  // show the nav, hide "Skip intro". Back in the intro: the reverse.
+  // Checked on scroll (once per frame) so even a jump straight back to the top is caught.
+  let pastState = null;
+  let pastFrame = 0;
+  const checkPast = () => {
+    pastFrame = 0;
+    const past = hero.getBoundingClientRect().top < window.innerHeight * 0.4;
+    if (past === pastState) return;
+    pastState = past;
     root.classList.toggle('is-past-intro', past);
     if (nav) { nav.inert = !past; nav.classList.toggle('is-shown', past); } // nav.css decides how it appears
-  }, { threshold: 0.6 });
-  observer.observe(hero);
+  };
+  window.addEventListener('scroll', () => { if (!pastFrame) pastFrame = requestAnimationFrame(checkPast); }, { passive: true });
+  window.addEventListener('resize', checkPast);
+  checkPast();
 
   // One-time idle dip: camera eases toward the hero and the headline peeks in from below.
   let dip = null;

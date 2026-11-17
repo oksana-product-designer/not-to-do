@@ -45,6 +45,9 @@ export function initHero() {
   const nav = document.getElementById('nav');
   hero.style.setProperty('--words', words.length);
   hero.classList.add('is-hero-ready'); // from here on, the hidden "before" state applies
+  // The header is part of this entrance: until it plays, the header waits (nav.css), even if
+  // intro.js already says it may show. play() releases it with its delay for step 3.
+  root.classList.add('is-hero-pending');
 
   let played = false;
   let visible = false;
@@ -68,6 +71,7 @@ export function initHero() {
     }
     void hero.offsetWidth; // commit the hidden state so the transition has somewhere to start
     hero.classList.add('is-hero-in');
+    root.classList.remove('is-hero-pending');
     const wordsEnd = lastWord + tokenMs('--duration-hero-word', 1100);
     const itemsEnd = lastWord + 4 * step + tokenMs('--duration-hero-item', 800);
     clearTimeout(doneTimer);
@@ -80,6 +84,7 @@ export function initHero() {
     played = false;
     clearTimeout(doneTimer);
     hero.classList.remove('is-hero-in', 'is-hero-done');
+    root.classList.add('is-hero-pending');
   };
 
   const check = () => {
@@ -93,6 +98,9 @@ export function initHero() {
     visible = entry.intersectionRatio >= 0.5;
     // Fully below the screen again (reader went back up into the intro): ready to replay.
     if (!entry.isIntersecting && entry.boundingClientRect.top > 0) reset();
+    // Already past the hero (for example opened at a section link): count it as played,
+    // so the header is not held back.
+    if (!entry.isIntersecting && entry.boundingClientRect.bottom <= 0) play(0);
     check();
   }, { threshold: [0, 0.5] }).observe(content);
 
