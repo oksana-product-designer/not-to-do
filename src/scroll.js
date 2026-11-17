@@ -22,6 +22,21 @@ function swoop(from, to, t) {
     z: mix(from.z, to.z, fastThenSlow),
   };
 }
+// While the intro lines are still playing past the end of the intro, the camera stays in
+// the clouds: it keeps sinking a little and drifting forward, so the background moves
+// but no hills show. heroGate goes 0 -> 1 once the last line is done, and blends this
+// cloud path into the swoop above, so the hills only ever appear for the hero.
+const IN_CLOUDS = { y: -500, z: -600 }; // extra sink and forward drift over the lingering stretch
+const inClouds = (from, t) => ({ rotX: from.rotX, y: from.y + IN_CLOUDS.y * t, z: from.z + IN_CLOUDS.z * t });
+const gate = { value: 0 };
+window.addEventListener('intro:lines', (event) => {
+  const done = event.detail.done;
+  gsap.killTweensOf(gate);
+  if (done && event.detail.instant) { gate.value = 1; applyCamera(); return; }
+  // Opening: an unhurried 1.2 s so the clouds part and the hills rise. Closing (back into the intro): quick.
+  gsap.to(gate, { value: done ? 1 : 0, duration: done ? 1.2 : 0.3, ease: done ? 'power2.inOut' : 'power2.out', onUpdate: applyCamera });
+});
+
 const straight = (from, to, t) => ({ rotX: mix(from.rotX, to.rotX, t), y: mix(from.y, to.y, t), z: mix(from.z, to.z, t) });
 
 // One entry per stretch of scroll. Later screens add entries here.
@@ -71,7 +86,11 @@ function applyCamera() {
   const t = clamp01(progress[index] + (index === 0 ? nudge : 0));
   // Cursor tracking runs through the intro and the hero alike.
   const follow = 1;
-  const at = (segment.path || straight)(segment.from, segment.to, t);
+  let at = (segment.path || straight)(segment.from, segment.to, t);
+  if (index === 1 && gate.value < 1) {
+    const cloud = inClouds(segment.from, t);
+    at = { rotX: mix(cloud.rotX, at.rotX, gate.value), y: mix(cloud.y, at.y, gate.value), z: mix(cloud.z, at.z, gate.value) };
+  }
   setCameraPose({
     rotX: at.rotX - pointer.y * TRACK.tilt * follow,
     y: at.y - pointer.y * TRACK.lift * follow,
@@ -80,7 +99,7 @@ function applyCamera() {
     rotY: -pointer.x * TRACK.turn * follow,
   });
   // The static image slides the same way, for phones and before the scene has loaded.
-  setFallbackShift(clamp01((progress[0] * 4.4 + progress[1]) / 5.4)); // weighted by scroll length
+  setFallbackShift(clamp01((progress[0] * 4.4 + progress[1] * gate.value) / 5.4)); // weighted by scroll length; the hills wait for the hero too
 }
 
 // Lets intro.js push the camera a little along its path and back.

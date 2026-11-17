@@ -68,6 +68,7 @@ export function initIntro() {
       }
       // Lines done: if the text is still lingering past the intro, fade it out, then let it go
       // and show the hero. The fade stops the text jumping as it returns to its normal place.
+      if (sequenceDone()) announce(true);
       if (lingering && sequenceDone() && !root.classList.contains('is-intro-leaving')) {
         root.classList.add('is-intro-leaving');
         setTimeout(() => linger(false), ms('--duration-fast'));
@@ -91,6 +92,14 @@ export function initIntro() {
     const partAt = (y) => (y < TOP_PX ? -1 : Math.min(last, Math.floor((y / Math.max(1, exitY() * LINES_SPAN)) * parts.length)));
     const sequenceDone = () => shown === last && performance.now() >= freeAt;
 
+    // Tell scroll.js whether the lines are done, so the hills only appear for the hero.
+    let announced = null;
+    const announce = (done, instant = false) => {
+      if (done === announced) return;
+      announced = done;
+      window.dispatchEvent(new CustomEvent('intro:lines', { detail: { done, instant } }));
+    };
+
     const render = (index) => {
       parts.forEach((part, i) => {
         part.classList.toggle('is-out', i === shown && i !== index);
@@ -103,7 +112,7 @@ export function initIntro() {
     const advance = () => {
       clearTimeout(timer);
       const now = performance.now();
-      if (target < shown) { linger(false); release(); render(target); freeAt = now + LINE_MS; return; } // back up: straight there
+      if (target < shown) { linger(false); release(); announce(false); render(target); freeAt = now + LINE_MS; return; } // back up: straight there
       if (target === shown) {
         if (shown === last) {
           if (now < freeAt) timer = setTimeout(advance, freeAt - now);
@@ -120,7 +129,7 @@ export function initIntro() {
     const readScroll = () => {
       const y = window.scrollY;
       if (bypass) {
-        if (y >= intro.offsetHeight) { bypass = false; render(last); freeAt = 0; }
+        if (y >= intro.offsetHeight) { bypass = false; render(last); freeAt = 0; announce(true); }
         return;
       }
       // Past the pinned intro with lines still to play: the scroll carries on, so the camera
@@ -136,6 +145,7 @@ export function initIntro() {
         hold();
       }
       if (!pending) release();
+      announce(!pending);
       target = y > gate ? last : partAt(y);
       advance();
     };
@@ -144,12 +154,13 @@ export function initIntro() {
 
     // "Skip intro" must always get through.
     const skip = document.querySelector('.skip-intro');
-    if (skip) skip.addEventListener('click', () => { bypass = true; clearTimeout(timer); release(); linger(false); });
+    if (skip) skip.addEventListener('click', () => { bypass = true; clearTimeout(timer); release(); linger(false); announce(true); });
 
     // Return visits start at the hero: the lines count as played.
     if (window.scrollY >= intro.offsetHeight || root.classList.contains('intro-seen')) {
       render(last);
       freeAt = 0;
+      announce(true, true);
     }
     readScroll();
 
