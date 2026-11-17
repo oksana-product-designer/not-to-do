@@ -45,7 +45,7 @@ async function run(tag, ctxOpts) {
   r.hintHiddenAfterScroll = await p.evaluate(() => document.getElementById('intro-hint').classList.contains('is-hidden'));
   // Each part
   r.parts = {};
-  for (const [n, f] of [[2, 0.36], [3, 0.61], [4, 0.9]]) { await go(pinned * f); r.parts[n] = await p.evaluate(visibleParts); await p.screenshot({ path: `${dir}/intro-${tag}-4-part-${n}.png` }); }
+  for (const [n, f] of [[2, 0.28], [3, 0.47], [4, 0.66]]) { await go(pinned * f); r.parts[n] = await p.evaluate(visibleParts); await p.screenshot({ path: `${dir}/intro-${tag}-4-part-${n}.png` }); }
   // Mid-swap between part 2 and 3
   await go(pinned * 0.37); await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), pinned * 0.46); await p.waitForTimeout(330);
   await p.screenshot({ path: `${dir}/intro-${tag}-5-mid-swap.png` });

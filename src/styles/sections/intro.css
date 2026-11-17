@@ -98,6 +98,15 @@
   .js .intro__part.is-in { animation: intro-part-in var(--duration-part-in) var(--ease-enter) var(--delay-part-in) both; }
   .js .intro__part.is-out { animation: intro-part-out var(--duration-part-out) var(--ease-exit) both; }
 
+  /* Lingering: the reader has scrolled past the intro but the last lines are still playing.
+     The text stays on screen while the page and the camera move on; the hero headline waits.
+     Leaving the state fades the text out and the hero in. */
+  .js .intro__lines { transition: opacity var(--duration-fast) var(--ease-exit); }
+  .is-intro-lingering .intro__stage { position: fixed; inset: 0; z-index: var(--z-content); }
+  .js .hero__content { transition: opacity var(--duration-base) var(--ease-enter); }
+  .is-intro-lingering .hero__content { opacity: 0; transition: none; }
+  .is-intro-leaving .intro__lines { opacity: 0; }
+
   /* Scroll label: floats in the middle of the empty sky until the first scroll */
   .js .intro__hint { bottom: auto; top: 50%; transform: translate(-50%, -50%); }
   .js .intro__hint-inner {

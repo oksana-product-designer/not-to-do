@@ -62,9 +62,23 @@ export function initIntro() {
       root.classList.add('is-scroll-held');
     };
     const release = () => {
-      if (!holding) return;
-      holding = false;
-      root.classList.remove('is-scroll-held');
+      if (holding) {
+        holding = false;
+        root.classList.remove('is-scroll-held');
+      }
+      // Lines done: if the text is still lingering past the intro, fade it out, then let it go
+      // and show the hero. The fade stops the text jumping as it returns to its normal place.
+      if (lingering && sequenceDone() && !root.classList.contains('is-intro-leaving')) {
+        root.classList.add('is-intro-leaving');
+        setTimeout(() => linger(false), ms('--duration-fast'));
+      }
+    };
+    let lingering = false;
+    const linger = (on) => {
+      if (on === lingering) return;
+      lingering = on;
+      root.classList.toggle('is-intro-lingering', on);
+      if (on) root.classList.remove('is-intro-leaving');
     };
     // While held, swallow the inputs that scroll the page. Tab and everything else still work.
     const SCROLL_KEYS = [' ', 'PageDown', 'ArrowDown', 'End'];
@@ -89,7 +103,7 @@ export function initIntro() {
     const advance = () => {
       clearTimeout(timer);
       const now = performance.now();
-      if (target < shown) { release(); render(target); freeAt = now + LINE_MS; return; } // back up: straight there
+      if (target < shown) { linger(false); release(); render(target); freeAt = now + LINE_MS; return; } // back up: straight there
       if (target === shown) {
         if (shown === last) {
           if (now < freeAt) timer = setTimeout(advance, freeAt - now);
@@ -109,18 +123,20 @@ export function initIntro() {
         if (y >= intro.offsetHeight) { bypass = false; render(last); freeAt = 0; }
         return;
       }
-      // Exit gate: until every line has played, the page cannot scroll past the pinned intro.
-      // It is held quietly (scrolling switched off) rather than pulled back on every scroll
-      // event, which caused a jittery, sticky feel. Everything before it scrolls freely.
+      // Past the pinned intro with lines still to play: the scroll carries on, so the camera
+      // keeps moving and the clouds fly off, but the text stays on screen (lingering) and the
+      // hero headline waits until the last line has had its time.
+      // Only if the reader reaches the hero itself before that does the page hold, briefly.
       const gate = exitY();
-      if (y >= gate - 1 && !sequenceDone()) {
-        if (y > gate) window.scrollTo({ top: gate, behavior: 'instant' });
+      const pending = !sequenceDone();
+      if (y <= gate) root.classList.remove('is-intro-leaving'); // back inside the intro: text visible again
+      linger(y > gate && pending);
+      if (y >= intro.offsetHeight - 1 && pending) {
+        if (y > intro.offsetHeight) window.scrollTo({ top: intro.offsetHeight, behavior: 'instant' });
         hold();
-        target = last;
-        advance();
-        return;
       }
-      target = partAt(Math.min(y, gate));
+      if (!pending) release();
+      target = y > gate ? last : partAt(y);
       advance();
     };
 
@@ -128,7 +144,7 @@ export function initIntro() {
 
     // "Skip intro" must always get through.
     const skip = document.querySelector('.skip-intro');
-    if (skip) skip.addEventListener('click', () => { bypass = true; clearTimeout(timer); release(); });
+    if (skip) skip.addEventListener('click', () => { bypass = true; clearTimeout(timer); release(); linger(false); });
 
     // Return visits start at the hero: the lines count as played.
     if (window.scrollY >= intro.offsetHeight || root.classList.contains('intro-seen')) {
