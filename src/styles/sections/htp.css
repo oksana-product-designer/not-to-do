@@ -1,0 +1,219 @@
+/* Screen 3 · How to play.
+   Default (phone, reduced motion, no JS): stacked. Title and sub, then three level blocks, each with
+   a small app card in that level's final state.
+   Pinned (tablet and up, motion welcome, JS: .is-pinned from htp.js): the stage sticks for three screens
+   of scroll. Levels on the left, one live app card on the right that htp.js moves through the levels. */
+.htp {
+  position: relative;
+  padding: var(--offset-nav) var(--space-4) var(--space-9);
+  scroll-margin-top: 0; /* the stage itself leaves room for the header */
+  color: var(--color-text);
+}
+/* Background. Without the 3D scene: a pale sky of its own (the static image would show hills here).
+   It starts in Problem's cloud white so the two screens join without a line. */
+.htp__sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--color-problem-bg), var(--color-sky-pale-top) var(--size-htp-fade), var(--color-sky-pale-mid) 60%, var(--color-sky-pale-bottom));
+}
+/* With the 3D scene: only the top edge, cloud white fading into the real sky. */
+.scene.is-loaded ~ main .htp__sky {
+  bottom: auto;
+  height: var(--size-htp-fade);
+  background: linear-gradient(to bottom, var(--color-problem-bg), var(--color-cloud-cover-edge));
+}
+.htp__stage { position: relative; isolation: isolate; } /* own layer, so the card glow stays above the sky */
+
+.htp__head { text-align: center; margin-bottom: var(--space-8); }
+.htp__sub { margin-top: var(--space-3); font-size: var(--text-body-l); }
+
+.htp__levels {
+  display: grid;
+  gap: var(--space-9);
+  max-width: var(--size-htp-card);
+  margin-inline: auto;
+  padding: 0;
+  list-style: none;
+}
+.htp__level-heading { font: inherit; }
+.htp__level-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  min-height: var(--size-touch-target);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.htp__level-label { font-size: var(--text-label); font-weight: var(--weight-medium); color: var(--color-htp-label); }
+.htp__level-title { font-size: var(--text-title-s); font-weight: var(--weight-strong); line-height: var(--line-height-title); }
+.htp__level-text { margin-top: var(--space-3); max-width: var(--measure-sub); }
+.htp__progress { display: none; }
+.htp__demo { display: none; }
+.htp-card--mini { margin-top: var(--space-5); }
+
+/* Phone: each block fades and rises in once as it enters the screen (htp.js adds is-seen). */
+@media (prefers-reduced-motion: no-preference) {
+  .htp.is-fade-ready:not(.is-pinned) .htp__level {
+    opacity: 0;
+    translate: 0 var(--shift-hero-item);
+    transition: opacity var(--duration-hero-item) var(--ease-hero), translate var(--duration-hero-item) var(--ease-hero);
+  }
+  .htp.is-fade-ready:not(.is-pinned) .htp__level.is-seen { opacity: 1; translate: 0 0; }
+}
+
+/* ---------- Pinned layout ---------- */
+.htp.is-pinned { height: calc(100vh + var(--length-htp-scroll)); height: calc(100svh + var(--length-htp-scroll)); padding: 0; }
+.htp.is-pinned .htp__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--offset-nav) var(--space-6) var(--space-7);
+}
+.htp.is-pinned .htp__head { margin-bottom: 0; }
+.htp.is-pinned .htp__body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--size-htp-card));
+  align-items: center;
+  gap: var(--space-9);
+  width: min(100%, var(--content-max));
+  margin-inline: auto;
+}
+.htp.is-pinned .htp__levels { gap: var(--space-6); max-width: none; margin: 0; }
+.htp.is-pinned .htp-card--mini { display: none; }
+.htp.is-pinned .htp__demo { display: block; }
+
+/* Inactive levels: label and title only, muted. The body stays in the page (screen readers read all three),
+   folded to zero height. Active: it unfolds, and its text fades in and rises (the hero item motion). */
+.htp.is-pinned .htp__level:not(.is-active) .htp__level-label,
+.htp.is-pinned .htp__level:not(.is-active) .htp__level-title { color: var(--color-htp-inactive); }
+.htp.is-pinned .htp__level:not(.is-active) .htp__level-title { font-weight: var(--weight-medium); }
+.htp.is-pinned .htp__level-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-hero-item) var(--ease-hero);
+}
+.htp.is-pinned .htp__level.is-active .htp__level-more { grid-template-rows: 1fr; }
+.htp.is-pinned .htp__level-inner { overflow: hidden; }
+.htp.is-pinned .htp__level-inner > * {
+  opacity: 0;
+  translate: 0 var(--shift-hero-item);
+  transition: opacity var(--duration-fast) var(--ease-exit), translate var(--duration-fast) var(--ease-exit);
+}
+.htp.is-pinned .htp__level.is-active .htp__level-inner > * {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity var(--duration-hero-item) var(--ease-hero), translate var(--duration-hero-item) var(--ease-hero);
+}
+.htp.is-pinned .htp__progress {
+  display: block;
+  height: var(--size-htp-progress);
+  margin-top: var(--space-4);
+  max-width: var(--measure-sub);
+  border-radius: var(--radius-chip);
+  background: var(--color-htp-progress-track);
+  overflow: hidden;
+}
+.htp.is-pinned .htp__progress-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-htp-progress-fill);
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+/* ---------- App task card (a picture of the app: aria-hidden, nothing focusable) ---------- */
+.htp-card {
+  position: relative;
+  padding: var(--space-5);
+  background: var(--color-surface-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  font-size: var(--text-label);
+  text-align: left;
+}
+/* Glow (level 3): a shadow layer under the card that only changes opacity */
+.htp-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: var(--shadow-htp-glow);
+  opacity: var(--htp-glow, 0);
+}
+.htp-card--level-3 { --htp-glow: 1; }
+.htp-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-card-divider);
+}
+.htp-card__title { min-height: calc(var(--text-body) * var(--line-height-text)); font-size: var(--text-body); font-weight: var(--weight-strong); }
+.htp-card__caret {
+  display: none;
+  width: var(--size-stroke);
+  height: 1em;
+  margin-left: var(--space-1);
+  vertical-align: text-bottom;
+  background: currentColor;
+}
+.htp-card.is-typing .htp-card__caret { display: inline-block; }
+.htp-card__pill {
+  flex-shrink: 0;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--color-card-pill);
+  border-radius: var(--radius-chip);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-strong);
+  white-space: nowrap;
+}
+.htp-card__fields {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto; /* When and Estimation hug their text; Instead takes the room */
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-card-divider);
+}
+.htp-card__label { display: block; color: var(--color-card-label); }
+.htp-card__value { display: block; }
+.htp-card__empty { display: inline-block; width: 70%; height: var(--space-3); border-radius: var(--radius-chip); background: var(--color-card-empty); vertical-align: middle; }
+/* Instead reel (live card): one line tall window, the list slides up through it */
+.htp-card__reel-window { display: block; height: calc(1em * var(--line-height-text)); overflow: hidden; }
+.htp-card__reel { display: block; will-change: transform; }
+.htp-card__reel > span { display: block; height: calc(1em * var(--line-height-text)); white-space: nowrap; }
+.htp-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+}
+.htp-card__tracked { font-size: var(--text-body); font-weight: var(--weight-strong); font-variant-numeric: tabular-nums; }
+.htp-card__tracked-label { margin-left: var(--space-1); color: var(--color-card-label); }
+.htp-card__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-button);
+  background: var(--color-card-button);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  transition: transform var(--duration-micro) var(--ease-enter), background-color var(--duration-micro) var(--ease-enter);
+}
+.htp-card__play { width: var(--space-2); height: var(--space-3); fill: currentColor; }
+.htp-card--level-3 .htp-card__button, .htp-card.is-pressed .htp-card__button {
+  background: var(--color-card-button-pressed);
+  transform: scale(var(--scale-button-press));
+}

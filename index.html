@@ -35,7 +35,7 @@
       <nav class="nav__pill" aria-label="Main">
         <a class="nav__wordmark" href="#hero">Not To Do</a>
         <ul class="nav__links" role="list">
-          <li><a class="nav__link" data-href="#how-to-play">How to play</a></li>
+          <li><a class="nav__link" href="#how-to-play">How to play</a></li>
           <li><a class="nav__link" data-href="#high-score">High score</a></li>
           <li><a class="nav__link" data-href="#stealth">Stealth mode</a></li>
         </ul>
@@ -46,7 +46,7 @@
         <button class="nav__menu-button" type="button" aria-expanded="false" aria-controls="nav-panel">Menu</button>
         <div class="nav__panel" id="nav-panel" hidden>
           <ul class="nav__panel-links" role="list">
-            <li><a class="nav__link" data-href="#how-to-play">How to play</a></li>
+            <li><a class="nav__link" href="#how-to-play">How to play</a></li>
             <li><a class="nav__link" data-href="#high-score">High score</a></li>
             <li><a class="nav__link" data-href="#stealth">Stealth mode</a></li>
             <li><a class="nav__link" href="#login">Log in</a></li>
@@ -95,10 +95,10 @@
           <p class="hero__sub hero__item">Not To Do logs the work you dodge, what you do instead, and how long you get away with it.</p>
           <div class="hero__actions hero__item">
             <a class="button" href="#signup">Start avoiding</a>
-            <a class="text-link" data-href="#how-to-play">How to play</a>
+            <a class="text-link" href="#how-to-play">How to play</a>
           </div>
         </div>
-        <a class="scroll-cue hero__cue hero__item" data-href="#how-to-play">
+        <a class="scroll-cue hero__cue hero__item" href="#how-to-play">
           <span class="scroll-cue__inner">
             Scroll down. Slowly is fine.
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v12M3 9l5 5 5-5" /></svg>
@@ -126,9 +126,115 @@
       <!-- Reduced motion: cloud-white veil for the short crossfade between hero and Problem (wipe.js) -->
       <div class="act__veil" aria-hidden="true"></div>
 
-      <!-- PLACEHOLDER sections: anchor targets for the header links. Content comes in later sessions. -->
-      <section class="placeholder" id="how-to-play" aria-labelledby="how-to-play-title">
-        <h2 class="visually-hidden" id="how-to-play-title">How to play</h2>
+      <!-- PLACEHOLDER sections: anchor targets for the header links (High score, Stealth). Content comes in later sessions. -->
+<!-- Screen 3 · How to play. Stacked by default (phone, reduced motion, no JS).
+           Tablet and desktop with motion: pinned for three screens of scroll, one per level (htp.js). -->
+      <section class="htp" id="how-to-play" aria-labelledby="how-to-play-title">
+        <div class="htp__sky" aria-hidden="true"></div>
+        <div class="htp__stage">
+          <div class="htp__head">
+            <h2 class="htp__title" id="how-to-play-title">How to play</h2>
+            <p class="htp__sub">Three levels. Nobody has ever lost.</p>
+            <p class="visually-hidden">Demo of the Not To Do app: a task card fills in step by step as you scroll, with the task, what you do instead, the estimate and the time tracked.</p>
+          </div>
+          <div class="htp__body">
+            <ol class="htp__levels" role="list">
+          <li class="htp__level">
+            <h3 class="htp__level-heading"><button class="htp__level-button" type="button"><span class="htp__level-label">Level 1.0</span> <span class="htp__level-title">Pick your quest</span></button></h3>
+            <div class="htp__level-more">
+              <div class="htp__level-inner">
+                <p class="htp__level-text">Choose a task you have no plans to finish. Give it an honest estimate anyway.</p>
+                <span class="htp__progress" aria-hidden="true"><span class="htp__progress-fill"></span></span>
+              </div>
+            </div>
+            <!-- Small card in this level's final state (phone, reduced motion, no JS). Same markup as the live card below. -->
+            <div class="htp-card htp-card--level-1 htp-card--mini" aria-hidden="true">
+              <div class="htp-card__top">
+                <span class="htp-card__title"><span class="htp-card__title-text">Prototype for usability testing</span><span class="htp-card__caret"></span></span>
+                <span class="htp-card__pill">Waffle Cone Project</span>
+              </div>
+              <div class="htp-card__fields">
+                <span class="htp-card__field"><span class="htp-card__label">When:</span> <span class="htp-card__value">Today, 2:00 PM</span></span>
+                <span class="htp-card__field"><span class="htp-card__label">Instead:</span> <span class="htp-card__value htp-card__instead"><span class="htp-card__empty"></span></span></span>
+                <span class="htp-card__field"><span class="htp-card__label">Estimation:</span> <span class="htp-card__value htp-card__estimate">3h</span></span>
+              </div>
+              <div class="htp-card__bottom">
+                <span><span class="htp-card__tracked">0h 00m</span> <span class="htp-card__tracked-label">tracked</span></span>
+                <span class="htp-card__button">Start avoiding <svg class="htp-card__play" viewBox="0 0 10 12" aria-hidden="true" focusable="false"><path d="M0 0l10 6-10 6z" /></svg></span>
+              </div>
+            </div>
+          </li>
+          <li class="htp__level">
+            <h3 class="htp__level-heading"><button class="htp__level-button" type="button"><span class="htp__level-label">Level 2.0</span> <span class="htp__level-title">Choose a distraction</span></button></h3>
+            <div class="htp__level-more">
+              <div class="htp__level-inner">
+                <p class="htp__level-text">Gaming, shopping, one more video. Pick what you'll do instead.</p>
+                <span class="htp__progress" aria-hidden="true"><span class="htp__progress-fill"></span></span>
+              </div>
+            </div>
+            <!-- Small card in this level's final state (phone, reduced motion, no JS). Same markup as the live card below. -->
+            <div class="htp-card htp-card--level-2 htp-card--mini" aria-hidden="true">
+              <div class="htp-card__top">
+                <span class="htp-card__title"><span class="htp-card__title-text">Prototype for usability testing</span><span class="htp-card__caret"></span></span>
+                <span class="htp-card__pill">Waffle Cone Project</span>
+              </div>
+              <div class="htp-card__fields">
+                <span class="htp-card__field"><span class="htp-card__label">When:</span> <span class="htp-card__value">Today, 2:00 PM</span></span>
+                <span class="htp-card__field"><span class="htp-card__label">Instead:</span> <span class="htp-card__value htp-card__instead"><span class="htp-card__icon">🎮</span> Video gaming</span></span>
+                <span class="htp-card__field"><span class="htp-card__label">Estimation:</span> <span class="htp-card__value htp-card__estimate">3h</span></span>
+              </div>
+              <div class="htp-card__bottom">
+                <span><span class="htp-card__tracked">0h 00m</span> <span class="htp-card__tracked-label">tracked</span></span>
+                <span class="htp-card__button">Start avoiding <svg class="htp-card__play" viewBox="0 0 10 12" aria-hidden="true" focusable="false"><path d="M0 0l10 6-10 6z" /></svg></span>
+              </div>
+            </div>
+          </li>
+          <li class="htp__level">
+            <h3 class="htp__level-heading"><button class="htp__level-button" type="button"><span class="htp__level-label">Level 3.0</span> <span class="htp__level-title">Start avoiding</span></button></h3>
+            <div class="htp__level-more">
+              <div class="htp__level-inner">
+                <p class="htp__level-text">Press the button. Every minute the task stays untouched goes on your score.</p>
+                <span class="htp__progress" aria-hidden="true"><span class="htp__progress-fill"></span></span>
+              </div>
+            </div>
+            <!-- Small card in this level's final state (phone, reduced motion, no JS). Same markup as the live card below. -->
+            <div class="htp-card htp-card--level-3 htp-card--mini" aria-hidden="true">
+              <div class="htp-card__top">
+                <span class="htp-card__title"><span class="htp-card__title-text">Prototype for usability testing</span><span class="htp-card__caret"></span></span>
+                <span class="htp-card__pill">Waffle Cone Project</span>
+              </div>
+              <div class="htp-card__fields">
+                <span class="htp-card__field"><span class="htp-card__label">When:</span> <span class="htp-card__value">Today, 2:00 PM</span></span>
+                <span class="htp-card__field"><span class="htp-card__label">Instead:</span> <span class="htp-card__value htp-card__instead"><span class="htp-card__icon">🎮</span> Video gaming</span></span>
+                <span class="htp-card__field"><span class="htp-card__label">Estimation:</span> <span class="htp-card__value htp-card__estimate">3h</span></span>
+              </div>
+              <div class="htp-card__bottom">
+                <span><span class="htp-card__tracked">1h 32m</span> <span class="htp-card__tracked-label">tracked</span></span>
+                <span class="htp-card__button">Start avoiding <svg class="htp-card__play" viewBox="0 0 10 12" aria-hidden="true" focusable="false"><path d="M0 0l10 6-10 6z" /></svg></span>
+              </div>
+            </div>
+          </li>
+            </ol>
+            <!-- Live demo card: pinned layout only. htp.js moves it through the three levels with the scroll. -->
+            <div class="htp__demo">
+              <div class="htp-card htp-card--level-3 htp-card--live" aria-hidden="true">
+              <div class="htp-card__top">
+                <span class="htp-card__title"><span class="htp-card__title-text">Prototype for usability testing</span><span class="htp-card__caret"></span></span>
+                <span class="htp-card__pill">Waffle Cone Project</span>
+              </div>
+              <div class="htp-card__fields">
+                <span class="htp-card__field"><span class="htp-card__label">When:</span> <span class="htp-card__value">Today, 2:00 PM</span></span>
+                <span class="htp-card__field"><span class="htp-card__label">Instead:</span> <span class="htp-card__value htp-card__instead"><span class="htp-card__icon">🎮</span> Video gaming</span></span>
+                <span class="htp-card__field"><span class="htp-card__label">Estimation:</span> <span class="htp-card__value htp-card__estimate">3h</span></span>
+              </div>
+              <div class="htp-card__bottom">
+                <span><span class="htp-card__tracked">1h 32m</span> <span class="htp-card__tracked-label">tracked</span></span>
+                <span class="htp-card__button">Start avoiding <svg class="htp-card__play" viewBox="0 0 10 12" aria-hidden="true" focusable="false"><path d="M0 0l10 6-10 6z" /></svg></span>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
       </section>
       <section class="placeholder" id="high-score" aria-labelledby="high-score-title">
         <h2 class="visually-hidden" id="high-score-title">High score</h2>

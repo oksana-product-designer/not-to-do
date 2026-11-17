@@ -126,6 +126,32 @@
   --opacity-problem-word-start: 0.2;       /* a word before its turn: the text color this faint reads light grey (decorative) */
   --measure-problem: 16em;                 /* statement line length: each sentence is one line group */
 
+  /* Screen 3 · How to play (htp.js reads the numbers) */
+  --length-htp-scroll: 300vh;              /* pinned scroll: one screen per level */
+  --size-htp-fade: 40vh;                   /* top edge: Problem's cloud white fading into the sky */
+  --color-sky-pale-top: #9fc8ef;           /* pale sky without the 3D scene (phones, reduced motion, no JS); sampled from the washed 3D sky */
+  --color-sky-pale-mid: #c9e0f4;
+  --color-sky-pale-bottom: #f5f9fd;
+  --color-htp-inactive: #2f3a4a;           /* inactive level label and title on the sky (dark slate: the usual muted grey fails AA on mid blue) */
+  --color-htp-label: var(--color-text);    /* "Level 1.0" on the active level */
+  --size-htp-progress: 3px;                /* progress bar height */
+  --color-htp-progress-track: rgba(20, 20, 20, 0.12);
+  --color-htp-progress-fill: var(--color-text);
+  --size-htp-card: 480px;                  /* demo card width */
+  --htp-type-share: 0.55;                  /* share of level 1 used to type the title; the estimate ticks up in the rest */
+  --htp-shuffle-turns: 3;                  /* times the Instead reel spins through the options before landing */
+  --htp-count-share: 0.8;                  /* share of level 3 used to count the tracked time up */
+  --shadow-htp-glow: 0 0 48px 8px rgba(249, 168, 240, 0.55); /* soft pink glow around the card at level 3 (CTA pink) */
+
+  /* App task card (demo, matches the app screenshot in design/reference) */
+  --text-caption: 0.75rem;                 /* project pill */
+  --color-card-label: #6b6b6b;             /* "When:", "tracked": 5.3:1 on white */
+  --color-card-divider: #e6e6ea;
+  --color-card-pill: var(--color-text);
+  --color-card-button: #ececf6;            /* the app's light lavender-grey button */
+  --color-card-button-pressed: #dcdcee;
+  --color-card-empty: #ececf0;             /* placeholder bar where no value is chosen yet */
+
   /* Layers */
   --z-scene: 0;
   --z-content: 1;
