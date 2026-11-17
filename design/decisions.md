@@ -147,3 +147,8 @@
 ## 2026-11-17 · Page ends at the hero; header leads the entrance
 - The three placeholder sections are taken out of the layout (display: none in placeholders.css; markup kept). The page now ends at the hero, so scrolling stops there instead of running into empty sky. Requested by Oksana. Undo per section when it is built (remove the rule, data-href back to href).
 - Entrance order changed: the header slides down first (same start: 2 s after the intro hands over), the headline words follow 120 ms later, then sub, buttons and scroll cue, 120 ms apart. Requested by Oksana ("hero text right after the header").
+
+## 2026-11-17 · Header: hidden on open, links centered; cue 40px from the bottom
+- Fix: on opening the page the header was briefly drawn and then slid away (its hidden style arrived after the first frame, and the slide transition animated the change). The show/hide motion now switches on only after load (is-animated, set by nav.js), so the header starts out hidden. Checked on dev and production builds; it still slides in at the hero, before the text.
+- Header links centered in the pill (tablet and up): three columns, wordmark left, links centered, Start avoiding right. Pill padding made even (8px all round, the wordmark has its own 16px), so the links sit exactly in the middle. Requested by Oksana.
+- Hero scroll cue now 40px from the bottom edge (--offset-hero-cue, between the 32 and 48 steps). Requested by Oksana. At 768x1024 the "Built with Spline" badge covers the cue's arrow (the badge comes from the Spline export and sits bottom right). At 1440x900 and on phones it is clear.

@@ -8,6 +8,10 @@ export function initNav() {
   const nav = document.getElementById('nav');
   if (!nav) return;
 
+  // Turn the show/hide motion on only after the first frames, so the header starts out hidden
+  // instead of animating from its unstyled position when the page opens.
+  requestAnimationFrame(() => requestAnimationFrame(() => nav.classList.add('is-animated')));
+
   // Phone menu
   const button = nav.querySelector('.nav__menu-button');
   const panel = document.getElementById('nav-panel');

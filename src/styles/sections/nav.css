@@ -1,5 +1,5 @@
 /* Floating header: a white pill, centered, inset from the top.
-   Desktop: wordmark · section links + Log in · Start avoiding.
+   Tablet and up: wordmark left · section links + Log in centered · Start avoiding right.
    Phone (under 768px): wordmark · Start avoiding · Menu; the menu opens a panel under the pill.
    When it shows: intro.js (class is-shown, after the intro). How it shows: this file. */
 .nav {
@@ -17,7 +17,7 @@
   align-items: center;
   gap: var(--space-2);
   min-height: var(--size-nav-height);
-  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
+  padding: var(--space-2);
   background: var(--color-nav-surface);
   border-radius: var(--radius-button);
   box-shadow: var(--shadow-card);
@@ -27,6 +27,7 @@
   align-items: center;
   min-height: var(--size-touch-target);
   margin-right: auto;
+  padding-left: var(--space-4); /* even padding on the pill keeps the centered links truly centered */
   font-family: var(--font-display);
   font-size: var(--text-title-s);
   line-height: 1;
@@ -80,9 +81,12 @@
 
 /* Tablet and up: links inline, no Menu */
 @media (min-width: 768px) {
+  /* Three columns: wordmark left, links centered in the pill, Start avoiding right */
+  .nav__pill { display: grid; grid-template-columns: 1fr auto 1fr; }
+  .nav__wordmark { justify-self: start; margin-right: 0; }
   .nav__links { display: flex; align-items: center; gap: var(--space-1); }
+  .nav__cta { justify-self: end; }
   .nav__menu-button, .nav__panel { display: none; }
-  .nav__cta { margin-left: var(--space-2); }
 }
 
 /* Show and hide (JS only; without JS the header is simply there).
@@ -90,7 +94,9 @@
    Arriving: slides down and fades in with the hero's soft landing, waiting --nav-delay
    (set by hero.js for its slot in the hero entrance). Leaving: slides back up, quicker start.
    is-hero-pending (hero.js): the hero entrance has not started yet, so the header waits for it. */
-.js .nav {
+/* Motion is switched on only after load (is-animated, set by nav.js), so the header starts out
+   already hidden instead of sliding away when the page opens. */
+.js .nav.is-animated {
   transition:
     opacity var(--duration-nav) var(--ease-exit),
     translate var(--duration-nav) var(--ease-exit),
@@ -101,7 +107,7 @@
   translate: 0 calc(-100% - var(--offset-nav-top));
   visibility: hidden;
 }
-.js .nav.is-shown {
+.js .nav.is-animated.is-shown {
   transition:
     opacity var(--duration-nav) var(--ease-hero) var(--nav-delay, 0ms),
     translate var(--duration-nav) var(--ease-hero) var(--nav-delay, 0ms),

@@ -124,7 +124,7 @@
   --size-nav-height: 64px;                 /* header pill height */
   --offset-nav: calc(var(--offset-nav-top) + var(--size-nav-height) + var(--space-4)); /* room left above a section when a header link scrolls to it */
   --offset-hero-top: calc(var(--offset-nav) + var(--space-6));  /* hero text starts below the header */
-  --offset-hero-cue: 80px;                 /* hero scroll cue distance from the bottom edge of the screen (set by Oksana; between the 64 and 96 steps) */
+  --offset-hero-cue: 40px;                 /* hero scroll cue distance from the bottom edge of the screen (set by Oksana; between the 32 and 48 steps) */
   --length-intro-scroll: 440vh;            /* scroll distance while the intro is pinned (4 parts x 110vh) */
   --shift-intro-part: 30px;                /* how far a part rises as it is revealed */
   --blur-intro-part: 8px;                  /* blur that clears during the reveal */
