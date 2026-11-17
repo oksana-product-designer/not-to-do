@@ -20,7 +20,9 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scrollbar-gutter: stable; }
+/* Set by intro.js only if the reader reaches the end of the intro before the last line has played */
+html.is-scroll-held { overflow: hidden; }
 body {
   font-family: var(--font-text);
   font-size: var(--text-body);

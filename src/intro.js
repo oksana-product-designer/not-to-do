@@ -44,6 +44,9 @@ export function initIntro() {
     const ms = (name) => parseFloat(getComputedStyle(root).getPropertyValue(name)) || 0;
     const LINE_MS = ms('--delay-part-in') + ms('--duration-part-in') + ms('--duration-part-hold');
     const TOP_PX = 8; // closer to the top than this counts as "not scrolled yet"
+    // The lines share the first 75% of the pinned scroll. The last 25% is runway for the
+    // final line, so at a normal pace it has finished before the intro ends and nothing stalls.
+    const LINES_SPAN = 0.75;
     const last = parts.length - 1;
 
     let shown = -1;     // line on screen now (-1 = none, the label shows)
@@ -51,9 +54,27 @@ export function initIntro() {
     let freeAt = 0;     // time when the line on screen may be replaced
     let timer = null;
     let bypass = false; // true while "Skip intro" carries the reader to the hero
+    let holding = false;
+
+    const hold = () => {
+      if (holding) return;
+      holding = true;
+      root.classList.add('is-scroll-held');
+    };
+    const release = () => {
+      if (!holding) return;
+      holding = false;
+      root.classList.remove('is-scroll-held');
+    };
+    // While held, swallow the inputs that scroll the page. Tab and everything else still work.
+    const SCROLL_KEYS = [' ', 'PageDown', 'ArrowDown', 'End'];
+    const block = (event) => { if (holding && (event.deltaY === undefined || event.deltaY > 0)) event.preventDefault(); };
+    window.addEventListener('wheel', block, { passive: false });
+    window.addEventListener('touchmove', (event) => { if (holding) event.preventDefault(); }, { passive: false });
+    window.addEventListener('keydown', (event) => { if (holding && SCROLL_KEYS.includes(event.key)) event.preventDefault(); });
 
     const exitY = () => intro.offsetHeight - window.innerHeight; // last scroll position with the intro pinned
-    const partAt = (y) => (y < TOP_PX ? -1 : Math.min(last, Math.floor((y / Math.max(1, exitY())) * parts.length)));
+    const partAt = (y) => (y < TOP_PX ? -1 : Math.min(last, Math.floor((y / Math.max(1, exitY() * LINES_SPAN)) * parts.length)));
     const sequenceDone = () => shown === last && performance.now() >= freeAt;
 
     const render = (index) => {
@@ -68,9 +89,12 @@ export function initIntro() {
     const advance = () => {
       clearTimeout(timer);
       const now = performance.now();
-      if (target < shown) { render(target); freeAt = now + LINE_MS; return; } // back up: straight there
+      if (target < shown) { release(); render(target); freeAt = now + LINE_MS; return; } // back up: straight there
       if (target === shown) {
-        if (shown === last && now < freeAt) timer = setTimeout(advance, freeAt - now); // re-check the exit gate
+        if (shown === last) {
+          if (now < freeAt) timer = setTimeout(advance, freeAt - now);
+          else release();
+        }
         return;
       }
       if (now < freeAt) { timer = setTimeout(advance, freeAt - now); return; }
@@ -86,10 +110,12 @@ export function initIntro() {
         return;
       }
       // Exit gate: until every line has played, the page cannot scroll past the pinned intro.
-      // Everything before that point scrolls freely, so the camera keeps moving.
+      // It is held quietly (scrolling switched off) rather than pulled back on every scroll
+      // event, which caused a jittery, sticky feel. Everything before it scrolls freely.
       const gate = exitY();
-      if (y > gate && !sequenceDone()) {
-        window.scrollTo({ top: gate, behavior: 'instant' });
+      if (y >= gate - 1 && !sequenceDone()) {
+        if (y > gate) window.scrollTo({ top: gate, behavior: 'instant' });
+        hold();
         target = last;
         advance();
         return;
@@ -102,7 +128,7 @@ export function initIntro() {
 
     // "Skip intro" must always get through.
     const skip = document.querySelector('.skip-intro');
-    if (skip) skip.addEventListener('click', () => { bypass = true; clearTimeout(timer); });
+    if (skip) skip.addEventListener('click', () => { bypass = true; clearTimeout(timer); release(); });
 
     // Return visits start at the hero: the lines count as played.
     if (window.scrollY >= intro.offsetHeight || root.classList.contains('intro-seen')) {

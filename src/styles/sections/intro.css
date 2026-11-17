@@ -52,6 +52,8 @@
 }
 .is-past-intro .skip-intro { visibility: hidden; }
 
+.intro__hint svg { width: var(--size-hint-icon); height: var(--size-hint-icon); fill: none; stroke: currentColor; stroke-width: var(--size-stroke); stroke-linecap: round; stroke-linejoin: round; }
+
 /* Scroll label: plain text. Default spot is the bottom of the stage
    (reduced motion and no JS, where the text fills the middle). */
 .intro__hint {
@@ -70,6 +72,7 @@
 .intro__hint-inner {
   display: inline-flex;
   align-items: center;
+  gap: var(--space-2);
   min-height: var(--size-touch-target);
   padding: var(--space-2) var(--space-5);
 }

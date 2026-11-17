@@ -81,3 +81,5 @@
 - The page-wide scroll lock is removed: it froze the camera and clouds while each line appeared.
 - Scroll is free again and drives the camera as before. Lines play in a locked sequence: in order, one at a time, about 1.2 s each.
 - To keep lines unskippable, the only hold left is at the exit of the pinned intro: the page cannot scroll past it until the last line has played (at most about 4.8 s from the first scroll). Skip intro bypasses it.
+- Fix: scrolling from line 3 to line 4 stalled at the intro exit, because line 4 started too close to the end and the page was pulled back on every scroll event. Lines now share the first 75% of the pinned scroll (last 25% is runway), and the rare remaining wait is a quiet hold (scrolling switched off) instead of repeated snap-backs.
+- Label copy: "Scroll" became "Scroll down", with a straight down arrow (shaft and head, not a chevron) after the text. Token --size-hint-icon is back.

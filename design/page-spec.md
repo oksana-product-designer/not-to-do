@@ -14,15 +14,15 @@ Scene: sky with big clouds close to the camera. The clouds drift, and move up th
   3. be the most
   4. inefficient player.
 - Top right link: Skip intro
-- Scroll label: plain text reading "Scroll" (no background, no arrow), floating in the center of the screen.
+- Scroll label: plain text reading "Scroll down" with a down arrow after it (no background), floating in the center of the screen.
 
 Motion:
 - On load: only the sky and the Scroll label. No text yet. The page waits.
-- First scroll: the label fades out and part 1 is revealed. Back at the very top, the text goes and the label returns.
+- First scroll: the "Scroll down" label fades out and part 1 is revealed. Back at the very top, the text goes and the label returns.
 - Trigger: scroll only (wheel, swipe, arrow keys, Space). No timer advances the page.
 - The intro stays pinned while the reader scrolls through 4.4 screens. Only one part is visible at a time.
 - Each part owns a quarter of the intro. When its quarter reaches the middle of the screen, the part is revealed: it fades in, rises 30px and comes out of an 8px blur over 0.8 s. The part before it fades out in 0.2 s first.
-- Scrolling is never locked: the camera and clouds follow the scroll as before. Only the text is locked into a sequence: lines play strictly in order, one at a time, and each stays for its full reveal plus a short rest (about 1.2 s) before the next may replace it. If the reader reaches the end of the intro before the last line has played, the page waits there until the lines catch up. Scrolling back up is free. Skip intro bypasses everything.
+- Scrolling is never locked: the camera and clouds follow the scroll as before. Only the text is locked into a sequence: lines play strictly in order, one at a time, and each stays for its full reveal plus a short rest (about 1.2 s) before the next may replace it. The lines share the first 75% of the pinned scroll; the last 25% is runway so the final line finishes before the intro ends. Only on a very fast scroll does the page wait briefly at the end of the intro until the last line has played. Scrolling back up is free. Skip intro bypasses everything.
 - The camera descends through the clouds with scroll progress. Scrolling up reverses it.
 - After 6 s idle: the camera dips so the hero headline peeks above the bottom edge, then settles back.
 - Clicking the label (or Enter on it) scrolls a little, which starts part 1.

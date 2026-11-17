@@ -78,6 +78,7 @@
   --z-skip: 20;
 
   /* Sizes */
+  --size-hint-icon: 16px;                  /* arrow next to "Scroll down" */
   --shift-hint-float: 6px;                 /* how far the Scroll label bobs */
   --size-stroke: 2px;
   --shift-button-hover: -1px;              /* button lifts a hair on hover */
