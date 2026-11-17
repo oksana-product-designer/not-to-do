@@ -8,8 +8,13 @@
     <script>
       // Runs before first paint: marks that JS works, and whether the intro was already seen.
       document.documentElement.classList.add('js');
+      // The browser must not restore an old scroll position: the intro always starts where we say.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      // A reload replays the intro from the top. Only a new visit counts as a return visit.
+      var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      var reloaded = nav && nav.type === 'reload';
       try {
-        if (localStorage.getItem('ntd-intro-seen') === '1') document.documentElement.classList.add('intro-seen');
+        if (!reloaded && localStorage.getItem('ntd-intro-seen') === '1') document.documentElement.classList.add('intro-seen');
       } catch (e) {}
       // Opening: the page starts inside the clouds and flies out. First visits only, at the top, motion welcome.
       if (!document.documentElement.classList.contains('intro-seen') && !location.hash &&

@@ -28,7 +28,7 @@ Motion:
 - The camera descends through the clouds at an even pace: it follows the scroll, but never runs ahead of the lines. Each line unlocks an equal quarter of the descent, spread over the time the line is on screen, so a fast scroll gives a steady glide instead of a jump and a freeze. Scrolling up reverses it.
 - After 6 s idle: the camera dips so the hero headline peeks above the bottom edge, then settles back.
 - Clicking the label (or Enter on it) scrolls a little, which starts part 1.
-- Return visits skip the intro. Reduced motion: all four parts shown together as static text, the label at the bottom, no pinning.
+- Return visits (a new visit after the hero was reached) skip the intro. A reload always starts again at the top with the opening; the browser's own scroll restore is switched off so the page never jumps to an old position. Reduced motion: all four parts shown together as static text, the label at the bottom, no pinning.
 
 ## Floating nav (appears after the intro)
 

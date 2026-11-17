@@ -99,3 +99,4 @@
 - Starts when the scene is drawn, at most 1.5 s after load. Phones, slow or failed loads: the static image zooms out from 1.4x while the veil fades.
 - The Scroll label waits until the opening is done. No opening on return visits, with a link target, or with reduced motion.
 - New tokens: --color-cloud-cover, --duration-opening, --scale-opening-fallback.
+- Fix: reloading restored the old scroll position (the intro raced through its lines from there) and counted as a return visit (no opening). Now the browser's scroll restore is off and a reload replays the intro from the top with the opening. A new visit after reaching the hero still starts at the hero.
