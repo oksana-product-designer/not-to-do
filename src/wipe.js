@@ -137,8 +137,9 @@ function initVeil(problem) {
   const veil = document.querySelector('.act__veil');
   if (!veil || !veil.animate) return;
   let last = null;
+  // The observed area is the top half of the screen: Problem enters it when its top crosses the middle.
   new IntersectionObserver(([entry]) => {
-    const past = entry.boundingClientRect.top < window.innerHeight / 2;
+    const past = entry.isIntersecting;
     if (last !== null && past !== last) {
       veil.animate([{ opacity: 0 }, { opacity: 1 }, { opacity: 0 }], {
         duration: tokenMs('--duration-crossfade', 400),
@@ -146,5 +147,5 @@ function initVeil(problem) {
       });
     }
     last = past;
-  }, { rootMargin: '-50% 0px -50% 0px' }).observe(problem);
+  }, { rootMargin: '0px 0px -50% 0px' }).observe(problem);
 }
