@@ -53,30 +53,17 @@
 }
 .is-past-intro .skip-intro { visibility: hidden; }
 
-.intro__hint svg { width: var(--size-hint-icon); height: var(--size-hint-icon); fill: none; stroke: currentColor; stroke-width: var(--size-stroke); stroke-linecap: round; stroke-linejoin: round; }
-
-/* Scroll label: plain text. Default spot is the bottom of the stage
-   (reduced motion and no JS, where the text fills the middle). */
+/* Scroll label: the shared .scroll-cue component (base.css). This file only places and times it.
+   Default spot is the bottom of the stage (reduced motion and no JS, where the text fills the middle). */
 .intro__hint {
   position: absolute;
   left: 50%;
   bottom: var(--space-8);
   transform: translateX(-50%);
-  color: var(--color-intro-text);
-  font-size: var(--text-label);
-  font-weight: var(--weight-medium);
-  text-decoration: none;
   /* leaving: short, with a soft start */
   transition: opacity var(--duration-fast) var(--ease-exit), visibility var(--duration-fast);
 }
 .intro__hint.is-hidden { opacity: 0; visibility: hidden; }
-.intro__hint-inner {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: var(--size-touch-target);
-  padding: var(--space-2) var(--space-5);
-}
 
 @keyframes intro-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes intro-part-in {
@@ -85,7 +72,6 @@
 }
 @keyframes intro-part-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes wisp-drift { from { transform: translateX(calc(var(--shift-wisp-drift) * -1)); } to { transform: translateX(var(--shift-wisp-drift)); } }
-@keyframes hint-float { from { transform: translateY(calc(var(--shift-hint-float) * -1)); } to { transform: translateY(var(--shift-hint-float)); } }
 
 /* Staged mode */
 @media (prefers-reduced-motion: no-preference) {
@@ -134,9 +120,9 @@
 
   /* Scroll label: floats in the middle of the empty sky until the first scroll */
   .js .intro__hint { bottom: auto; top: 50%; transform: translate(-50%, -50%); }
-  .js .intro__hint-inner {
+  .js .intro__hint .scroll-cue__inner {
     animation:
       intro-fade-in var(--duration-intro-hint-fade) var(--ease-standard) var(--duration-intro-hint-delay) backwards,
-      hint-float var(--duration-hint-float) ease-in-out infinite alternate;
+      scroll-cue-float var(--duration-hint-float) ease-in-out infinite alternate;
   }
 }

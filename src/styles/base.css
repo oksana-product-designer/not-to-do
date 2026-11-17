@@ -85,3 +85,35 @@ main { position: relative; z-index: var(--z-content); }
 /* Opening veil: cloud-white over the scene at first paint. scroll.js fades it as the camera flies out. */
 .is-opening .scene::after { content: ''; position: absolute; inset: 0; background: var(--color-cloud-cover); opacity: var(--opening-veil, 1); }
 .is-opening .intro__hint { opacity: 0; }
+
+/* Scroll cue: plain text with a down arrow, gently bobbing. Shared by the intro ("Scroll down")
+   and the hero ("Scroll down. Slowly is fine."). Each section places it; this is how it looks. */
+.scroll-cue {
+  color: inherit;
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+.scroll-cue__inner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-touch-target);
+  padding: var(--space-2) var(--space-5);
+}
+.scroll-cue svg { width: var(--size-hint-icon); height: var(--size-hint-icon); fill: none; stroke: currentColor; stroke-width: var(--size-stroke); stroke-linecap: round; stroke-linejoin: round; }
+@keyframes scroll-cue-float { from { transform: translateY(calc(var(--shift-hint-float) * -1)); } to { transform: translateY(var(--shift-hint-float)); } }
+@media (prefers-reduced-motion: no-preference) {
+  .js .scroll-cue__inner { animation: scroll-cue-float var(--duration-hint-float) ease-in-out infinite alternate; }
+}
+
+/* Visually hidden: read by screen readers, not drawn */
+.visually-hidden {
+  position: absolute;
+  width: var(--size-visually-hidden);
+  height: var(--size-visually-hidden);
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
