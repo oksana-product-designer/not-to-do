@@ -125,6 +125,7 @@
   /* Screen 2 · Problem */
   --text-problem-title: 4rem;              /* statement, tablet and up: fixed 64px (the H2 size on desktop, not scaling) */
   --text-problem-title-phone: 2.25rem;     /* statement on phones: fixed 36px */
+  --color-problem-muted: var(--color-text-muted); /* second line of the statement, fully revealed: grey, 6.7:1 on the white card */
   --opacity-problem-word-start: 0.2;       /* a word before its turn: the text color this faint reads light grey (decorative) */
   --measure-problem: 22em;                 /* statement line length: each sentence is one line group */
 

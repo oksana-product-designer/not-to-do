@@ -187,3 +187,7 @@
 
 ## 2026-11-17 · Problem: white card
 - The statement and sub now sit in a white card with rounded corners on the pale sky (Oksana; replaces "no card" from the brief). Existing card tokens: --color-surface-card, --radius-card (24px), --shadow-card. Padding 96/64px on tablet and up, 48/24px on phones. No new tokens.
+
+## 2026-11-17 · Problem: no sub, second line grey
+- Sub "Not To Do is a tracker for the other seven hours of the workday." removed (Oksana). The words now share the whole reveal scroll.
+- "We did some research." and "You don't." merged into one line group, which lands grey (--color-problem-muted = --color-text-muted, #5c5c5c, 6.7:1 on the white card) instead of black (Oksana). The first sentence stays #141414.

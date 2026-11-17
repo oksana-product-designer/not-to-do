@@ -75,9 +75,8 @@ Two layers moving as one: the 3D camera (scroll-linked path through the clouds) 
 Scene: pale sky just above the cloud layer. No hills.
 
 - Statement (H2): Every productivity app assumes you want to work. We did some research. You don't.
-- Sub: Not To Do is a tracker for the other seven hours of the workday.
-- Layout: centered on the pale sky. Statement and sub sit in a white card with rounded corners (the app's card style). No dark background. The statement breaks into three line groups, one per sentence.
-- Scroll reveal: the statement starts light grey and each word turns to full text color in turn as the reader scrolls (scrubbed, reversible). The sub fades in after the last word. Reduced motion and no JS: fully shown.
+- Layout: centered on the pale sky. The statement sits in a white card with rounded corners (the app's card style). No dark background. The statement breaks into two line groups: "Every productivity app assumes you want to work." then "We did some research. You don't." on one line, in grey.
+- Scroll reveal: the statement starts light grey and each word turns to full text color in turn as the reader scrolls (scrubbed, reversible). Reduced motion and no JS: fully shown.
 
 ## Screen 3 · How to play
 

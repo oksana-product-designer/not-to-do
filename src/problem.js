@@ -1,13 +1,12 @@
 // Screen 2 · Problem: word reveal. The statement's words are already in the HTML (spans inside the
 // heading, so it reads as one sentence). After the cloud wipe, scrolling turns each word from faint to
-// full in turn; the sub fades in after the last word. Scrubbed and reversible. Opacity only.
+// full in turn. Scrubbed and reversible. Opacity only.
 // Reduced motion: nothing to do, everything is fully shown.
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { tokenNumber } from './tokens.js';
 import { wipeLengthPx, revealLengthPx, WIPE_SMOOTHING } from './wipe.js';
 
 const clamp01 = (t) => Math.min(1, Math.max(0, t));
-const WORDS_SPAN = 0.8; // words share the first 80% of the reveal scroll; the sub takes the rest
 const OVERLAP = 2;      // each word takes two word-slots to arrive, so neighbours blend instead of blinking
 
 export function initProblem() {
@@ -17,22 +16,16 @@ export function initProblem() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const words = Array.from(problem.querySelectorAll('.problem__word'));
-  const sub = problem.querySelector('.problem__sub');
   problem.classList.add('is-reveal-ready'); // from here on, the faint "before" state applies
 
   const start = tokenNumber('--opacity-problem-word-start', 0.2);
-  const shift = tokenNumber('--shift-hero-item', 16);
   const render = (r) => {
-    const slots = (r / WORDS_SPAN) * (words.length + 1);
+    // the words share the whole reveal scroll; the last one lands at the end
+    const slots = r * (words.length + 1);
     words.forEach((word, i) => {
       const t = clamp01((slots - i) / OVERLAP);
       word.style.opacity = (start + (1 - start) * t).toFixed(3);
     });
-    if (sub) {
-      const s = clamp01((r - WORDS_SPAN) / (1 - WORDS_SPAN));
-      sub.style.opacity = s.toFixed(3);
-      sub.style.translate = `0 ${((1 - s) * shift).toFixed(1)}px`;
-    }
   };
 
   ScrollTrigger.create({

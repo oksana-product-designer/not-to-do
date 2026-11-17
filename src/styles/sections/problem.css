@@ -1,7 +1,7 @@
 /* Screen 2 · Problem. Centered, on a pale sky, the text in a white card with rounded corners.
-   The statement is one heading in three line groups (one per sentence).
+   The statement is one heading in two line groups: the first sentence, then the other two in grey.
    Word reveal (JS + motion welcome): problem.js scrubs each word from faint to full as the reader scrolls;
-   the sub follows the last word. Without JS or with reduced motion everything is fully shown. */
+   Without JS or with reduced motion everything is fully shown. */
 .problem {
   position: relative;
   min-height: 100vh;
@@ -19,7 +19,7 @@
   inset: 0;
   background: linear-gradient(to bottom, var(--color-cloud-cover), var(--color-sky-pale-top) 20%, var(--color-sky-pale-mid) 65%, var(--color-sky-pale-bottom));
 }
-/* White card with rounded corners holding the statement and the sub (Oksana) */
+/* White card with rounded corners holding the statement (Oksana) */
 .problem__content {
   position: relative; /* above the sky */
   display: flex;
@@ -43,10 +43,10 @@
   .problem__title { font-size: var(--text-problem-title); }
 }
 .problem__line { display: block; max-width: var(--measure-problem); margin-inline: auto; text-wrap: balance; }
-.problem__sub { max-width: var(--measure-sub); font-size: var(--text-body-l); text-wrap: pretty; }
+/* Second line group ("We did some research. You don't.") lands grey, not black (Oksana). */
+.problem__line--muted { color: var(--color-problem-muted); }
 
-/* Before the reveal: words faint, sub hidden. Only once problem.js is running (is-reveal-ready). */
+/* Before the reveal: words faint. Only once problem.js is running (is-reveal-ready). */
 @media (prefers-reduced-motion: no-preference) {
   .problem.is-reveal-ready .problem__word { opacity: var(--opacity-problem-word-start); }
-  .problem.is-reveal-ready .problem__sub { opacity: 0; translate: 0 var(--shift-hero-item); }
 }
