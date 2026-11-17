@@ -53,8 +53,10 @@ window.addEventListener('intro:lines', (event) => {
   const done = event.detail.done;
   gsap.killTweensOf(gate);
   if (done && event.detail.instant) { gate.value = 1; applyCamera(); return; }
-  // Opening: an unhurried 1.2 s so the clouds part and the hills rise. Closing (back into the intro): quick.
-  gsap.to(gate, { value: done ? 1 : 0, duration: done ? 1.2 : 0.3, ease: done ? 'power2.inOut' : 'power2.out', onUpdate: applyCamera });
+  // Opening the view to the hills: unhurried, but with a strong middle so it still feels like a swoop
+  // (power3.inOut: eases away from the clouds, sweeps, then lands softly). Closing (back into the intro): quick.
+  const reveal = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--duration-hero-reveal')) || 2400) / 1000;
+  gsap.to(gate, { value: done ? 1 : 0, duration: done ? reveal : 0.3, ease: done ? 'power3.inOut' : 'power2.out', onUpdate: applyCamera });
 });
 
 const straight = (from, to, t) => ({ rotX: mix(from.rotX, to.rotX, t), y: mix(from.y, to.y, t), z: mix(from.z, to.z, t) });
@@ -64,7 +66,8 @@ const SEGMENTS = [
   // Intro, pinned: the camera sinks through the clouds while the four parts take turns.
   { trigger: '#intro', start: 'top top', end: 'bottom bottom', from: POSES.introStart, to: POSES.introEnd },
   // Intro scrolls away: the camera pulls back fast and drops, the clouds fly off and the hills rise into view.
-  { trigger: '#intro', start: 'bottom bottom', end: 'bottom top', from: POSES.introEnd, to: POSES.hero, path: swoop },
+  // It trails the scrollbar by a full second, so even a quick scroll becomes an unhurried glide.
+  { trigger: '#intro', start: 'bottom bottom', end: 'bottom top', from: POSES.introEnd, to: POSES.hero, path: swoop, smoothing: 1 },
 ];
 const progress = SEGMENTS.map(() => 0);
 let nudge = 0; // small extra progress used by the idle "dip" in intro.js
@@ -199,7 +202,7 @@ export function initScroll() {
         if (segment.onProgress) segment.onProgress(self.progress);
         applyCamera();
       };
-      ScrollTrigger.create({ trigger: segment.trigger, start: segment.start, end: segment.end, scrub: SMOOTHING, onUpdate: update, onRefresh: update });
+      ScrollTrigger.create({ trigger: segment.trigger, start: segment.start, end: segment.end, scrub: segment.smoothing || SMOOTHING, onUpdate: update, onRefresh: update });
     });
   }
 }

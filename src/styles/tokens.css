@@ -85,6 +85,12 @@
   --duration-opening: 2000ms;              /* fly-out from the clouds to the first view (read by scroll.js) */
   --scale-opening-fallback: 1.4;           /* static image starts zoomed in this much (read by scroll.js) */
 
+  /* Intro to hero */
+  --duration-hero-reveal: 3200ms;          /* clouds part and the hills rise (read by scroll.js) */
+  --delay-hero-in: 2000ms;                 /* headline waits until the hills have mostly landed */
+  --duration-hero-in: 800ms;
+  --shift-hero-in: 24px;                   /* headline rises this much as it arrives */
+
   /* Layers */
   --z-scene: 0;
   --z-content: 1;

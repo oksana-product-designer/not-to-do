@@ -105,8 +105,13 @@
      Leaving the state fades the text out and the hero in. */
   .js .intro__lines { transition: opacity var(--duration-fast) var(--ease-exit); }
   .is-intro-lingering .intro__stage { position: fixed; inset: 0; z-index: var(--z-content); }
-  .js .hero__content { transition: opacity var(--duration-base) var(--ease-enter); }
-  .is-intro-lingering .hero__content { opacity: 0; transition: none; }
+  /* Hero headline: arrives after the camera, rising slightly (background first, then text) */
+  .js .hero__content {
+    transition:
+      opacity var(--duration-hero-in) var(--ease-enter) var(--delay-hero-in),
+      transform var(--duration-hero-in) var(--ease-enter) var(--delay-hero-in);
+  }
+  .is-intro-lingering .hero__content { opacity: 0; transform: translateY(var(--shift-hero-in)); transition: none; }
   .is-intro-leaving .intro__lines { opacity: 0; }
 
   /* Cloud wisps in front of the text, so the lines look like they float among clouds.

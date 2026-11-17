@@ -100,3 +100,9 @@
 - The Scroll label waits until the opening is done. No opening on return visits, with a link target, or with reduced motion.
 - New tokens: --color-cloud-cover, --duration-opening, --scale-opening-fallback.
 - Fix: reloading restored the old scroll position (the intro raced through its lines from there) and counted as a return visit (no opening). Now the browser's scroll restore is off and a reload replays the intro from the top with the opening. A new visit after reaching the hero still starts at the hero.
+
+## 2026-11-17 · Intro to hero: slower, still dynamic
+- Measured before: the move from clouds to hills took 0.9 s and the headline arrived with it.
+- Now: 3.2 s with power3.inOut (2.4 s was tried first: visible move 1.6 s, headline landed before the camera) (eases out of the clouds, sweeps through the middle, lands softly). Scrolling through it, the camera trails by 1 s instead of 0.5 s.
+- Choreography: background first, then text. The hero headline starts 2 s into the move and fades in while rising 24px over 0.8 s.
+- New tokens: --duration-hero-reveal, --delay-hero-in, --duration-hero-in, --shift-hero-in.
