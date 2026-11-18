@@ -38,15 +38,7 @@
 /* Entrance (JS + motion welcome): the same motion as the hero headline (hero tokens). problem.js marks
    is-words-ready (hidden "before" state) and plays it with is-words-in when the cloud wipe has cleared.
    Each word is a window (overflow hidden) with an inner span that rises through it, straightening from a tilt. */
-.problem.is-words-ready .problem__word {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  /* room for descenders (p, y) and the tilt, so the window does not cut them */
-  padding: 0 0.06em 0.14em;
-  margin: 0 -0.06em -0.14em;
-}
-.problem.is-words-ready .problem__word > span { display: inline-block; transform-origin: left bottom; }
+/* Each word becomes a .word-window (base.css) once problem.js is ready. */
 @media (prefers-reduced-motion: no-preference) {
   .problem.is-words-ready:not(.is-words-in) .problem__word > span {
     transform: translateY(105%) rotate(var(--rotate-hero-word));

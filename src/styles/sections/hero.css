@@ -54,10 +54,7 @@
    2. Then sub, button row and scroll cue settle in, one step apart:
       fade, small rise, blur clearing. The button row also grows slightly.
    Without JS or with reduced motion, everything is simply visible. */
-.hero__word { display: inline-block; overflow: hidden; vertical-align: top;
-  /* room for descenders (g, y) and the tilt, so the window does not cut them */
-  padding: 0 0.06em 0.14em; margin: 0 -0.06em -0.14em; }
-.hero__word > span { display: inline-block; }
+/* .hero__word is a .word-window (base.css) */
 .hero__sub { --k: 1; }
 .hero__actions { --k: 2; }
 .hero__cue { --k: 3; }

@@ -29,7 +29,7 @@ export function initHero() {
   title.textContent = '';
   words.forEach((word, i) => {
     const frame = document.createElement('span');
-    frame.className = 'hero__word';
+    frame.className = 'hero__word word-window';
     frame.setAttribute('aria-hidden', 'true');
     const inner = document.createElement('span');
     inner.textContent = word;

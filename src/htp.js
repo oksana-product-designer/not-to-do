@@ -1,9 +1,8 @@
-// Screen 3 · How to play. htp.css holds both layouts; this file decides which one runs and drives it.
-// - Pinned (768px and up, motion welcome): three screens of scroll, one per level. The scroll picks the
-//   active level, fills its progress bar and moves the live app card through its states. Scrubbed, so
-//   scrolling back up rewinds everything. Level buttons scroll to their level.
-// - Stacked (phones): each level block fades in once as it enters the screen.
-// - Reduced motion: stacked, everything in its final state, no movement. No JS: stacked (HTML only).
+// Screen 3 · How to play. With JS and motion welcome the section is pinned on every screen size (htp.css
+// arranges desktop, tablet and phone): three screens of scroll, one per level. The scroll picks the active
+// level, fills its progress bar and moves the live app card through its states. Scrubbed, so scrolling back
+// up rewinds everything. Level buttons scroll to their level.
+// Reduced motion and no JS: the stacked blocks from the HTML, everything in its final state, no movement.
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { tokenNumber } from './tokens.js';
@@ -20,8 +19,6 @@ const DISTRACTIONS = [['🛒', 'Online shopping'], ['📱', 'Scrolling'], ['🍿
 const LANDING = ['🎮', 'Video gaming'];
 const spin = gsap.parseEase('power3.out'); // the reel starts fast and slows down as it lands
 
-export const htpLengthPx = () => (tokenNumber('--length-htp-scroll', 300) / 100) * window.innerHeight;
-
 export function initHtp() {
   const section = document.getElementById('how-to-play');
   if (!section) return;
@@ -30,16 +27,7 @@ export function initHtp() {
   const levels = Array.from(section.querySelectorAll('.htp__level'));
   const buttons = levels.map((level) => level.querySelector('.htp__level-button'));
   const fills = levels.map((level) => level.querySelector('.htp__progress-fill'));
-  const wide = window.matchMedia('(min-width: 768px)');
-
-  // Phone: fade each block in once (IntersectionObserver, like the animation-on-scroll pattern).
-  section.classList.add('is-fade-ready');
-  const seen = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) { entry.target.classList.add('is-seen'); seen.unobserve(entry.target); }
-    });
-  }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
-  levels.forEach((level) => seen.observe(level));
+  section.classList.add('is-pinned');
 
   // Live card parts
   const card = section.querySelector('.htp-card--live');
@@ -51,6 +39,8 @@ export function initHtp() {
   const turns = Math.round(tokenNumber('--htp-shuffle-turns', 3));
   let reel = null;
   let reelSteps = 0;
+  let rowHeight = 0; // one reel row, measured on refresh (not on every scroll frame)
+  const measure = () => { rowHeight = reel && reel.firstElementChild ? reel.firstElementChild.offsetHeight : 0; };
   if (instead) {
     const rows = ['<span><span class="htp-card__empty"></span></span>'];
     for (let t = 0; t < turns; t++) DISTRACTIONS.forEach(([icon, text]) => rows.push(`<span><span class="htp-card__icon">${icon}</span> ${text}</span>`));
@@ -74,7 +64,6 @@ export function initHtp() {
   };
 
   const render = (p) => {
-    if (!section.classList.contains('is-pinned')) return;
     const count = levels.length;
     const x = p * count;
     const index = Math.min(count - 1, Math.floor(x));
@@ -95,10 +84,7 @@ export function initHtp() {
     if (estimate) estimate.textContent = `${Math.round(clamp01((t1 - typeShare) / (1 - typeShare)) * ESTIMATE_HOURS)}h`;
 
     // Level 2.0: the Instead reel spins and lands on the last value.
-    if (reel) {
-      const row = reel.firstElementChild ? reel.firstElementChild.offsetHeight : 0;
-      reel.style.transform = `translate3d(0, ${(-spin(share(1)) * reelSteps * row).toFixed(1)}px, 0)`;
-    }
+    if (reel) reel.style.transform = `translate3d(0, ${(-spin(share(1)) * reelSteps * rowHeight).toFixed(1)}px, 0)`;
 
     // Level 3.0: the button is pressed, the tracked time counts up, the card lifts (deeper shadow).
     const t3 = share(2);
@@ -118,20 +104,14 @@ export function initHtp() {
     scrub: WIPE_SMOOTHING,
     invalidateOnRefresh: true,
     onUpdate: (self) => render(self.progress),
-    onRefresh: (self) => render(self.progress),
+    onRefresh: (self) => { measure(); render(self.progress); },
   });
-
-  // Pinned from tablet up. The live card starts in the level 1 state (the HTML holds the final state).
-  const applyLayout = () => {
-    const pinned = true; // every screen size (phones get their own arrangement in htp.css)
-    section.classList.toggle('is-pinned', pinned);
-    if (card) card.classList.toggle('htp-card--level-3', !pinned);
-    if (!pinned) { levels.forEach((level) => level.classList.remove('is-active')); buttons.forEach((b) => b.removeAttribute('aria-current')); active = -1; }
-    ScrollTrigger.refresh();
-    render(trigger.progress);
-  };
-  wide.addEventListener('change', applyLayout);
-  applyLayout();
+  // The live card's HTML holds the final state (for no-JS); from here it starts at the first level.
+  if (card) card.classList.remove('htp-card--level-3');
+  // The pinned section is taller than the stacked one: let every scroll trigger set up before it re-measure.
+  ScrollTrigger.refresh();
+  measure();
+  render(trigger.progress);
 
   // Entrance (pinned layout): plays when the section is in place (its stage pinned at the top), resets when the reader scrolls back
   // up into Problem, so it plays again (htp.css does the motion). The title's words get a window each
@@ -139,7 +119,7 @@ export function initHtp() {
   const heading = section.querySelector('.htp__title');
   if (heading) {
     const words = heading.textContent.trim().split(/\s+/);
-    heading.innerHTML = words.map((w, i) => `<span class="htp__word"><span style="--i: ${i}">${w}</span></span>`).join(' ');
+    heading.innerHTML = words.map((w, i) => `<span class="htp__word word-window"><span style="--i: ${i}">${w}</span></span>`).join(' ');
   }
   section.classList.add('is-entrance-ready');
   ScrollTrigger.create({
@@ -157,10 +137,9 @@ export function initHtp() {
     active: () => section.classList.contains('is-pinned'),
   });
 
-  // Level buttons: go to the start of that level's share of the pinned scroll (phones: to the block).
+  // Level buttons: go to the start of that level's share of the pinned scroll.
   buttons.forEach((button, i) => {
     button.addEventListener('click', () => {
-      if (!section.classList.contains('is-pinned')) { levels[i].scrollIntoView({ block: 'start' }); return; }
       const top = trigger.start + (trigger.end - trigger.start) * ((i + 0.02) / levels.length);
       window.scrollTo({ top });
     });

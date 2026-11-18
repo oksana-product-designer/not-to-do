@@ -125,6 +125,18 @@ main { position: relative; z-index: var(--z-content); }
     radial-gradient(22% 36% at 80% 60%, var(--puff), var(--puff-edge) 70%);
 }
 
+/* Word window: one word of a title that rises through its own invisible window (hero, Problem, How to play).
+   The outer span is the window; the inner span is the part that moves. Each section adds the motion. */
+.word-window {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* room for descenders and the tilt, so the window does not cut them */
+  padding: 0 var(--size-word-room-x) var(--size-word-room-y);
+  margin: 0 calc(var(--size-word-room-x) * -1) calc(var(--size-word-room-y) * -1);
+}
+.word-window > span { display: inline-block; transform-origin: left bottom; }
+
 /* Visually hidden: read by screen readers, not drawn */
 .visually-hidden {
   position: absolute;

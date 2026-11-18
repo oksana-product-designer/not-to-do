@@ -337,3 +337,11 @@
 ## 2026-11-18 · Fix: no 3D sky after widening a narrow window
 - Oksana saw How to play without clouds. The page had been loaded while the Browser pane was narrower than 768px (phone layout), where the 3D scene is not loaded; widening the pane afterwards did not load it, so the pale phone sky showed instead.
 - main.js now loads the scene when a page opened narrow is widened past 768px (a resized browser, a tablet turned sideways). Checked in the Browser pane: opened at 375px (no scene), widened, scene loaded and the clouds show behind How to play.
+
+## 2026-11-18 · Code review fixes (all ten)
+- Landing (landing.js): only a scroll made by the reader (wheel, touch or keys within --duration-landing-input, 400 ms) can be caught, so in-page links (header, menu, hero link, scroll cue to How to play) are no longer stopped on Problem. On touch only downward swipes are held; scrolling up is never blocked. A section holds again whenever the page comes back to it (it was only after going back above it). Timings are tokens: --duration-landing-quiet (220 ms), --duration-landing-input (400 ms).
+- Scroll lengths in JS use the CSS vh unit (cssVh() in tokens.js, measured once and on resize) instead of window.innerHeight, so on phones with a collapsing address bar the resting points and wipe stages match the CSS pins.
+- Header highlight: How to play only counts once it is in place (is-entered), not while it sits hidden under Problem's exit.
+- How to play: removed the dead stacked-layout code (media switch, phone fade-in observer and its CSS, the unused htpLengthPx), the reel row height is measured on refresh instead of every scroll frame. The wipe reads its edge token once.
+- Word window: the masked word (hero, Problem, How to play titles) is one shared class .word-window in base.css with tokens --size-word-room-x / -y; the three copies are gone. Computed style of the hero words is identical to the live site.
+- Checked (dev and production): all three How to play links reach the section with its link highlighted; swipe stops on hero, Problem, How to play; no highlight during Problem's exit; landing again after returning to Problem; phone layout steady.

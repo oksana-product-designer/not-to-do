@@ -27,6 +27,7 @@ export function initProblem() {
     inner.textContent = word.textContent;
     word.textContent = '';
     word.appendChild(inner);
+    word.classList.add('word-window');
     word.style.setProperty('--i', i);
   });
   problem.classList.add('is-words-ready'); // from here on, the hidden "before" state applies

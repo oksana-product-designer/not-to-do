@@ -10,7 +10,7 @@
 // Scrolling back up plays it backwards. Covered content is inert: no clicks, no focus.
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { tokenMs, tokenNumber } from './tokens.js';
+import { tokenMs, tokenNumber, cssVh } from './tokens.js';
 import { addLanding } from './landing.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -37,7 +37,7 @@ export function wipeStages() {
   return stages;
 }
 // Scroll lengths in pixels (the tokens are in vh).
-const vhToken = (name, fallback) => (tokenNumber(name, fallback) / 100) * window.innerHeight;
+const vhToken = (name, fallback) => tokenNumber(name, fallback) * cssVh();
 export const holdLengthPx = () => vhToken('--length-hero-hold', 60);
 export const wipeLengthPx = () => vhToken('--length-wipe-scroll', 200);
 export const revealLengthPx = () => vhToken('--length-problem-reveal', 120);
@@ -62,6 +62,7 @@ export function initWipe() {
   if (!stage || !veil) return;
 
   const S = wipeStages();
+  const edgeVh = tokenNumber('--size-wipe-edge', 60); // read once, not on every frame
   const place = (el, y) => { if (el) el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`; };
 
   let heroInert = null;
@@ -69,7 +70,7 @@ export function initWipe() {
   let uncovered = null;
   const render = (p) => {
     const vh = window.innerHeight;
-    const edge = (tokenNumber('--size-wipe-edge', 60) / 100) * vh;
+    const edge = edgeVh * cssVh();
     const below = vh;      // soft edge just under the screen
     const covered = -edge; // solid part over the whole screen
     let y;
@@ -121,7 +122,7 @@ export function initWipe() {
   addLanding({
     at: heroAt,
     range: () => problemAt() - heroAt(),
-    sitOn: () => !hero.classList.contains('is-hero-done') && !document.documentElement.classList.contains('is-scroll-held'),
+    sitOn: () => !document.documentElement.classList.contains('is-scroll-held'), // the intro still holds the page: not yet
   });
   addLanding({ at: problemAt, range: () => revealLengthPx() });
 }

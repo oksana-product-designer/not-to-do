@@ -54,10 +54,20 @@ export function initNav() {
       else link.removeAttribute('aria-current');
     });
   };
+  // A section only counts once it is in place: How to play overlaps the last screen of Problem while it is
+  // still hidden (is-entrance-ready without is-entered), so it is not highlighted until it has arrived.
+  const onLine = new Set();
+  const inPlace = (el) => !el.classList.contains('is-entrance-ready') || el.classList.contains('is-entered');
+  const update = () => {
+    const current = targets.filter((el) => onLine.has(el) && SECTIONS.includes(el.id) && inPlace(el)).pop();
+    setCurrent(current ? current.id : null);
+  };
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) setCurrent(SECTIONS.includes(entry.target.id) ? entry.target.id : null);
-    });
+    entries.forEach((entry) => { if (entry.isIntersecting) onLine.add(entry.target); else onLine.delete(entry.target); });
+    update();
   }, { rootMargin: '-40% 0px -59% 0px' });
-  targets.forEach((el) => observer.observe(el));
+  targets.forEach((el) => {
+    observer.observe(el);
+    new MutationObserver(update).observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
 }
