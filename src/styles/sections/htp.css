@@ -72,21 +72,28 @@
   top: 0;
   height: 100vh;
   height: 100svh;
+  /* One composition, centered in the space below the header: title and sub, then the two columns. */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: var(--space-8);
   padding: var(--offset-nav) var(--space-6) var(--space-7);
 }
 .htp.is-pinned .htp__head { margin-bottom: 0; }
+/* Two columns of equal weight, as wide as the header together: levels on the left, the card on the right.
+   The levels column has a fixed height (the tallest state), so nothing shifts when a level opens. */
 .htp.is-pinned .htp__body {
-  flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, var(--size-htp-card));
+  grid-template-columns: minmax(0, var(--size-htp-levels)) minmax(0, var(--size-htp-card));
+  justify-content: space-between;
   align-items: center;
-  gap: var(--space-9);
+  gap: var(--space-8);
   width: min(100%, var(--content-max));
   margin-inline: auto;
 }
+.htp.is-pinned .htp__levels { min-height: var(--size-htp-levels-height); align-content: center; }
 .htp.is-pinned .htp__levels { gap: var(--space-6); max-width: none; margin: 0; }
+.htp.is-pinned .htp__level-text, .htp.is-pinned .htp__progress { max-width: none; } /* text and bar run the full column width */
 .htp.is-pinned .htp-card--mini { display: none; }
 .htp.is-pinned .htp__demo { display: block; }
 
@@ -116,7 +123,6 @@
   display: block;
   height: var(--size-htp-progress);
   margin-top: var(--space-4);
-  max-width: var(--measure-sub);
   border-radius: var(--radius-chip);
   background: var(--color-htp-progress-track);
   overflow: hidden;
@@ -216,4 +222,10 @@
 .htp-card--level-3 .htp-card__button, .htp-card.is-pressed .htp-card__button {
   background: var(--color-card-button-pressed);
   transform: scale(var(--scale-button-press));
+}
+
+/* Tablet: two columns, the card a little wider than the levels */
+@media (max-width: 1279px) {
+  .htp.is-pinned .htp__body { grid-template-columns: minmax(0, 4fr) minmax(0, 5fr); gap: var(--space-6); } /* the card gets a little more room so its values fit */
+  .htp.is-pinned .htp__stage { padding-inline: var(--space-5); }
 }
