@@ -310,3 +310,6 @@
 - Oksana: on the trackpad it took three swipes to start the transition. Causes: the landing waited for the hero's entrance to finish (a few seconds after the intro), so a second swipe in that time was swallowed; and after it, 60vh of hero hold scrolled by with nothing visible changing.
 - Now: the landing ends when the gesture that brought the reader to the hero (with its momentum) has ended, at least 0.3 s, at most 2.5 s; it no longer waits for the entrance. One landing per arrival (reset when the reader scrolls back up above the hero). The scroll hold on the hero is removed (--length-hero-hold 0vh); the landing pause holds the hero instead.
 - Checked with trackpad-like swipes (burst plus decaying momentum, then a pause): swipe 1 lands on the hero, swipe 2 starts the wipe, also when swiping right after the intro while the hero is still arriving. A 1.3 s flick still stops on the hero; a fast continuous scroll waits on the hero, then carries on.
+
+## 2026-11-18 · Cloud wipe a bit shorter
+- The hero to Problem wipe takes 220vh of scroll (was 260vh), Oksana: "a bit too long". Nothing else changed (trailing, stage boundaries, landing, Problem and How to play untouched). Checked: wipe stages land at the right points, swipe 2 still starts the wipe.
