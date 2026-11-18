@@ -264,3 +264,10 @@
 
 ## 2026-11-18 · How to play sub matches the hero sub
 - "Three levels. Nobody has ever lost." is now 16px (--text-body), the same as the hero sub (Oksana). Before it was 20px (18px on phones). Section subs follow the hero: 16px. --text-body-l stays in the scale, currently unused.
+
+## 2026-11-18 · Typography critique (critique-typography skill), fixes 1 to 3
+- Review across the whole page: two fonts, scale and tokens mostly sound, all contrast passing. Fixed (Oksana: "Apply fixes 1 to 3"):
+  1. How to play steps were smaller on desktop than on phones (titles 16 vs 20, text 14 vs 16). Now the same everywhere: titles 16px semibold, text 14px.
+  2. Every Imbue title shares one letter spacing (--tracking-display, -0.02em, set once on h1/h2 in base.css). The hero H1 was the one untracked title; it is now about 2px tighter at 96px and still fits one line.
+  3. The nav wordmark's raw line-height 1 is now the token --line-height-tight.
+- Not changed: centring the step titles on phones (left-aligned steps under a centred heading; optional), and the demo card's text sizes, which render off the scale only because the whole card is shown 1.45x (a picture of the app). Hero and statement stay 44px on phones (Oksana's choice, between the 40 and 48 steps).

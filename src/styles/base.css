@@ -36,9 +36,10 @@ h1, h2 {
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
   line-height: var(--line-height-display);
+  letter-spacing: var(--tracking-display); /* every Imbue title: hero H1, H2s, statement, intro */
 }
 h1 { font-size: var(--text-hero-title); }
-h2 { font-size: var(--text-h2); letter-spacing: var(--tracking-display); } /* the hero H1 keeps its own, untracked look */
+h2 { font-size: var(--text-h2); }
 h3 { font-family: var(--font-text); font-size: var(--text-h3); font-weight: var(--weight-strong); line-height: var(--line-height-heading); letter-spacing: var(--tracking-heading); }
 img, svg, canvas { display: block; max-width: 100%; }
 button, input { font: inherit; color: inherit; }

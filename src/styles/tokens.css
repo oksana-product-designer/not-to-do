@@ -36,6 +36,7 @@
   --text-body: 1rem;                       /* body text: 16px */
   --text-small: 0.875rem;                  /* nav links, small UI text, card fields: 14px */
   --text-caption: 0.75rem;                 /* tiny labels (card project pill): 12px */
+  --line-height-tight: 1;                  /* single-line labels that sit in a fixed-height box (nav wordmark) */
   --line-height-display: 1.05;             /* Imbue titles */
   --line-height-heading: 1.2;              /* Inter headings */
   --line-height-text: 1.5;                 /* body text */

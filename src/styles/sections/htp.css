@@ -48,8 +48,8 @@
   text-align: left;
   cursor: pointer;
 }
-.htp__level-title { font-size: var(--text-h3); font-weight: var(--weight-strong); line-height: var(--line-height-heading); letter-spacing: var(--tracking-heading); }
-.htp__level-text { margin-top: var(--space-3); max-width: var(--measure-sub); }
+.htp__level-title { font-size: var(--text-body); font-weight: var(--weight-strong); line-height: var(--line-height-heading); letter-spacing: var(--tracking-heading); }
+.htp__level-text { margin-top: var(--space-2); max-width: var(--measure-sub); font-size: var(--text-small); } /* steps: title 16 semibold, text 14, on every screen */
 .htp__progress { display: none; }
 .htp__demo { display: none; }
 .htp-card--mini { margin-top: var(--space-5); }
@@ -105,9 +105,8 @@
   max-width: none;
   margin: 0;
 }
-.htp.is-pinned .htp__level-text { max-width: none; margin-top: var(--space-2); font-size: var(--text-small); }
+.htp.is-pinned .htp__level-text { max-width: none; }
 .htp.is-pinned .htp__level-button { gap: var(--space-1); min-height: 0; }
-.htp.is-pinned .htp__level-title { font-size: var(--text-body); }
 /* Inactive steps: label and title only, muted. Their text keeps its place (only faded out), so the row never changes
    height, and screen readers still read all three. Active: the text fades in and rises (the hero item motion). */
 .htp.is-pinned .htp__level:not(.is-active) .htp__level-title { color: var(--color-htp-inactive); }
