@@ -25,7 +25,7 @@
 .htp__stage { position: relative; isolation: isolate; } /* own layer, so the card's level 3 shadow stays above the sky */
 
 .htp__head { text-align: center; margin-bottom: var(--space-8); }
-.htp__sub { margin-top: var(--space-3); font-size: var(--text-body-l); }
+.htp__sub { margin-top: var(--space-3); font-size: var(--text-body); } /* same as the hero sub (Oksana) */
 
 .htp__levels {
   display: grid;

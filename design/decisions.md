@@ -261,3 +261,6 @@
 
 ## 2026-11-18 · How to play: no "Level" labels
 - The "Level 1.0 / 2.0 / 3.0" labels are removed from the steps (Oksana); steps show their headings only (spec first). The step buttons are now named by the heading alone ("Pick your quest"). Removed the eyebrow style and its tokens (--text-eyebrow, --tracking-eyebrow, --color-htp-label), also from the CLAUDE.md type scale. The sub "Three levels. Nobody has ever lost." stays.
+
+## 2026-11-18 · How to play sub matches the hero sub
+- "Three levels. Nobody has ever lost." is now 16px (--text-body), the same as the hero sub (Oksana). Before it was 20px (18px on phones). Section subs follow the hero: 16px. --text-body-l stays in the scale, currently unused.

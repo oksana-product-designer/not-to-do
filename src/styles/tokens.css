@@ -32,7 +32,7 @@
   --text-h2: 4rem;                         /* section titles (H2), Imbue: 64px; 40px on phones */
   --text-h3: 1.5rem;                       /* sub-headings (H3), Inter: 24px; 20px on phones */
   --text-wordmark: 1.5rem;                 /* header wordmark, Imbue: 24px */
-  --text-body-l: 1.25rem;                  /* section subs: 20px; 18px on phones */
+  --text-body-l: 1.25rem;                  /* larger body text: 20px; 18px on phones (not in use: section subs match the hero sub at 16px) */
   --text-body: 1rem;                       /* body text: 16px */
   --text-small: 0.875rem;                  /* nav links, small UI text, card fields: 14px */
   --text-caption: 0.75rem;                 /* tiny labels (card project pill): 12px */
