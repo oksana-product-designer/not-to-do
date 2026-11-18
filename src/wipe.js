@@ -152,7 +152,10 @@ export function initWipe() {
     lastY = window.scrollY;
   }, { passive: true });
   const wantsDown = (event) => {
-    if (!landed && atHero() && !heroDone()) land(); // sitting on the hero before it has arrived
+    // Sitting on the hero before it has arrived. While the intro itself still holds the page (its last lines
+    // playing), intro.js blocks the scroll; the hero's wait starts only once that hold has let go.
+    const introHolding = document.documentElement.classList.contains('is-scroll-held');
+    if (!landed && !introHolding && atHero() && !heroDone()) land();
     if (!landed) return false;
     gesture();
     return landed;
@@ -165,7 +168,7 @@ export function initWipe() {
 
 // Landing on the hero: the page holds at least minMs, waits for the hero's entrance and a pause in the
 // scroll gesture (quietMs), and never longer than maxMs.
-const LANDING = { minMs: 600, quietMs: 220, checkMs: 100, maxMs: 5000 };
+const LANDING = { minMs: 300, quietMs: 220, checkMs: 100, maxMs: 2500 };
 
 // Reduced motion: no pin and no clouds. When Problem's top crosses the middle of the screen
 // (either way), a cloud-white veil fades in and out once, a 0.4 s crossfade. Opacity only.
