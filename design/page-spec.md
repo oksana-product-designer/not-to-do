@@ -54,7 +54,7 @@ Scene: deep blue sky, one small cloud drifting.
 
 ## Transition 1 to 2 · Cloud wipe
 
-The page passes through the clouds again, the way it entered them in the opening, and through the same clouds: the 3D scene's own. Scroll-driven and reversible: the hero and the Problem screen share one pinned stage. The hero first holds still for a moment (0.6 screen of scroll), then the wipe takes 2 screens. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay). The camera and the veil trail the scroll by 1 s, so even a quick scroll glides.
+The page passes through the clouds again, the way it entered them in the opening, and through the same clouds: the 3D scene's own. Scroll-driven and reversible: the hero and the Problem screen share one pinned stage. The hero first holds still for a moment (0.6 screen of scroll), then the wipe takes 2 screens. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay). A scroll coming down out of the intro lands on the hero and stops there until that gesture (including trackpad momentum) has ended; the next scroll continues into the wipe. The camera and the veil trail the scroll by 1 s, so even a quick scroll glides.
 
 Storyboard by scroll progress:
 - 0 to 20%: the camera starts climbing from the hero toward the cloud layer. The hero text and scroll cue fade out from 10% (gone by 40%).
@@ -74,7 +74,7 @@ Scene: plain cloud white (the white the wipe ends on). No sky, no clouds, no hil
 
 - Statement (H2): Every productivity app assumes you want to work. We did some research. You don't.
 - Layout: centered, large text straight on the plain background. No card, no dark background. The statement breaks into two line groups: "Every productivity app assumes you want to work." then "We did some research. You don't." on one line, in light grey.
-- Entrance: the same motion as the hero headline. Each word rises through its own invisible window, one after another (80 ms apart, 1.1 s each, long soft landing), straightening from a 4 degree tilt. Triggered by scroll: it plays when the cloud wipe has cleared, and scrolling back up into the wipe resets it so it plays again. The screen then stays for a short read (0.8 screen of scroll) before How to play. Reduced motion and no JS: fully shown.
+- Entrance: the same motion as the hero headline. Each word rises through its own invisible window, one after another (80 ms apart, 1.1 s each, long soft landing), straightening from a 4 degree tilt. Triggered by scroll: it plays when the cloud wipe has cleared, and scrolling back up into the wipe resets it so it plays again. The screen then stays for a short read, and on the way out (scrubbed, reversible) the words drift up and fade one after another while the cloud white behind them dissolves into the real sky above the clouds (phones keep the white). How to play then rises into that sky. Reduced motion and no JS: fully shown.
 
 ## Screen 3 · How to play
 
@@ -87,6 +87,8 @@ Scene: the camera sinks slowly from the sky above the clouds into the top of the
 - Start avoiding: Press the button. Every minute the task stays untouched goes on your score.
 
 Layout (tablet and desktop): title and sub centered at the top. The demo app card is the main visual: large, in the middle of the screen. The three steps sit in a row along the bottom, each with a thin horizontal progress bar above it that fills with the scroll inside that step. Steps show their title only (no "Level" labels); the active step also shows its body, the others are muted. Each step is a button: clicking it scrolls to that step. Everything light: white card, text on the sky.
+
+Entrance (tablet and desktop): as the section rises into view, the title and sub settle in (fade, small rise, blur clearing), then the card rises and grows from 96%, then the three steps follow 50 ms apart (the hero item motion). It resets when the reader scrolls back up into Problem, so it plays again.
 
 Pinned scroll: the section stays on screen for 3 screens of scroll, one per level, scrubbed and reversible. On a level change the old body fades out and the new one fades in and rises (the hero item motion).
 

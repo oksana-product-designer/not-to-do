@@ -16,12 +16,8 @@
   inset: 0;
   background: linear-gradient(to bottom, var(--color-problem-bg), var(--color-sky-pale-top) var(--size-htp-fade), var(--color-sky-pale-mid) 60%, var(--color-sky-pale-bottom));
 }
-/* With the 3D scene: only the top edge, cloud white fading into the real sky. */
-.scene.is-loaded ~ main .htp__sky {
-  bottom: auto;
-  height: var(--size-htp-fade);
-  background: linear-gradient(to bottom, var(--color-problem-bg), var(--color-cloud-cover-edge));
-}
+/* With the 3D scene: no background of its own. Problem's white has already dissolved into the real sky. */
+.scene.is-loaded ~ main .htp__sky { display: none; }
 .htp__stage { position: relative; isolation: isolate; } /* own layer, so the card's level 3 shadow stays above the sky */
 
 .htp__head { text-align: center; margin-bottom: var(--space-8); }
@@ -241,4 +237,35 @@
   .htp.is-pinned .htp__body { --htp-card-shown: calc(var(--size-htp-card) * var(--scale-htp-card-tablet)); }
   .htp.is-pinned .htp__levels { gap: var(--space-4); }
   .htp.is-pinned .htp__stage { padding-inline: var(--space-5); }
+}
+
+/* ---------- Entrance (pinned layout, motion welcome) ----------
+   Plays when the section rises into view (htp.js: is-entrance-ready, then is-entered), resets when the reader
+   scrolls back up into Problem, so it plays again. Lead with the title, then the card (the main visual),
+   then the three steps one after another. The hero item motion: fade, small rise, soft landing. */
+@media (prefers-reduced-motion: no-preference) {
+  .htp.is-pinned.is-entrance-ready:not(.is-entered) .htp__head,
+  .htp.is-pinned.is-entrance-ready:not(.is-entered) .htp__level {
+    opacity: 0;
+    translate: 0 var(--shift-hero-item);
+  }
+  .htp.is-pinned.is-entrance-ready:not(.is-entered) .htp__head { filter: blur(var(--blur-hero-item)); }
+  .htp.is-pinned.is-entrance-ready:not(.is-entered) .htp__demo {
+    opacity: 0;
+    translate: 0 calc(var(--shift-hero-item) * 2);
+    scale: var(--scale-htp-enter);
+  }
+  .htp.is-pinned.is-entered .htp__head,
+  .htp.is-pinned.is-entered .htp__demo,
+  .htp.is-pinned.is-entered .htp__level {
+    transition:
+      opacity var(--duration-hero-item) var(--ease-hero),
+      translate var(--duration-hero-item) var(--ease-hero),
+      scale var(--duration-hero-item) var(--ease-hero),
+      filter var(--duration-hero-item) var(--ease-hero);
+  }
+  .htp.is-pinned.is-entered .htp__demo { transition-delay: var(--stagger-hero-step); }
+  .htp.is-pinned.is-entered .htp__level { transition-delay: calc(var(--stagger-hero-step) * 2 + var(--n, 0) * var(--stagger-htp-step)); }
+  .htp.is-pinned.is-entered .htp__level:nth-child(2) { --n: 1; }
+  .htp.is-pinned.is-entered .htp__level:nth-child(3) { --n: 2; }
 }

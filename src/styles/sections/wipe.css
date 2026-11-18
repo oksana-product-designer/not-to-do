@@ -20,6 +20,9 @@
 
   /* Problem's plain background fades in under the full cover (--wipe-sky, set by wipe.js), so it is never seen arriving. */
   .js .problem__sky { opacity: var(--wipe-sky, 0); }
+  /* With the 3D scene: on the way out, the white dissolves and the real sky above the clouds shows through
+     (--problem-fade, set by problem.js). Phones keep the white (no 3D sky behind it). */
+  .js .scene.is-loaded ~ main .problem__sky { opacity: calc(var(--wipe-sky, 0) * (1 - var(--problem-fade, 0))); }
 
   /* Veil in front of the page: above hero and Problem, below the header (the header lives outside main).
      The real clouds are the 3D scene's; this soft cloud-white layer rises in with a long gradient edge

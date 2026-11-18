@@ -132,6 +132,17 @@ export function initHtp() {
   wide.addEventListener('change', applyLayout);
   applyLayout();
 
+  // Entrance (pinned layout): plays as the section rises into view, resets when the reader scrolls back
+  // up into Problem, so it plays again (htp.css does the motion).
+  section.classList.add('is-entrance-ready');
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 65%',
+    onEnter: () => section.classList.add('is-entered'),
+    onLeaveBack: () => section.classList.remove('is-entered'),
+    onRefresh: (self) => { if (self.progress > 0) section.classList.add('is-entered'); },
+  });
+
   // Level buttons: go to the start of that level's share of the pinned scroll (phones: to the block).
   buttons.forEach((button, i) => {
     button.addEventListener('click', () => {

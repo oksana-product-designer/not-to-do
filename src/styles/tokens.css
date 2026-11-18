@@ -119,7 +119,9 @@
   /* Cloud wipe: hero to Problem (wipe.js, scroll.js and problem.js read the numbers) */
   --length-hero-hold: 60vh;                /* the hero stays still for this much scroll before the wipe starts */
   --length-wipe-scroll: 200vh;             /* scroll distance of the wipe while the stage is pinned */
-  --length-problem-reveal: 80vh;           /* scroll distance the Problem screen stays pinned after the wipe, to read it */
+  --length-problem-reveal: 100vh;          /* scroll distance the Problem screen stays pinned after the wipe: a read, then its exit */
+  --problem-exit-start: 0.4;               /* share of that distance spent reading; the rest is the exit (read by problem.js) */
+  --shift-problem-exit: 40px;              /* how far each word drifts up as it leaves */
   --wipe-fade-start: 0.1;                  /* wipe progress: hero text starts fading (the camera starts climbing at 0) */
   --wipe-fade-end: 0.4;                    /* hero text gone (and out of reach) */
   --wipe-cover-start: 0.2;                 /* the veil starts rising in front of the hero */
@@ -140,6 +142,8 @@
   --color-sky-pale-mid: #c9e0f4;
   --color-sky-pale-bottom: #f5f9fd;
   --color-htp-inactive: #263040;           /* inactive level label and title on the sky: dark slate, about 4.8:1 on the darkest blue behind the list (the usual muted grey fails AA there) */
+  --scale-htp-enter: 0.96;                 /* the card grows from this size as How to play arrives */
+  --stagger-htp-step: 50ms;                /* the three steps arrive this far apart */
   --size-htp-progress: 3px;                /* progress bar height (horizontal, on top of each step) */
   --color-htp-progress-track: rgba(20, 20, 20, 0.12);
   --color-htp-progress-fill: var(--color-cta-bg); /* the brand pink (Oksana); decorative, hidden from screen readers */

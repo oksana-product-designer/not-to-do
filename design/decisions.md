@@ -271,3 +271,14 @@
   2. Every Imbue title shares one letter spacing (--tracking-display, -0.02em, set once on h1/h2 in base.css). The hero H1 was the one untracked title; it is now about 2px tighter at 96px and still fits one line.
   3. The nav wordmark's raw line-height 1 is now the token --line-height-tight.
 - Not changed: centring the step titles on phones (left-aligned steps under a centred heading; optional), and the demo card's text sizes, which render off the scale only because the whole card is shown 1.45x (a picture of the app). Hero and statement stay 44px on phones (Oksana's choice, between the 40 and 48 steps).
+
+## 2026-11-18 · Fix: scrolling out of the intro ran past the hero
+- Since the wipe and the sections after it exist, the page no longer ends at the hero, so a scroll gesture (and trackpad momentum) coming out of the intro carried straight through the hero hold and the wipe into Problem (reported by Oksana).
+- Now a downward scroll that crosses the hero's top lands exactly on the hero and further downward scrolling is ignored until the gesture has ended (no wheel events for 220 ms, and at least 600 ms). The next scroll continues into the wipe. Scrolling up, Tab and links are never blocked. Not with reduced motion (no pin there). Checked: a long fast fling stops at the hero; the next gesture continues; scrolling up is free.
+
+## 2026-11-18 · Problem to How to play: a hand-over instead of a page push (animation-on-scroll, animation-principles)
+- Before: the white Problem screen simply slid up and How to play pushed in under a white fade.
+- Exit (scrubbed, reversible, the last 60% of the Problem pin; --problem-exit-start 0.4, pin now 100vh): the statement's words drift up 40px (--shift-problem-exit) and fade one after another, accelerating away (ease-in), while the cloud white behind them dissolves into the real 3D sky above the clouds. Phones keep the white (no 3D sky to reveal); the words still drift out.
+- How to play's own white top edge is gone when the 3D scene shows (Problem has already dissolved), so there is no band between the two.
+- Entrance (desktop and tablet; animation-on-scroll pattern: a scroll point, replays on re-entry): when the section's top reaches 65% of the screen, the title and sub settle in (hero item motion with the blur clearing), 120 ms later the card rises and grows from 96% (--scale-htp-enter), then the three steps 50 ms apart (--stagger-htp-step). Most important first, one direction (up), transform and opacity (the small title also clears a blur).
+- Measured: 60 fps through the hand-over on desktop, no slow frames.
