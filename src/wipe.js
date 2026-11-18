@@ -119,12 +119,20 @@ export function initWipe() {
   // it has arrived (the intro held it there while its last lines played; intro.js blocks the scroll until then).
   const heroAt = () => act.offsetTop;
   const problemAt = () => act.offsetTop + holdLengthPx() + wipeLengthPx(); // the clouds have cleared, the statement is up
-  addLanding({
+  const heroLanding = addLanding({
     at: heroAt,
     range: () => problemAt() - heroAt(),
     sitOn: () => !document.documentElement.classList.contains('is-scroll-held'), // the intro still holds the page: not yet
     ready: () => hero.classList.contains('is-hero-done'), // the hold counts from when the hero has fully appeared
   });
+  // When the intro lets go of the page (its last lines have played) while it sits on the hero, that is the arrival.
+  const root = document.documentElement;
+  let introHeld = root.classList.contains('is-scroll-held');
+  new MutationObserver(() => {
+    const held = root.classList.contains('is-scroll-held');
+    if (introHeld && !held) heroLanding.arrive();
+    introHeld = held;
+  }).observe(root, { attributes: true, attributeFilter: ['class'] });
   addLanding({ at: problemAt, range: () => revealLengthPx() });
 }
 

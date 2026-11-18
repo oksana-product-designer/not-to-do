@@ -86,5 +86,10 @@ export function addLanding({ at, range, sitOn = () => true, active = () => true,
     if (INPUT_KEYS.includes(event.key)) lastInput = performance.now();
     if (SCROLL_KEYS.includes(event.key) && wantsDown()) event.preventDefault();
   });
-  return { holding: () => landed };
+  // Arrival without a scroll crossing (for example the intro held the page on the hero and has let go):
+  // start the landing now, so the first swipe after the section is ready moves on, as after a normal arrival.
+  const arrive = () => {
+    if (!landed && !settled && active() && Math.abs(window.scrollY - at()) <= 2 && sitOn()) land();
+  };
+  return { holding: () => landed, arrive };
 }

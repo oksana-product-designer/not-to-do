@@ -351,3 +351,8 @@
 - The hold now counts from when the hero has fully appeared (is-hero-done: headline, buttons, header), not from when the page reached it (landing.js option ready; --duration-landing-wait 8 s as a safety limit). The crossing landing also no longer starts while the intro still holds the page.
 - Checked: fast continuous scroll waits on the hero through its whole entrance and only moves on about 3 s after it is fully visible; steady scroll the same; swipes stop on the hero, Problem and How to play; How to play links still reach the section.
 - Trade-off: a swipe made while the hero is still arriving (right after the intro) is ignored; once the hero is fully visible, the next swipe starts the transition.
+
+## 2026-11-18 · Fix: the hero hold behaved differently depending on scroll speed
+- Oksana: "working but not each time". Two paths into the hero: (A) the intro lines have played, the scroll crosses into the hero and the hold starts at once; (B) the reader was faster than the lines, the intro holds the page on the hero until they finish, and the hero hold only started with the next downward scroll, so the first swipe after the hero had appeared was swallowed (reproduced every time).
+- Now the moment the intro lets go of the page on the hero counts as the arrival (landing.js arrive(), triggered from wipe.js when is-scroll-held is removed), so path B behaves like path A: the page waits until the hero has fully appeared, and the next swipe starts the wipe.
+- Checked: path B one swipe after the hero appears starts the wipe (twice); path A swipes stop on hero, Problem, How to play; fast continuous scroll waits on the hero through its entrance; early swipes while the hero is arriving are held, then the next one moves on.
