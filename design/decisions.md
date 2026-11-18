@@ -282,3 +282,13 @@
 - How to play's own white top edge is gone when the 3D scene shows (Problem has already dissolved), so there is no band between the two.
 - Entrance (desktop and tablet; animation-on-scroll pattern: a scroll point, replays on re-entry): when the section's top reaches 65% of the screen, the title and sub settle in (hero item motion with the blur clearing), 120 ms later the card rises and grows from 96% (--scale-htp-enter), then the three steps 50 ms apart (--stagger-htp-step). Most important first, one direction (up), transform and opacity (the small title also clears a blur).
 - Measured: 60 fps through the hand-over on desktop, no slow frames.
+
+## 2026-11-18 · How to play entrance, layered (motion-design skill)
+- Oksana: the entrance looked too basic. The skill's diagnosis: one flat layer (everything fading and rising the same way).
+- Premium personality: one curve (--ease-hero), no overshoot, everything rising. Three layers:
+  1. Title: the signature word rise used by the hero and Problem (each word through its own window, 4 degree tilt), then the sub (fade, rise, blur clearing).
+  2. Card (primary): rises 56px from lower down, tipped back 12 degrees in 3D (perspective 1400px), grows from 92%, over 1 s, starting 200 ms in. Its three rows cascade in 350 ms after it starts, 60 ms apart (secondary).
+  3. Steps: bars draw in from the left from 650 ms, titles and text follow, 60 ms apart (secondary). The sky and camera are the ambient layer.
+- About 1.5 s in all; each group's stagger stays under the 500 ms budget. Transform and opacity only, except the small blur on the sub.
+- Tokens: --shift-htp-card, --rotate-htp-card, --perspective-htp, --duration-htp-card, --delay-htp-card, --delay-htp-card-content, --delay-htp-steps; --scale-htp-enter 0.92 (was 0.96), --stagger-htp-step 60 ms (was 50).
+- The heading's words get a window each from htp.js; the heading text is unchanged and still reads "How to play".

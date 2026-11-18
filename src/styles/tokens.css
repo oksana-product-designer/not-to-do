@@ -142,8 +142,15 @@
   --color-sky-pale-mid: #c9e0f4;
   --color-sky-pale-bottom: #f5f9fd;
   --color-htp-inactive: #263040;           /* inactive level label and title on the sky: dark slate, about 4.8:1 on the darkest blue behind the list (the usual muted grey fails AA there) */
-  --scale-htp-enter: 0.96;                 /* the card grows from this size as How to play arrives */
-  --stagger-htp-step: 50ms;                /* the three steps arrive this far apart */
+  --scale-htp-enter: 0.92;                 /* the card grows from this size as How to play arrives */
+  --shift-htp-card: 56px;                  /* the card rises this far as it arrives */
+  --rotate-htp-card: 12deg;                /* the card starts tipped back (3D) and flattens as it lands */
+  --perspective-htp: 1400px;               /* depth for that tip */
+  --duration-htp-card: 1000ms;             /* the card's arrival (a dramatic reveal, the section's main visual) */
+  --delay-htp-card: 200ms;                 /* the card starts as the title words are rising */
+  --delay-htp-card-content: 350ms;         /* its contents start this long after the card */
+  --delay-htp-steps: 650ms;                /* the steps start as the card is landing */
+  --stagger-htp-step: 60ms;                /* card rows and steps arrive this far apart */
   --size-htp-progress: 3px;                /* progress bar height (horizontal, on top of each step) */
   --color-htp-progress-track: rgba(20, 20, 20, 0.12);
   --color-htp-progress-fill: var(--color-cta-bg); /* the brand pink (Oksana); decorative, hidden from screen readers */

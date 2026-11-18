@@ -88,7 +88,7 @@ Scene: the camera sinks slowly from the sky above the clouds into the top of the
 
 Layout (tablet and desktop): title and sub centered at the top. The demo app card is the main visual: large, in the middle of the screen. The three steps sit in a row along the bottom, each with a thin horizontal progress bar above it that fills with the scroll inside that step. Steps show their title only (no "Level" labels); the active step also shows its body, the others are muted. Each step is a button: clicking it scrolls to that step. Everything light: white card, text on the sky.
 
-Entrance (tablet and desktop): as the section rises into view, the title and sub settle in (fade, small rise, blur clearing), then the card rises and grows from 96%, then the three steps follow 50 ms apart (the hero item motion). It resets when the reader scrolls back up into Problem, so it plays again.
+Entrance (tablet and desktop), in three layers with the hero's soft landing: the title's words rise through their windows like the hero headline, then the sub settles; the card rises from lower down, tipped back in 3D, and flattens and grows into place, and its rows (top, fields, bottom) cascade in just after it lands; the step bars draw in from the left and the step titles follow, 60 ms apart. About 1.5 s in all. It resets when the reader scrolls back up into Problem, so it plays again.
 
 Pinned scroll: the section stays on screen for 3 screens of scroll, one per level, scrubbed and reversible. On a level change the old body fades out and the new one fades in and rises (the hero item motion).
 

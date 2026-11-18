@@ -133,7 +133,13 @@ export function initHtp() {
   applyLayout();
 
   // Entrance (pinned layout): plays as the section rises into view, resets when the reader scrolls back
-  // up into Problem, so it plays again (htp.css does the motion).
+  // up into Problem, so it plays again (htp.css does the motion). The title's words get a window each
+  // for the signature word rise; the text inside the heading stays the same, so it reads as before.
+  const heading = section.querySelector('.htp__title');
+  if (heading) {
+    const words = heading.textContent.trim().split(/\s+/);
+    heading.innerHTML = words.map((w, i) => `<span class="htp__word"><span style="--i: ${i}">${w}</span></span>`).join(' ');
+  }
   section.classList.add('is-entrance-ready');
   ScrollTrigger.create({
     trigger: section,
