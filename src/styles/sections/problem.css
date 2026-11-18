@@ -25,11 +25,11 @@
   width: min(100%, var(--content-max));
 }
 .problem__title {
-  font-size: var(--text-problem-title-phone);
+  font-size: var(--text-statement-phone);
   letter-spacing: var(--tracking-display);
 }
 @media (min-width: 768px) {
-  .problem__title { font-size: var(--text-problem-title); }
+  .problem__title { font-size: var(--text-statement); }
 }
 .problem__line { display: block; max-width: var(--measure-problem); margin-inline: auto; text-wrap: balance; }
 /* Second line group ("We did some research. You don't.") lands grey, not black (Oksana). */

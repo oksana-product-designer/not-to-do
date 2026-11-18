@@ -19,19 +19,30 @@
   --color-nav-link-current: var(--color-text);
   --color-nav-surface: var(--color-surface-card);
 
-  /* Type scale (fluid between phone and desktop) */
-  --text-display: clamp(3.5rem, 1rem + 11vw, 12rem);     /* intro parts */
-  --text-title-xl: clamp(2.75rem, 1.5rem + 5vw, 6rem);   /* intro line 2, H1, high score */
-  --text-hero-title: 6rem;                 /* hero H1, tablet and up: fixed 96px, does not scale with the screen */
-  --text-hero-title-phone: 2.75rem;        /* hero H1 on phones (under 768): fixed 44px */
-  --text-title-l: clamp(2rem, 1.2rem + 3vw, 4rem);       /* H2 */
-  --text-title-s: clamp(1.25rem, 1rem + 1vw, 1.75rem);   /* intro line 1 */
-  --text-body-l: 1.25rem;
-  --text-body: 1rem;
-  --text-label: 0.875rem;
-  --line-height-title: 1.05;
-  --line-height-text: 1.5;
-  --tracking-display: -0.02em;
+  /* Type scale. Base 16px, ratio 1.25 (major third), rounded to the 4px grid:
+     12 · 14 · 16 · 20 · 24 · 32 · 40 · 48 · 64 · 80 · 96.
+     Fixed sizes (they do not scale with the screen); phones step down once, below 768px (see the end of this file).
+     Only the intro keeps its fluid sizes (finished section). */
+  --text-display: clamp(3.5rem, 1rem + 11vw, 12rem);     /* intro parts (fluid, intro only) */
+  --text-intro: clamp(2.75rem, 1.5rem + 5vw, 6rem);      /* intro lines without JS or with reduced motion (fluid, intro only) */
+  --text-hero-title: 6rem;                 /* hero H1, Imbue: 96px from 768 up */
+  --text-hero-title-phone: 2.75rem;        /* hero H1 on phones: 44px (Oksana's choice, kept) */
+  --text-statement: 5rem;                  /* Problem statement, Imbue: 80px from 768 up */
+  --text-statement-phone: 2.75rem;         /* Problem statement on phones: 44px */
+  --text-h2: 4rem;                         /* section titles (H2), Imbue: 64px; 40px on phones */
+  --text-h3: 1.5rem;                       /* sub-headings (H3), Inter: 24px; 20px on phones */
+  --text-wordmark: 1.5rem;                 /* header wordmark, Imbue: 24px */
+  --text-body-l: 1.25rem;                  /* section subs: 20px; 18px on phones */
+  --text-body: 1rem;                       /* body text: 16px */
+  --text-small: 0.875rem;                  /* nav links, small UI text, card fields: 14px */
+  --text-eyebrow: 0.75rem;                 /* step markers ("LEVEL 1.0"), uppercase: 12px */
+  --text-caption: 0.75rem;                 /* tiny labels (card project pill): 12px */
+  --line-height-display: 1.05;             /* Imbue titles */
+  --line-height-heading: 1.2;              /* Inter headings and eyebrows */
+  --line-height-text: 1.5;                 /* body text */
+  --tracking-display: -0.02em;             /* Imbue titles */
+  --tracking-heading: -0.01em;             /* Inter headings */
+  --tracking-eyebrow: 0.06em;              /* uppercase step markers */
 
   /* Font weights in use */
   --weight-regular: 400;
@@ -120,8 +131,6 @@
 
   /* Screen 2 · Problem */
   --color-problem-bg: var(--color-cloud-cover); /* plain background of the Problem screen: the white the cloud wipe ends on */
-  --text-problem-title: 5rem;              /* statement, tablet and up: fixed 80px (does not scale with the screen) */
-  --text-problem-title-phone: 2.75rem;     /* statement on phones: fixed 44px (same as the hero headline on phones) */
   --color-problem-muted: #888888;          /* second line of the statement, fully revealed: light grey, about 3.2:1 on the cloud-white background (AA for large text needs 3:1) */
   --opacity-problem-word-start: 0.2;       /* a word before its turn: the text color this faint reads light grey (decorative) */
   --measure-problem: 16em;                 /* statement line length: each sentence is one line group */
@@ -139,14 +148,13 @@
   --color-htp-progress-fill: var(--color-text);
   --size-htp-card: 480px;                  /* demo card width */
   --size-htp-levels: 480px;                /* levels column width, the same as the card so the two columns balance */
-  --size-htp-levels-height: 340px;         /* levels column height: fits the tallest state, so opening a level never moves the layout */
+  --size-htp-levels-height: 320px;         /* levels column height: fits the tallest state, so opening a level never moves the layout */
   --htp-type-share: 0.55;                  /* share of level 1 used to type the title; the estimate ticks up in the rest */
   --htp-shuffle-turns: 3;                  /* times the Instead reel spins through the options before landing */
   --htp-count-share: 0.8;                  /* share of level 3 used to count the tracked time up */
   --shadow-htp-lift: var(--shadow-float);  /* at level 3 the card lifts with the default deeper shadow (Oksana: no pink glow) */
 
   /* App task card (demo, matches the app screenshot in design/reference) */
-  --text-caption: 0.75rem;                 /* project pill */
   --color-card-label: #6b6b6b;             /* "When:", "tracked": 5.3:1 on white */
   --color-card-divider: #e6e6ea;
   --color-card-pill: var(--color-text);
@@ -188,4 +196,13 @@
   --bp-tablet: 768px;
   --bp-desktop: 1280px;
   --bp-wide: 1440px;
+}
+
+/* Phones (under 768px): the type scale steps down once */
+@media (max-width: 767px) {
+  :root {
+    --text-h2: 2.5rem;                     /* 40px */
+    --text-h3: 1.25rem;                    /* 20px */
+    --text-body-l: 1.125rem;               /* 18px */
+  }
 }

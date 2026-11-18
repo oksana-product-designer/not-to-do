@@ -17,8 +17,8 @@
 
 .intro__lines {
   font-family: var(--font-display);
-  font-size: var(--text-title-xl);
-  line-height: var(--line-height-title);
+  font-size: var(--text-intro);
+  line-height: var(--line-height-display);
   letter-spacing: var(--tracking-display);
 }
 .intro__part { display: block; text-wrap: balance; }

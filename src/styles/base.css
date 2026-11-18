@@ -35,10 +35,11 @@ body {
 h1, h2 {
   font-family: var(--font-display);
   font-weight: var(--weight-regular);
-  line-height: var(--line-height-title);
+  line-height: var(--line-height-display);
 }
-h1 { font-size: var(--text-title-xl); }
-h2 { font-size: var(--text-title-l); }
+h1 { font-size: var(--text-hero-title); }
+h2 { font-size: var(--text-h2); letter-spacing: var(--tracking-display); } /* the hero H1 keeps its own, untracked look */
+h3 { font-family: var(--font-text); font-size: var(--text-h3); font-weight: var(--weight-strong); line-height: var(--line-height-heading); letter-spacing: var(--tracking-heading); }
 img, svg, canvas { display: block; max-width: 100%; }
 button, input { font: inherit; color: inherit; }
 a { color: inherit; }
@@ -90,7 +91,7 @@ main { position: relative; z-index: var(--z-content); }
    and the hero ("Scroll down. Slowly is fine."). Each section places it; this is how it looks. */
 .scroll-cue {
   color: inherit;
-  font-size: var(--text-label);
+  font-size: var(--text-small);
   font-weight: var(--weight-medium);
   text-decoration: none;
 }
