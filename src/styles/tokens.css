@@ -143,7 +143,7 @@
   --color-sky-pale-bottom: #f5f9fd;
   --color-htp-inactive: #263040;           /* inactive level label and title on the sky: dark slate, about 4.8:1 on the darkest blue behind the list (the usual muted grey fails AA there) */
   --color-htp-label: var(--color-text);    /* "Level 1.0" on the active level */
-  --size-htp-progress: 2px;                /* progress bar height (horizontal, on top of each step) */
+  --size-htp-progress: 3px;                /* progress bar height (horizontal, on top of each step) */
   --color-htp-progress-track: rgba(20, 20, 20, 0.12);
   --color-htp-progress-fill: var(--color-cta-bg); /* the brand pink (Oksana); decorative, hidden from screen readers */
   --size-htp-card: 480px;                  /* demo card width (before scaling) */
