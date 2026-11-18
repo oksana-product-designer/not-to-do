@@ -5,7 +5,7 @@
 // When it plays:
 // - The intro hands over (the reader scrolled ahead while the last lines finished): it waits
 //   --delay-hero-in so the hills land first, background before text.
-// - The reader scrolls to the hero: it starts once the hero is in place (fills the screen).
+// - The reader scrolls to the hero: it starts once half the headline block is on screen.
 // - The idle dip: the headline peeks in from below, so the peek shows it rising.
 // Scrolling back up until the block is below the screen resets it, so it plays again next time,
 // the same way the intro lines replay.
@@ -95,14 +95,8 @@ export function initHero() {
     handedOver = false;
   };
 
-  // The entrance waits until the hero is in place (the whole screen is the hero), so its content appears where
-  // it belongs instead of animating while the hero is still sliding up from the bottom.
   new IntersectionObserver(([entry]) => {
-    visible = entry.intersectionRatio >= 0.98;
-    check();
-  }, { threshold: [0, 0.98] }).observe(hero);
-
-  new IntersectionObserver(([entry]) => {
+    visible = entry.intersectionRatio >= 0.5;
     // Fully below the screen again (reader went back up into the intro): ready to replay.
     if (!entry.isIntersecting && entry.boundingClientRect.top > 0) reset();
     // Already past the hero (for example opened at a section link): count it as played,
