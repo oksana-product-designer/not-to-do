@@ -116,6 +116,10 @@
   --duration-nav: 700ms;                   /* header sliding down (and back up) */
   --ease-hero: cubic-bezier(0.16, 1, 0.3, 1);  /* long, silky deceleration for the headline */
 
+  /* Landings (landing.js): every section's resting point holds a downward scroll this long */
+  --duration-landing-min: 1000ms;          /* at least this long, even if the reader scrolls again */
+  --duration-landing-max: 3000ms;          /* never longer, even if the same gesture keeps coming */
+
   /* Cloud wipe: hero to Problem (wipe.js, scroll.js and problem.js read the numbers) */
   --length-hero-hold: 0vh;                 /* scroll on the hero before the wipe starts: none, the landing pause (wipe.js) holds the hero instead, so the next scroll starts the wipe */
   --length-wipe-scroll: 220vh;             /* scroll distance of the wipe while the stage is pinned */

@@ -11,6 +11,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { tokenMs, tokenNumber } from './tokens.js';
+import { addLanding } from './landing.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -112,64 +113,19 @@ export function initWipe() {
     window.scrollTo({ top: act.offsetTop });
   });
 
-  // Landing on the hero. A scroll coming down out of the intro stops at the hero instead of carrying on
-  // (with trackpad momentum) through the wipe into Problem. Two cases:
-  // - the scroll crosses the hero's top from above: the page is put back exactly on the hero;
-  // - the page already sits on the hero (the intro held it there while its last lines played) and the
-  //   reader keeps scrolling: the scroll waits.
-  // Either way, downward scrolling is ignored until the gesture that brought the reader here (with its
-  // trackpad momentum) has ended, or at most LANDING.maxMs. The next scroll starts the wipe straight away. Scrolling up, Tab and links are never blocked.
-  let lastY = window.scrollY;
-  let landed = false;
-  let settled = false; // one landing per arrival: after it, the next scroll always moves on
-  let landedAt = 0;
-  let quiet = null;
-  const heroDone = () => hero.classList.contains('is-hero-done');
-  const atHero = () => Math.abs(window.scrollY - act.offsetTop) <= 2;
-  const tryRelease = () => {
-    clearTimeout(quiet);
-    const since = performance.now() - landedAt;
-    if (since >= LANDING.minMs) { landed = false; settled = true; return; } // the landing gesture has ended: the next one moves on
-    quiet = setTimeout(tryRelease, LANDING.checkMs);
-  };
-  const land = () => {
-    landed = true;
-    landedAt = performance.now();
-    tryRelease();
-  };
-  const gesture = () => { // more scroll input arrived: wait for it to pause before letting go
-    clearTimeout(quiet);
-    if (performance.now() - landedAt >= LANDING.maxMs) { landed = false; settled = true; return; } // never longer than maxMs
-    quiet = setTimeout(tryRelease, LANDING.quietMs);
-  };
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    const heroTop = act.offsetTop;
-    if (!landed && !settled && lastY < heroTop - 1 && y > heroTop + 1 && y < heroTop + holdLengthPx() + wipeLengthPx()) {
-      window.scrollTo({ top: heroTop, behavior: 'instant' });
-      land();
-    }
-    if (y < heroTop - 1) settled = false; // back up in the intro: the next arrival lands again
-    lastY = window.scrollY;
-  }, { passive: true });
-  const wantsDown = (event) => {
-    // Sitting on the hero before it has arrived. While the intro itself still holds the page (its last lines
-    // playing), intro.js blocks the scroll; the hero's wait starts only once that hold has let go.
-    const introHolding = document.documentElement.classList.contains('is-scroll-held');
-    if (!landed && !settled && !introHolding && atHero() && !heroDone()) land();
-    if (!landed) return false;
-    gesture();
-    return landed;
-  };
-  const SCROLL_KEYS = [' ', 'PageDown', 'ArrowDown', 'End'];
-  window.addEventListener('wheel', (event) => { if (event.deltaY > 0 && wantsDown(event)) event.preventDefault(); }, { passive: false });
-  window.addEventListener('touchmove', (event) => { if (wantsDown(event)) event.preventDefault(); }, { passive: false });
-  window.addEventListener('keydown', (event) => { if (SCROLL_KEYS.includes(event.key) && wantsDown(event)) event.preventDefault(); });
+  // Landings (landing.js): the hero and Problem are resting points, so neither can be scrolled past by mistake.
+  // Hero: a scroll out of the intro stops on it. It also waits when the page already sits on the hero before
+  // it has arrived (the intro held it there while its last lines played; intro.js blocks the scroll until then).
+  const heroAt = () => act.offsetTop;
+  const problemAt = () => act.offsetTop + holdLengthPx() + wipeLengthPx(); // the clouds have cleared, the statement is up
+  addLanding({
+    at: heroAt,
+    range: () => problemAt() - heroAt(),
+    sitOn: () => !hero.classList.contains('is-hero-done') && !document.documentElement.classList.contains('is-scroll-held'),
+  });
+  addLanding({ at: problemAt, range: () => revealLengthPx() });
 }
 
-// Landing on the hero: the page holds at least minMs, waits for the hero's entrance and a pause in the
-// scroll gesture (quietMs), and never longer than maxMs.
-const LANDING = { minMs: 300, quietMs: 220, checkMs: 100, maxMs: 2500 };
 
 // Reduced motion: no pin and no clouds. When Problem's top crosses the middle of the screen
 // (either way), a cloud-white veil fades in and out once, a 0.4 s crossfade. Opacity only.

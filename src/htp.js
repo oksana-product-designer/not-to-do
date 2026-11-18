@@ -8,6 +8,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { tokenNumber } from './tokens.js';
 import { WIPE_SMOOTHING } from './wipe.js';
+import { addLanding } from './landing.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -147,6 +148,13 @@ export function initHtp() {
     onEnter: () => section.classList.add('is-entered'),
     onLeaveBack: () => section.classList.remove('is-entered'),
     onRefresh: (self) => { if (self.progress > 0) section.classList.add('is-entered'); },
+  });
+
+  // Landing (landing.js): How to play is a resting point when it is in place (pinned layout only).
+  addLanding({
+    at: () => trigger.start,
+    range: () => trigger.end - trigger.start,
+    active: () => section.classList.contains('is-pinned'),
   });
 
   // Level buttons: go to the start of that level's share of the pinned scroll (phones: to the block).
