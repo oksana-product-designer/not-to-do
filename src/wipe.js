@@ -123,6 +123,7 @@ export function initWipe() {
     at: heroAt,
     range: () => problemAt() - heroAt(),
     sitOn: () => !document.documentElement.classList.contains('is-scroll-held'), // the intro still holds the page: not yet
+    ready: () => hero.classList.contains('is-hero-done'), // the hold counts from when the hero has fully appeared
   });
   addLanding({ at: problemAt, range: () => revealLengthPx() });
 }

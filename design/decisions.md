@@ -345,3 +345,9 @@
 - How to play: removed the dead stacked-layout code (media switch, phone fade-in observer and its CSS, the unused htpLengthPx), the reel row height is measured on refresh instead of every scroll frame. The wipe reads its edge token once.
 - Word window: the masked word (hero, Problem, How to play titles) is one shared class .word-window in base.css with tokens --size-word-room-x / -y; the three copies are gone. Computed style of the hero words is identical to the live site.
 - Checked (dev and production): all three How to play links reach the section with its link highlighted; swipe stops on hero, Problem, How to play; no highlight during Problem's exit; landing again after returning to Problem; phone layout steady.
+
+## 2026-11-18 · Fix: the hero was scrolled past before it appeared
+- Oksana: from the intro the page still ran into the wipe, the hero half faded and no hills. Reproduced with a fast scroll: the intro held the page at the hero while its last lines played; then the hills take about 3 s and the hero text waits for them; the hero's 1 to 3 s hold had already run out, so the continuing scroll went into the wipe and on to Problem.
+- The hold now counts from when the hero has fully appeared (is-hero-done: headline, buttons, header), not from when the page reached it (landing.js option ready; --duration-landing-wait 8 s as a safety limit). The crossing landing also no longer starts while the intro still holds the page.
+- Checked: fast continuous scroll waits on the hero through its whole entrance and only moves on about 3 s after it is fully visible; steady scroll the same; swipes stop on the hero, Problem and How to play; How to play links still reach the section.
+- Trade-off: a swipe made while the hero is still arriving (right after the intro) is ignored; once the hero is fully visible, the next swipe starts the transition.
