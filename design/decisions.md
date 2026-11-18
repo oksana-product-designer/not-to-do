@@ -292,3 +292,10 @@
 - About 1.5 s in all; each group's stagger stays under the 500 ms budget. Transform and opacity only, except the small blur on the sub.
 - Tokens: --shift-htp-card, --rotate-htp-card, --perspective-htp, --duration-htp-card, --delay-htp-card, --delay-htp-card-content, --delay-htp-steps; --scale-htp-enter 0.92 (was 0.96), --stagger-htp-step 60 ms (was 50).
 - The heading's words get a window each from htp.js; the heading text is unchanged and still reads "How to play".
+
+## 2026-11-18 · Transitions smoother and a bit slower
+- Oksana: hero to Problem and Problem to How to play should be smoother and a little slower.
+- Hero to Problem: the wipe takes 260vh of scroll (was 200vh). Camera, veil and the scroll-tied parts of Problem and How to play trail the scroll by 1.5 s (was 1 s; WIPE_SMOOTHING in wipe.js). Stage boundaries unchanged.
+- Problem to How to play: Problem stays for 140vh (was 100vh); the exit takes the last 65% of it (--problem-exit-start 0.35). Words leave with a gentler curve (sine.in, was power2.in) and their departures are spread over 60% of the exit (was 50%).
+- How to play entrance about 20% slower: card 1.2 s (was 1 s), card starts at 240 ms, its rows 420 ms after it, steps at 800 ms, 70 ms apart (was 200 / 350 / 650 / 60). The title and sub keep the hero's timing.
+- Checked: wipe stages, Problem exit, hero landing after a fast fling, 60 fps through the hand-over.

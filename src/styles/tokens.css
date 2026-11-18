@@ -118,9 +118,9 @@
 
   /* Cloud wipe: hero to Problem (wipe.js, scroll.js and problem.js read the numbers) */
   --length-hero-hold: 60vh;                /* the hero stays still for this much scroll before the wipe starts */
-  --length-wipe-scroll: 200vh;             /* scroll distance of the wipe while the stage is pinned */
-  --length-problem-reveal: 100vh;          /* scroll distance the Problem screen stays pinned after the wipe: a read, then its exit */
-  --problem-exit-start: 0.4;               /* share of that distance spent reading; the rest is the exit (read by problem.js) */
+  --length-wipe-scroll: 260vh;             /* scroll distance of the wipe while the stage is pinned */
+  --length-problem-reveal: 140vh;          /* scroll distance the Problem screen stays pinned after the wipe: a read, then its exit */
+  --problem-exit-start: 0.35;              /* share of that distance spent reading; the rest is the exit (read by problem.js) */
   --shift-problem-exit: 40px;              /* how far each word drifts up as it leaves */
   --wipe-fade-start: 0.1;                  /* wipe progress: hero text starts fading (the camera starts climbing at 0) */
   --wipe-fade-end: 0.4;                    /* hero text gone (and out of reach) */
@@ -146,11 +146,11 @@
   --shift-htp-card: 56px;                  /* the card rises this far as it arrives */
   --rotate-htp-card: 12deg;                /* the card starts tipped back (3D) and flattens as it lands */
   --perspective-htp: 1400px;               /* depth for that tip */
-  --duration-htp-card: 1000ms;             /* the card's arrival (a dramatic reveal, the section's main visual) */
-  --delay-htp-card: 200ms;                 /* the card starts as the title words are rising */
-  --delay-htp-card-content: 350ms;         /* its contents start this long after the card */
-  --delay-htp-steps: 650ms;                /* the steps start as the card is landing */
-  --stagger-htp-step: 60ms;                /* card rows and steps arrive this far apart */
+  --duration-htp-card: 1200ms;             /* the card's arrival (a dramatic reveal, the section's main visual) */
+  --delay-htp-card: 240ms;                 /* the card starts as the title words are rising */
+  --delay-htp-card-content: 420ms;         /* its contents start this long after the card */
+  --delay-htp-steps: 800ms;                /* the steps start as the card is landing */
+  --stagger-htp-step: 70ms;                /* card rows and steps arrive this far apart */
   --size-htp-progress: 3px;                /* progress bar height (horizontal, on top of each step) */
   --color-htp-progress-track: rgba(20, 20, 20, 0.12);
   --color-htp-progress-fill: var(--color-cta-bg); /* the brand pink (Oksana); decorative, hidden from screen readers */

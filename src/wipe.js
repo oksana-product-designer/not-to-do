@@ -41,9 +41,9 @@ export const holdLengthPx = () => vhToken('--length-hero-hold', 60);
 export const wipeLengthPx = () => vhToken('--length-wipe-scroll', 200);
 export const revealLengthPx = () => vhToken('--length-problem-reveal', 120);
 
-// Veil and camera trail the scrollbar by a full second (like the move from the intro to the hero),
-// so even a quick scroll becomes an unhurried glide.
-export const WIPE_SMOOTHING = 1;
+// Veil, camera and the scroll-tied parts of Problem and How to play trail the scrollbar by 1.5 s,
+// so even a quick scroll becomes an unhurried glide (the move from the intro to the hero trails by 1 s).
+export const WIPE_SMOOTHING = 1.5;
 
 export function initWipe() {
   const act = document.getElementById('act');

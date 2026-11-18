@@ -13,7 +13,7 @@ import { tokenNumber } from './tokens.js';
 import { holdLengthPx, wipeLengthPx, revealLengthPx, wipeStages, WIPE_SMOOTHING } from './wipe.js';
 
 const clamp01 = (t) => Math.min(1, Math.max(0, t));
-const leave = gsap.parseEase('power2.in'); // exits accelerate away (ease-in)
+const leave = gsap.parseEase('sine.in'); // exits accelerate away, gently (ease-in)
 
 export function initProblem() {
   const act = document.getElementById('act');
@@ -49,7 +49,7 @@ export function initProblem() {
   // Exit: the last part of the Problem pin. Words leave first word first, a little apart.
   const exitStart = tokenNumber('--problem-exit-start', 0.4);
   const shift = tokenNumber('--shift-problem-exit', 40);
-  const SPREAD = 0.5; // share of the exit over which the word departures are spread
+  const SPREAD = 0.6; // share of the exit over which the word departures are spread
   let exiting = false;
   const exit = (p) => {
     const e = clamp01((p - exitStart) / (1 - exitStart));
