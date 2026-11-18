@@ -75,37 +75,41 @@
   top: 0;
   height: 100vh;
   height: 100svh;
+  /* Title, card and steps form one tight group, centered below the header, with the same gap between each. */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: var(--gap-htp-group);
   /* bottom room keeps the steps clear of the "Built with Spline" badge (bottom right) */
-  gap: var(--space-6);
   padding: var(--offset-nav) var(--space-6) var(--space-9);
 }
 .htp.is-pinned .htp__head { margin-bottom: 0; }
 .htp.is-pinned .htp__body {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-7);
+  gap: var(--gap-htp-group);
   width: min(100%, var(--content-max));
   margin-inline: auto;
+  /* the card's shown width: the steps row matches it */
+  --htp-card-shown: calc(var(--size-htp-card) * var(--scale-htp-card));
 }
 /* The card first on screen (the steps come first in the page, so they are read first; the card is a picture) */
-.htp.is-pinned .htp__demo { display: flex; flex: 1; align-items: center; order: -1; }
+.htp.is-pinned .htp__demo { display: block; order: -1; }
 .htp.is-pinned .htp-card--live { width: var(--size-htp-card); zoom: var(--scale-htp-card); }
 .htp.is-pinned .htp-card--mini { display: none; }
 
-/* Steps row: three equal columns along the bottom */
+/* Steps row: three equal columns under the card, as wide as the card. Small: they support the card, not compete with it. */
 .htp.is-pinned .htp__levels {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-7);
-  width: min(100%, var(--size-htp-steps));
+  gap: var(--space-5);
+  width: min(100%, var(--htp-card-shown));
   max-width: none;
   margin: 0;
 }
-.htp.is-pinned .htp__level-text { max-width: none; }
+.htp.is-pinned .htp__level-text { max-width: none; margin-top: var(--space-2); font-size: var(--text-small); }
+.htp.is-pinned .htp__level-button { gap: var(--space-1); min-height: 0; }
+.htp.is-pinned .htp__level-title { font-size: var(--text-body); }
 /* Inactive steps: label and title only, muted. Their text keeps its place (only faded out), so the row never changes
    height, and screen readers still read all three. Active: the text fades in and rises (the hero item motion). */
 .htp.is-pinned .htp__level:not(.is-active) .htp__level-label,
@@ -127,7 +131,7 @@
 .htp.is-pinned .htp__progress {
   display: block;
   height: var(--size-htp-progress);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
   border-radius: var(--radius-chip);
   background: var(--color-htp-progress-track);
   overflow: hidden;
@@ -232,11 +236,13 @@
 /* Shorter screens (laptops): the card a little smaller so title, card and steps all fit */
 @media (max-height: 860px) {
   .htp.is-pinned .htp-card--live { zoom: var(--scale-htp-card-short); }
+  .htp.is-pinned .htp__body { --htp-card-shown: calc(var(--size-htp-card) * var(--scale-htp-card-short)); }
 }
 
-/* Tablet: the card a little smaller, closer steps */
-@media (max-width: 1279px) {
+/* Narrow tablets (768 to 1023): the card a little smaller, closer steps (still as wide as the card) */
+@media (max-width: 1023px) {
   .htp.is-pinned .htp-card--live { zoom: var(--scale-htp-card-tablet); }
-  .htp.is-pinned .htp__levels { gap: var(--space-5); }
+  .htp.is-pinned .htp__body { --htp-card-shown: calc(var(--size-htp-card) * var(--scale-htp-card-tablet)); }
+  .htp.is-pinned .htp__levels { gap: var(--space-4); }
   .htp.is-pinned .htp__stage { padding-inline: var(--space-5); }
 }

@@ -143,14 +143,14 @@
   --color-sky-pale-bottom: #f5f9fd;
   --color-htp-inactive: #263040;           /* inactive level label and title on the sky: dark slate, about 4.8:1 on the darkest blue behind the list (the usual muted grey fails AA there) */
   --color-htp-label: var(--color-text);    /* "Level 1.0" on the active level */
-  --size-htp-progress: 3px;                /* progress bar height (horizontal, on top of each step) */
+  --size-htp-progress: 2px;                /* progress bar height (horizontal, on top of each step) */
   --color-htp-progress-track: rgba(20, 20, 20, 0.12);
-  --color-htp-progress-fill: var(--color-text);
+  --color-htp-progress-fill: var(--color-cta-bg); /* the brand pink (Oksana); decorative, hidden from screen readers */
   --size-htp-card: 480px;                  /* demo card width (before scaling) */
   --scale-htp-card: 1.45;                  /* the live card is the main visual: shown 1.45x larger (about 700px wide) */
   --scale-htp-card-short: 1.25;            /* screens under 860px tall */
   --scale-htp-card-tablet: 1.1;            /* tablet: a little smaller so it fits with the steps row */
-  --size-htp-steps: 1040px;                /* width of the steps row along the bottom */
+  --gap-htp-group: var(--space-7);         /* How to play: the same 48px between title, card and steps */
   --htp-type-share: 0.55;                  /* share of level 1 used to type the title; the estimate ticks up in the rest */
   --htp-shuffle-turns: 3;                  /* times the Instead reel spins through the options before landing */
   --htp-count-share: 0.8;                  /* share of level 3 used to count the tracked time up */

@@ -244,3 +244,10 @@
 - Inactive steps keep their body text in place, only faded out, so the row never changes height (the folding animation is gone). The card comes first on screen with CSS order; in the page the steps come first, so screen readers read them first (the card is a picture).
 - Stage bottom padding 96px so the steps clear the "Built with Spline" badge. Removed --size-htp-levels and --size-htp-levels-height; added --scale-htp-card, --scale-htp-card-short, --scale-htp-card-tablet, --size-htp-steps.
 - Measured: title, card and steps do not move across the three steps at 1440x900, 1280x800 and 768x1024. Phones unchanged (stacked).
+
+## 2026-11-18 · How to play: tighter group, smaller steps, pink bars
+- Spacing (Oksana: too much room around the card): title, card and steps are one group centered below the header, with the same 48px between each (--gap-htp-group). Before, the card sat in a box that filled all spare height and the steps were pushed to the bottom.
+- Steps much smaller (Oksana): the row is exactly as wide as the card (it follows the card's scale), step titles 16px semibold (was 24), step text 14px, 2px bars (was 3), 12px between bar and label.
+- The tablet sizing (card 1.1x) now applies only under 1024px wide; 1024 to 1279 uses the desktop card, so a 1200px window no longer gets a small card with full-width steps. Removed --size-htp-steps.
+- Progress bars pink (Oksana): --color-htp-progress-fill = --color-cta-bg. Decorative and hidden from screen readers; subtle on the pale clouds at 2px.
+- Measured: no movement across the three steps at 1440x900, 1200x979, 1280x800, 768x1024.
