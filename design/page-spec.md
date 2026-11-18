@@ -54,7 +54,7 @@ Scene: deep blue sky, one small cloud drifting.
 
 ## Transition 1 to 2 · Cloud wipe
 
-The page passes through the clouds again, the way it entered them in the opening, and through the same clouds: the 3D scene's own. Scroll-driven and reversible: the hero and the Problem screen share one pinned stage. The hero first holds still for a moment (0.6 screen of scroll), then the wipe takes 2.6 screens. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay). A scroll coming down out of the intro lands on the hero and stops there until that gesture (including trackpad momentum) has ended; the next scroll continues into the wipe. The camera and the veil trail the scroll by 1.5 s, so even a quick scroll glides.
+The page passes through the clouds again, the way it entered them in the opening, and through the same clouds: the 3D scene's own. Scroll-driven and reversible: the hero and the Problem screen share one pinned stage. The wipe takes 2.6 screens of scroll and starts with the first scroll after the reader has landed on the hero. Scrolling back up plays it backwards and the hero returns exactly as built (its entrance does not replay). A scroll coming down out of the intro lands on the hero and stops there until that gesture (including trackpad momentum) has ended, at most 2.5 s; the next scroll starts the wipe. One landing per arrival. The camera and the veil trail the scroll by 1.5 s, so even a quick scroll glides.
 
 Storyboard by scroll progress:
 - 0 to 20%: the camera starts climbing from the hero toward the cloud layer. The hero text and scroll cue fade out from 10% (gone by 40%).

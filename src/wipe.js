@@ -117,11 +117,11 @@ export function initWipe() {
   // - the scroll crosses the hero's top from above: the page is put back exactly on the hero;
   // - the page already sits on the hero (the intro held it there while its last lines played) and the
   //   reader keeps scrolling: the scroll waits.
-  // Either way, downward scrolling is ignored until the hero's entrance has finished (is-hero-done, so the
-  // hills, headline and buttons have arrived) and the gesture has paused, or at most LANDING.maxMs.
-  // Then the next scroll continues into the wipe. Scrolling up, Tab and links are never blocked.
+  // Either way, downward scrolling is ignored until the gesture that brought the reader here (with its
+  // trackpad momentum) has ended, or at most LANDING.maxMs. The next scroll starts the wipe straight away. Scrolling up, Tab and links are never blocked.
   let lastY = window.scrollY;
   let landed = false;
+  let settled = false; // one landing per arrival: after it, the next scroll always moves on
   let landedAt = 0;
   let quiet = null;
   const heroDone = () => hero.classList.contains('is-hero-done');
@@ -129,7 +129,7 @@ export function initWipe() {
   const tryRelease = () => {
     clearTimeout(quiet);
     const since = performance.now() - landedAt;
-    if (since >= LANDING.maxMs || (since >= LANDING.minMs && heroDone())) { landed = false; return; }
+    if (since >= LANDING.minMs) { landed = false; settled = true; return; } // the landing gesture has ended: the next one moves on
     quiet = setTimeout(tryRelease, LANDING.checkMs);
   };
   const land = () => {
@@ -139,23 +139,24 @@ export function initWipe() {
   };
   const gesture = () => { // more scroll input arrived: wait for it to pause before letting go
     clearTimeout(quiet);
-    if (performance.now() - landedAt >= LANDING.maxMs) { landed = false; return; } // never longer than maxMs
+    if (performance.now() - landedAt >= LANDING.maxMs) { landed = false; settled = true; return; } // never longer than maxMs
     quiet = setTimeout(tryRelease, LANDING.quietMs);
   };
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     const heroTop = act.offsetTop;
-    if (!landed && lastY < heroTop - 1 && y > heroTop + 1 && y < heroTop + holdLengthPx() + wipeLengthPx()) {
+    if (!landed && !settled && lastY < heroTop - 1 && y > heroTop + 1 && y < heroTop + holdLengthPx() + wipeLengthPx()) {
       window.scrollTo({ top: heroTop, behavior: 'instant' });
       land();
     }
+    if (y < heroTop - 1) settled = false; // back up in the intro: the next arrival lands again
     lastY = window.scrollY;
   }, { passive: true });
   const wantsDown = (event) => {
     // Sitting on the hero before it has arrived. While the intro itself still holds the page (its last lines
     // playing), intro.js blocks the scroll; the hero's wait starts only once that hold has let go.
     const introHolding = document.documentElement.classList.contains('is-scroll-held');
-    if (!landed && !introHolding && atHero() && !heroDone()) land();
+    if (!landed && !settled && !introHolding && atHero() && !heroDone()) land();
     if (!landed) return false;
     gesture();
     return landed;
