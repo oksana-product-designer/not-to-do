@@ -86,7 +86,7 @@ Scene: the camera sinks slowly from the sky above the clouds into the top of the
 - Level 2.0 · Choose a distraction: Gaming, shopping, one more video. Pick what you'll do instead.
 - Level 3.0 · Start avoiding: Press the button. Every minute the task stays untouched goes on your score.
 
-Layout (tablet and desktop): title and sub centered at the top. Below, two columns: the three levels as a list on the left, one demo app card on the right. The active level shows its label, title, body and a thin progress bar that fills with the scroll inside that level. Inactive levels show label and title only, muted. Each level is a button: clicking it scrolls to that level. Everything light: white card, text on the sky.
+Layout (tablet and desktop): title and sub centered at the top. The demo app card is the main visual: large, in the middle of the screen. The three steps sit in a row along the bottom, each with a thin horizontal progress bar above it that fills with the scroll inside that step. The active step shows its label, title and body; the others show label and title only, muted. Each step is a button: clicking it scrolls to that step. Everything light: white card, text on the sky.
 
 Pinned scroll: the section stays on screen for 3 screens of scroll, one per level, scrubbed and reversible. On a level change the old body fades out and the new one fades in and rises (the hero item motion).
 

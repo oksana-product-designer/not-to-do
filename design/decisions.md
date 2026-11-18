@@ -231,3 +231,16 @@
 - Progress bar is now a vertical rail on the left of each level (Oksana): 3px wide, the full height of the level. The active rail fills top to bottom with the scroll (scaleY); finished levels stay full, later ones empty. The rail moved out of the folding text block so all three show.
 - Level 3: the card no longer glows pink (Oksana). It lifts with the default deeper shadow (--shadow-htp-lift = --shadow-float), still fading in with opacity only. --shadow-htp-glow removed.
 - Fix: while moving the rail, an edit removed the pinned rules for the single live card, so desktop briefly showed a card under every level. Restored and checked: one card on the right at every level.
+
+## 2026-11-18 · Type scale (typography-scale skill)
+- Review: nine size tokens with no common ratio, three fluid (growing with the screen), H3 level titles (about 28px Inter semibold) crowding the H2, step markers in the same 14px style as nav links, one line height for Imbue and Inter headings.
+- New scale: base 16px, ratio 1.25 (major third), on the 4px grid: 12, 14, 16, 20, 24, 32, 40, 48, 64, 80, 96. Fixed sizes, one step down on phones (under 768px).
+- Roles: --text-hero-title 96/44 and --text-statement 80/44 (both kept as Oksana set them), --text-h2 64/40 (was fluid), --text-h3 24/20 (new; Inter 600, 1.2, -0.01em), --text-wordmark 24 (was fluid 20 to 28), --text-body-l 20/18, --text-body 16, --text-small 14 (rename of --text-label), --text-eyebrow 12 uppercase 600 +0.06em (new, "LEVEL 1.0"), --text-caption 12. Intro keeps its fluid sizes (--text-display, --text-intro, renamed from --text-title-xl).
+- Line heights: --line-height-display 1.05 (Imbue), --line-height-heading 1.2 (Inter headings, eyebrows), --line-height-text 1.5. Tracking: --tracking-display -0.02em on H2 and the statement (the hero H1 keeps its untracked look), --tracking-heading -0.01em, --tracking-eyebrow 0.06em.
+- Added to CLAUDE.md (Design system) so later sections follow it.
+
+## 2026-11-18 · How to play: card as the main visual, steps along the bottom
+- Restructured like Oksana's reference: title and sub at the top, the live app card large in the middle (zoom 1.45, about 700px wide; 1.25 on screens under 860px tall; 1.1 on tablet), and the three steps in a row along the bottom (--size-htp-steps 1040px), each with a horizontal progress bar above it (back from the vertical rail).
+- Inactive steps keep their body text in place, only faded out, so the row never changes height (the folding animation is gone). The card comes first on screen with CSS order; in the page the steps come first, so screen readers read them first (the card is a picture).
+- Stage bottom padding 96px so the steps clear the "Built with Spline" badge. Removed --size-htp-levels and --size-htp-levels-height; added --scale-htp-card, --scale-htp-card-short, --scale-htp-card-tablet, --size-htp-steps.
+- Measured: title, card and steps do not move across the three steps at 1440x900, 1280x800 and 768x1024. Phones unchanged (stacked).

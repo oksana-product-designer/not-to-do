@@ -65,6 +65,7 @@ design/
   - Load only the weights in use, with `display=swap`, and preconnect to fonts.gstatic.com.
   - Set fallback stacks with similar metrics so text doesn't jump when the fonts load.
 - Spacing on a 4px base: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128.
+- Type scale (tokens in `tokens.css`): base 16px, ratio 1.25, fixed sizes, one step down on phones. Hero H1 96/44, Problem statement 80/44, H2 64/40 (Imbue); H3 24/20, body large 20/18, body 16, small 14, eyebrow 12 uppercase, caption 12 (Inter). Only the intro text stays fluid.
 - Breakpoints: 390 (phone), 768 (tablet), 1280 (desktop), 1440 (wide). Build mobile first.
 - Log any design decision that changes tokens, layout or copy in `design/decisions.md`.
 

@@ -66,71 +66,68 @@
   .htp.is-fade-ready:not(.is-pinned) .htp__level.is-seen { opacity: 1; translate: 0 0; }
 }
 
-/* ---------- Pinned layout ---------- */
+/* ---------- Pinned layout ----------
+   Title and sub at the top, the live app card big in the middle (the main visual), and the three steps
+   in a row along the bottom, each with a horizontal progress bar that fills with the scroll. */
 .htp.is-pinned { height: calc(100vh + var(--length-htp-scroll)); height: calc(100svh + var(--length-htp-scroll)); padding: 0; }
 .htp.is-pinned .htp__stage {
   position: sticky;
   top: 0;
   height: 100vh;
   height: 100svh;
-  /* One composition, centered in the space below the header: title and sub, then the two columns. */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: var(--space-8);
-  padding: var(--offset-nav) var(--space-6) var(--space-7);
+  /* bottom room keeps the steps clear of the "Built with Spline" badge (bottom right) */
+  gap: var(--space-6);
+  padding: var(--offset-nav) var(--space-6) var(--space-9);
 }
 .htp.is-pinned .htp__head { margin-bottom: 0; }
-/* Two columns of equal weight, as wide as the header together: levels on the left, the card on the right.
-   The levels column has a fixed height (the tallest state), so nothing shifts when a level opens. */
 .htp.is-pinned .htp__body {
-  display: grid;
-  grid-template-columns: minmax(0, var(--size-htp-levels)) minmax(0, var(--size-htp-card));
-  justify-content: space-between;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-8);
+  justify-content: space-between;
+  gap: var(--space-7);
   width: min(100%, var(--content-max));
   margin-inline: auto;
 }
-.htp.is-pinned .htp__levels { min-height: var(--size-htp-levels-height); align-content: center; }
-.htp.is-pinned .htp__levels { gap: var(--space-6); max-width: none; margin: 0; }
-.htp.is-pinned .htp__level-text { max-width: none; } /* text runs the full column width */
+/* The card first on screen (the steps come first in the page, so they are read first; the card is a picture) */
+.htp.is-pinned .htp__demo { display: flex; flex: 1; align-items: center; order: -1; }
+.htp.is-pinned .htp-card--live { width: var(--size-htp-card); zoom: var(--scale-htp-card); }
 .htp.is-pinned .htp-card--mini { display: none; }
-.htp.is-pinned .htp__demo { display: block; }
 
-/* Inactive levels: label and title only, muted. The body stays in the page (screen readers read all three),
-   folded to zero height. Active: it unfolds, and its text fades in and rises (the hero item motion). */
+/* Steps row: three equal columns along the bottom */
+.htp.is-pinned .htp__levels {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-7);
+  width: min(100%, var(--size-htp-steps));
+  max-width: none;
+  margin: 0;
+}
+.htp.is-pinned .htp__level-text { max-width: none; }
+/* Inactive steps: label and title only, muted. Their text keeps its place (only faded out), so the row never changes
+   height, and screen readers still read all three. Active: the text fades in and rises (the hero item motion). */
 .htp.is-pinned .htp__level:not(.is-active) .htp__level-label,
 .htp.is-pinned .htp__level:not(.is-active) .htp__level-title { color: var(--color-htp-inactive); }
 .htp.is-pinned .htp__level:not(.is-active) .htp__level-title { font-weight: var(--weight-medium); }
-.htp.is-pinned .htp__level-more {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--duration-hero-item) var(--ease-hero);
-}
-.htp.is-pinned .htp__level.is-active .htp__level-more { grid-template-rows: 1fr; }
-.htp.is-pinned .htp__level-inner { overflow: hidden; }
-.htp.is-pinned .htp__level-inner > * {
+.htp.is-pinned .htp__level-text {
   opacity: 0;
   translate: 0 var(--shift-hero-item);
   transition: opacity var(--duration-fast) var(--ease-exit), translate var(--duration-fast) var(--ease-exit);
 }
-.htp.is-pinned .htp__level.is-active .htp__level-inner > * {
+.htp.is-pinned .htp__level.is-active .htp__level-text {
   opacity: 1;
   translate: 0 0;
   transition: opacity var(--duration-hero-item) var(--ease-hero), translate var(--duration-hero-item) var(--ease-hero);
 }
 
-/* Progress: a thin vertical rail on the left of each level. The active level's rail fills top to bottom
-   with the scroll inside that level (transform only); finished levels stay full, later ones empty. */
-.htp.is-pinned .htp__level { position: relative; padding-left: var(--space-5); }
+/* Progress: a thin horizontal bar on top of each step. The active one fills left to right with the scroll
+   inside that step (transform only); finished steps stay full, later ones empty. */
 .htp.is-pinned .htp__progress {
   display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: var(--size-htp-progress);
+  height: var(--size-htp-progress);
+  margin-bottom: var(--space-4);
   border-radius: var(--radius-chip);
   background: var(--color-htp-progress-track);
   overflow: hidden;
@@ -139,8 +136,8 @@
   display: block;
   height: 100%;
   background: var(--color-htp-progress-fill);
-  transform-origin: center top;
-  transform: scaleY(0);
+  transform-origin: left center;
+  transform: scaleX(0);
   will-change: transform;
 }
 
@@ -232,8 +229,14 @@
   transform: scale(var(--scale-button-press));
 }
 
-/* Tablet: two columns, the card a little wider than the levels */
+/* Shorter screens (laptops): the card a little smaller so title, card and steps all fit */
+@media (max-height: 860px) {
+  .htp.is-pinned .htp-card--live { zoom: var(--scale-htp-card-short); }
+}
+
+/* Tablet: the card a little smaller, closer steps */
 @media (max-width: 1279px) {
-  .htp.is-pinned .htp__body { grid-template-columns: minmax(0, 4fr) minmax(0, 5fr); gap: var(--space-6); } /* the card gets a little more room so its values fit */
+  .htp.is-pinned .htp-card--live { zoom: var(--scale-htp-card-tablet); }
+  .htp.is-pinned .htp__levels { gap: var(--space-5); }
   .htp.is-pinned .htp__stage { padding-inline: var(--space-5); }
 }

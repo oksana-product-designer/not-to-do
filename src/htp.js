@@ -1,6 +1,6 @@
 // Screen 3 · How to play. htp.css holds both layouts; this file decides which one runs and drives it.
 // - Pinned (768px and up, motion welcome): three screens of scroll, one per level. The scroll picks the
-//   active level, fills its vertical progress rail and moves the live app card through its states. Scrubbed, so
+//   active level, fills its progress bar and moves the live app card through its states. Scrubbed, so
 //   scrolling back up rewinds everything. Level buttons scroll to their level.
 // - Stacked (phones): each level block fades in once as it enters the screen.
 // - Reduced motion: stacked, everything in its final state, no movement. No JS: stacked (HTML only).
@@ -81,7 +81,7 @@ export function initHtp() {
     setActive(index);
     fills.forEach((fill, i) => {
       const t = i < index ? 1 : i > index ? 0 : local;
-      if (fill) fill.style.transform = `scaleY(${t.toFixed(4)})`;
+      if (fill) fill.style.transform = `scaleX(${t.toFixed(4)})`;
     });
     if (!card) return;
     const share = (i) => (index > i ? 1 : index < i ? 0 : local); // how far through level i the scroll is
