@@ -14,8 +14,8 @@ import { tokenMs } from './tokens.js';
 const SCROLL_KEYS = [' ', 'PageDown', 'ArrowDown', 'End'];
 const INPUT_KEYS = [...SCROLL_KEYS, 'PageUp', 'ArrowUp', 'Home'];
 
-export function addLanding({ at, range, sitOn = () => true, active = () => true, ready = () => true }) {
-  const minMs = () => tokenMs('--duration-landing-min', 1000);
+export function addLanding({ at, range, sitOn = () => true, active = () => true, ready = () => true, minToken = '--duration-landing-min' }) {
+  const minMs = () => tokenMs(minToken, 1000);
   const maxMs = () => tokenMs('--duration-landing-max', 3000);
   const quietMs = () => tokenMs('--duration-landing-quiet', 220);
   const takeoverMs = () => tokenMs('--duration-landing-input', 400);
@@ -43,10 +43,13 @@ export function addLanding({ at, range, sitOn = () => true, active = () => true,
     quiet = setTimeout(tryRelease, left);
   };
   const land = () => { landed = true; landedAt = performance.now(); readyAt = 0; tryRelease(); };
-  const gesture = () => { // more scroll input: wait for it to pause before letting go
+  // More scroll input: wait for it to pause before letting go. A fresh swipe (fresh = true: a jump in strength,
+  // not a fading momentum tail) lets go at once when the rest is over, so quick swipes are not mistaken for
+  // one long gesture.
+  const gesture = (fresh = false) => {
     clearTimeout(quiet);
     const now = performance.now();
-    if (isReady(now) && now - readyAt >= maxMs()) { release(); return; }
+    if (isReady(now) && (now - readyAt >= maxMs() || (fresh && now - readyAt >= minMs()))) { release(); return; }
     quiet = setTimeout(tryRelease, quietMs());
   };
 
@@ -63,16 +66,24 @@ export function addLanding({ at, range, sitOn = () => true, active = () => true,
   }, { passive: true });
 
   // A downward scroll intent. Returns true when it must be ignored.
-  const wantsDown = () => {
+  const wantsDown = (fresh = false) => {
     lastInput = performance.now();
     if (!landed && !settled && active() && Math.abs(window.scrollY - at()) <= 2 && sitOn()) land();
     if (!landed) return false;
-    gesture();
+    gesture(fresh);
     return landed;
   };
+  // A trackpad momentum tail only gets weaker; a new swipe starts with a jump in strength (or after a pause).
+  let lastDelta = 0;
+  let lastWheel = 0;
   window.addEventListener('wheel', (event) => {
-    lastInput = performance.now();
-    if (event.deltaY > 0 && wantsDown()) event.preventDefault();
+    const now = performance.now();
+    const delta = Math.abs(event.deltaY);
+    const fresh = now - lastWheel > quietMs() || delta > lastDelta * 1.5 + 4;
+    lastDelta = delta;
+    lastWheel = now;
+    lastInput = now;
+    if (event.deltaY > 0 && wantsDown(fresh)) event.preventDefault();
   }, { passive: false });
   let touchY = null;
   window.addEventListener('touchstart', (event) => { touchY = event.touches[0].clientY; lastInput = performance.now(); }, { passive: true });

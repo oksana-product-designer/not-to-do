@@ -120,6 +120,7 @@
 
   /* Landings (landing.js): every section's resting point holds a downward scroll this long */
   --duration-landing-min: 1000ms;          /* at least this long, even if the reader scrolls again */
+  --duration-landing-min-hero: 500ms;      /* the hero's own rest, counted from when its headline starts appearing */
   --duration-landing-max: 3000ms;          /* never longer, even if the same gesture keeps coming */
   --duration-landing-wait: 8000ms;         /* a section that is not ready yet (the hero still arriving) is waited for at most this long */
   --duration-landing-quiet: 220ms;         /* no scroll input for this long = the gesture has ended */

@@ -124,6 +124,7 @@ export function initWipe() {
     range: () => problemAt() - heroAt(),
     sitOn: () => !document.documentElement.classList.contains('is-scroll-held'), // the intro still holds the page: not yet
     ready: () => hero.classList.contains('is-hero-in'), // the hold counts from when the hero's headline starts appearing
+    minToken: '--duration-landing-min-hero', // the hero rests shorter than the other sections
   });
   // When the intro lets go of the page (its last lines have played) while it sits on the hero, that is the arrival.
   const root = document.documentElement;
