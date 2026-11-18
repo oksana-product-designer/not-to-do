@@ -35,14 +35,12 @@
   --text-body-l: 1.25rem;                  /* section subs: 20px; 18px on phones */
   --text-body: 1rem;                       /* body text: 16px */
   --text-small: 0.875rem;                  /* nav links, small UI text, card fields: 14px */
-  --text-eyebrow: 0.75rem;                 /* step markers ("LEVEL 1.0"), uppercase: 12px */
   --text-caption: 0.75rem;                 /* tiny labels (card project pill): 12px */
   --line-height-display: 1.05;             /* Imbue titles */
-  --line-height-heading: 1.2;              /* Inter headings and eyebrows */
+  --line-height-heading: 1.2;              /* Inter headings */
   --line-height-text: 1.5;                 /* body text */
   --tracking-display: -0.02em;             /* Imbue titles */
   --tracking-heading: -0.01em;             /* Inter headings */
-  --tracking-eyebrow: 0.06em;              /* uppercase step markers */
 
   /* Font weights in use */
   --weight-regular: 400;
@@ -141,7 +139,6 @@
   --color-sky-pale-mid: #c9e0f4;
   --color-sky-pale-bottom: #f5f9fd;
   --color-htp-inactive: #263040;           /* inactive level label and title on the sky: dark slate, about 4.8:1 on the darkest blue behind the list (the usual muted grey fails AA there) */
-  --color-htp-label: var(--color-text);    /* "Level 1.0" on the active level */
   --size-htp-progress: 3px;                /* progress bar height (horizontal, on top of each step) */
   --color-htp-progress-track: rgba(20, 20, 20, 0.12);
   --color-htp-progress-fill: var(--color-cta-bg); /* the brand pink (Oksana); decorative, hidden from screen readers */

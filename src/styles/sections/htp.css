@@ -48,8 +48,6 @@
   text-align: left;
   cursor: pointer;
 }
-/* Step marker: small uppercase eyebrow above the level title (screen readers still hear "Level 1.0") */
-.htp__level-label { font-size: var(--text-eyebrow); font-weight: var(--weight-strong); line-height: var(--line-height-heading); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-htp-label); }
 .htp__level-title { font-size: var(--text-h3); font-weight: var(--weight-strong); line-height: var(--line-height-heading); letter-spacing: var(--tracking-heading); }
 .htp__level-text { margin-top: var(--space-3); max-width: var(--measure-sub); }
 .htp__progress { display: none; }
@@ -112,7 +110,6 @@
 .htp.is-pinned .htp__level-title { font-size: var(--text-body); }
 /* Inactive steps: label and title only, muted. Their text keeps its place (only faded out), so the row never changes
    height, and screen readers still read all three. Active: the text fades in and rises (the hero item motion). */
-.htp.is-pinned .htp__level:not(.is-active) .htp__level-label,
 .htp.is-pinned .htp__level:not(.is-active) .htp__level-title { color: var(--color-htp-inactive); }
 .htp.is-pinned .htp__level:not(.is-active) .htp__level-title { font-weight: var(--weight-medium); }
 .htp.is-pinned .htp__level-text {

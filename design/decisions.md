@@ -258,3 +258,6 @@
 - The whole line takes about 2.1 s (14 words). The animation-principles skill suggests keeping sequences short; kept the hero's exact timing because Oksana asked for the same motion. A faster stagger is a one-token change if it feels long.
 - The heading still reads as one sentence (inner spans only, added by problem.js). Removed --opacity-problem-word-start. The Problem screen's pinned read time after the wipe went from 120vh to 80vh (--length-problem-reveal), since the scroll no longer drives the words.
 - Reduced motion and no JS: shown static.
+
+## 2026-11-18 · How to play: no "Level" labels
+- The "Level 1.0 / 2.0 / 3.0" labels are removed from the steps (Oksana); steps show their headings only (spec first). The step buttons are now named by the heading alone ("Pick your quest"). Removed the eyebrow style and its tokens (--text-eyebrow, --tracking-eyebrow, --color-htp-label), also from the CLAUDE.md type scale. The sub "Three levels. Nobody has ever lost." stays.
