@@ -327,3 +327,9 @@
 - The hero's landing is now a shared module (src/landing.js) used by three resting points: the hero, Problem (when the clouds have cleared, the end of the wipe) and How to play (when it is in place, pinned layout only). Each holds a downward scroll for at least 1 s (--duration-landing-min; the hero's was 0.3 s), longer while the same gesture keeps arriving, at most 3 s (--duration-landing-max; was 2.5 s). One landing per arrival; scrolling up, Tab and links are never blocked.
 - Trade-off: a second swipe within that first second is ignored (that is the protection), so it is slightly less instant than before.
 - Checked with trackpad-like swipes (1.2 s apart): swipe 1 lands on the hero, swipe 3 on Problem, swipe 4 on How to play, the rest step through its levels.
+
+## 2026-11-18 · How to play on phones: the desktop idea, pinned
+- Oksana asked for the current desktop layout on phones too (the brief had asked for stacked blocks there). Phones now use the pinned layout: title on top, the single live card full width (no zoom), then three short pink progress bars in a row with only the active step's title and text below them. All three steps share that spot; inactive titles and texts are invisible (still read by screen readers; a focused title shows), so nothing moves when the step changes. The phone also gets the How to play resting point and entrance like desktop.
+- On phones the card's task title keeps two lines of room from the start (it wraps once typed, which shifted the steps by 12px), and When and Estimation hug their text so "Instead" fits its value (equal columns stay on tablet and desktop).
+- Reduced motion and no JS keep the stacked blocks with small cards.
+- Checked at 390x844: title, card and steps do not move across the three steps.

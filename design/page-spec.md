@@ -97,7 +97,7 @@ Demo card: a picture of the app's task card (title, project pill "Waffle Cone Pr
 - Choose a distraction: the Instead value spins like a slot machine (Online shopping, Scrolling, Watching Netflix) and lands on "Video gaming".
 - Start avoiding: the button looks pressed, "tracked" counts up from 0h 00m to 1h 32m, and the card gets a soft glow.
 
-Phone (under 768px): no pinning. Three stacked blocks, each with its level text and a small card already in that level's final state, fading in gently as they enter the screen. Reduced motion: the same stacked layout, all final states, no typing, spinning, counting or fading. No JS: the stacked layout with final states.
+Phone (under 768px): pinned like desktop, arranged for a narrow screen: title on top, the live card full width, then three short progress bars in a row with only the active step's title and text below them. Reduced motion and no JS: three stacked blocks, each with its text and a small card in that step's final state.
 
 ## Screen 4 · High score
 

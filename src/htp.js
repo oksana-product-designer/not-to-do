@@ -123,7 +123,7 @@ export function initHtp() {
 
   // Pinned from tablet up. The live card starts in the level 1 state (the HTML holds the final state).
   const applyLayout = () => {
-    const pinned = wide.matches;
+    const pinned = true; // every screen size (phones get their own arrangement in htp.css)
     section.classList.toggle('is-pinned', pinned);
     if (card) card.classList.toggle('htp-card--level-3', !pinned);
     if (!pinned) { levels.forEach((level) => level.classList.remove('is-active')); buttons.forEach((b) => b.removeAttribute('aria-current')); active = -1; }

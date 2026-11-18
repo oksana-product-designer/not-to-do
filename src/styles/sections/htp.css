@@ -305,3 +305,39 @@
   .htp.is-pinned .htp__level:nth-child(2) { --n: 1; }
   .htp.is-pinned .htp__level:nth-child(3) { --n: 2; }
 }
+
+/* Phones (under 768px), pinned: the same idea as desktop, arranged for a narrow screen.
+   Title on top, the live card full width, then three short progress bars in a row with only the active
+   step's title and text below them. All three steps share that spot; the inactive ones are invisible
+   (still read by screen readers), so nothing moves when the step changes. */
+@media (max-width: 767px) {
+  .htp.is-pinned .htp__stage { padding: var(--offset-nav) var(--space-4) var(--space-7); }
+  .htp.is-pinned .htp-card--live { width: 100%; zoom: 1; }
+  .htp.is-pinned .htp__demo { width: 100%; }
+  .htp.is-pinned .htp__body { --htp-card-shown: 100%; }
+  /* the task title takes two lines here once typed: keep its room from the start so nothing shifts */
+  .htp.is-pinned .htp-card--live .htp-card__title { min-height: calc(2em * var(--line-height-text)); }
+  /* narrow card: When and Estimation hug their text so "Instead" has room for its value */
+  .htp.is-pinned .htp-card--live .htp-card__fields { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .htp.is-pinned .htp__levels {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    width: 100%;
+    padding-top: calc(var(--size-htp-progress) + var(--space-4));
+  }
+  .htp.is-pinned .htp__level { grid-area: 1 / 1; }
+  .htp.is-pinned .htp__level .htp__level-heading { transition: opacity var(--duration-fast) var(--ease-exit); }
+  .htp.is-pinned .htp__level:not(.is-active) .htp__level-heading { opacity: 0; pointer-events: none; }
+  .htp.is-pinned .htp__level:not(.is-active) .htp__level-heading:focus-within { opacity: 1; }
+  .htp.is-pinned .htp__level.is-active .htp__level-heading { transition: opacity var(--duration-hero-item) var(--ease-hero); }
+  /* the bars sit in a row above, one third of the width each */
+  .htp.is-pinned .htp__progress {
+    position: absolute;
+    top: 0;
+    left: calc(var(--n, 0) * (100% + var(--space-3)) / 3);
+    width: calc((100% - 2 * var(--space-3)) / 3);
+    margin: 0;
+    opacity: 1;
+  }
+}
