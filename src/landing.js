@@ -55,5 +55,4 @@ export function addLanding({ at, range, sitOn = () => false, active = () => true
   window.addEventListener('wheel', (event) => { if (event.deltaY > 0 && wantsDown()) event.preventDefault(); }, { passive: false });
   window.addEventListener('touchmove', (event) => { if (wantsDown()) event.preventDefault(); }, { passive: false });
   window.addEventListener('keydown', (event) => { if (SCROLL_KEYS.includes(event.key) && wantsDown()) event.preventDefault(); });
-  return { holding: () => landed };
 }

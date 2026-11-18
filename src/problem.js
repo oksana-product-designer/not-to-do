@@ -10,7 +10,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { tokenNumber } from './tokens.js';
-import { holdLengthPx, wipeLengthPx, revealLengthPx, wipeStages, TRANSITION_SMOOTHING } from './wipe.js';
+import { holdLengthPx, wipeLengthPx, revealLengthPx, wipeStages, WIPE_SMOOTHING } from './wipe.js';
 
 const clamp01 = (t) => Math.min(1, Math.max(0, t));
 const leave = gsap.parseEase('sine.in'); // exits accelerate away, gently (ease-in)
@@ -66,7 +66,7 @@ export function initProblem() {
     trigger: act,
     start: () => `top+=${holdLengthPx() + wipeLengthPx()} top`,
     end: () => `+=${revealLengthPx()}`,
-    scrub: TRANSITION_SMOOTHING,
+    scrub: WIPE_SMOOTHING,
     invalidateOnRefresh: true,
     onUpdate: (self) => exit(self.progress),
     onRefresh: (self) => exit(self.progress),

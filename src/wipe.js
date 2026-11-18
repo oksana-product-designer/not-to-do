@@ -12,7 +12,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { tokenMs, tokenNumber } from './tokens.js';
 import { addLanding } from './landing.js';
-import { initAutoplay } from './autoplay.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,11 +42,9 @@ export const holdLengthPx = () => vhToken('--length-hero-hold', 60);
 export const wipeLengthPx = () => vhToken('--length-wipe-scroll', 200);
 export const revealLengthPx = () => vhToken('--length-problem-reveal', 120);
 
-// How to play's levels and camera trail the scrollbar by 1.5 s, so even a quick scroll becomes an unhurried glide.
+// Veil, camera and the scroll-tied parts of Problem and How to play trail the scrollbar by 1.5 s,
+// so even a quick scroll becomes an unhurried glide (the move from the intro to the hero trails by 1 s).
 export const WIPE_SMOOTHING = 1.5;
-// The autoplayed transitions (hero to Problem, Problem to How to play) already move at a steady, eased pace,
-// so the clouds, camera and Problem's exit follow them closely.
-export const TRANSITION_SMOOTHING = 0.3;
 
 export function initWipe() {
   const act = document.getElementById('act');
@@ -100,7 +97,7 @@ export function initWipe() {
     // the hero holds still for a moment first, then the wipe starts
     start: () => `top+=${holdLengthPx()} top`,
     end: () => `+=${wipeLengthPx()}`,
-    scrub: TRANSITION_SMOOTHING,
+    scrub: WIPE_SMOOTHING,
     invalidateOnRefresh: true,
     onUpdate: (self) => render(self.progress),
     onRefresh: (self) => render(self.progress),
@@ -116,23 +113,17 @@ export function initWipe() {
     window.scrollTo({ top: act.offsetTop });
   });
 
-  // Resting points. The hero: a scroll out of the intro lands on it (landing.js; it also waits when the page
-  // already sits on the hero before it has arrived, after the intro held it there for its last lines).
-  // From there on the transitions autoplay (autoplay.js): a swipe at a stop plays the transition to the next
-  // stop at its own pace. Stops: the hero, Problem (statement up, before its exit) and How to play (in place).
+  // Landings (landing.js): the hero and Problem are resting points, so neither can be scrolled past by mistake.
+  // Hero: a scroll out of the intro stops on it. It also waits when the page already sits on the hero before
+  // it has arrived (the intro held it there while its last lines played; intro.js blocks the scroll until then).
   const heroAt = () => act.offsetTop;
-  const problemAt = () => act.offsetTop + holdLengthPx() + wipeLengthPx() + revealLengthPx() * tokenNumber('--problem-exit-start', 0.35);
-  const htpAt = () => { const s = document.getElementById('how-to-play'); return s ? s.getBoundingClientRect().top + window.scrollY : problemAt(); };
-  const heroLanding = addLanding({
+  const problemAt = () => act.offsetTop + holdLengthPx() + wipeLengthPx(); // the clouds have cleared, the statement is up
+  addLanding({
     at: heroAt,
     range: () => problemAt() - heroAt(),
     sitOn: () => !hero.classList.contains('is-hero-done') && !document.documentElement.classList.contains('is-scroll-held'),
   });
-  initAutoplay({
-    stops: [heroAt, problemAt, htpAt],
-    durations: [() => tokenMs('--duration-autoplay-wipe', 2600), () => tokenMs('--duration-autoplay-handover', 2200)],
-    busy: heroLanding.holding,
-  });
+  addLanding({ at: problemAt, range: () => revealLengthPx() });
 }
 
 
