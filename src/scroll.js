@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { POSES, setCameraPose, setFallbackShift, setFallbackZoom } from './scene.js';
 import { tokenMs, tokenNumber } from './tokens.js';
-import { wipeStages, wipeEase, holdLengthPx, wipeLengthPx, WIPE_SMOOTHING } from './wipe.js';
+import { wipeStages, wipeEase, holdLengthPx, wipeLengthPx, WIPE_SMOOTHING, TRANSITION_SMOOTHING } from './wipe.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,7 +88,7 @@ const SEGMENTS = [
   // It trails the scrollbar by a full second, so even a quick scroll becomes an unhurried glide.
   { trigger: '#intro', start: 'bottom bottom', end: 'bottom top', from: POSES.introEnd, to: POSES.hero, path: swoop, smoothing: 1 },
   // Cloud wipe: hero to Problem through the cloud layer, after a short hold on the hero. Same length and trailing as the front clouds (wipe.js).
-  { trigger: '#act', start: () => `top+=${holdLengthPx()} top`, end: () => `+=${wipeLengthPx()}`, from: POSES.hero, to: POSES.problem, path: climb, smoothing: WIPE_SMOOTHING },
+  { trigger: '#act', start: () => `top+=${holdLengthPx()} top`, end: () => `+=${wipeLengthPx()}`, from: POSES.hero, to: POSES.problem, path: climb, smoothing: TRANSITION_SMOOTHING },
   // How to play: while the section is pinned, the camera sinks slowly from the sky into the top of the cloud layer.
   { trigger: '#how-to-play', start: 'top top', end: 'bottom bottom', from: POSES.problem, to: POSES.htp, path: sink, smoothing: WIPE_SMOOTHING },
 ];
