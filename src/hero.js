@@ -5,8 +5,7 @@
 // When it plays:
 // - The intro hands over (the reader scrolled ahead while the last lines finished): it waits
 //   --delay-hero-in so the hills land first, background before text.
-// - The reader scrolls to the hero: it starts once the act is half way up the screen (as when half the
-//   headline block was on screen; the content itself is already in its place then, see is-arriving).
+// - The reader scrolls to the hero: it starts once half the headline block is on screen.
 // - The idle dip: the headline peeks in from below, so the peek shows it rising.
 // Scrolling back up until the block is below the screen resets it, so it plays again next time,
 // the same way the intro lines replay.
@@ -96,29 +95,8 @@ export function initHero() {
     handedOver = false;
   };
 
-  // Appears in place. During the move from the intro the act (hero and Problem) rises from the bottom of the
-  // screen. Its stage is fixed to the screen in its final place for that stretch (wipe.css: is-arriving), so the
-  // hero's content appears where it stays instead of sliding up. When the act reaches the top, the stage is
-  // pinned there as usual (same spot, no jump). The entrance timing is unchanged: it starts when the act is
-  // half way up, the moment the headline block used to be half on screen.
-  const act = document.getElementById('act');
-  let arriving = null;
-  let frame = 0;
-  const place = () => {
-    frame = 0;
-    if (!act) return;
-    const top = act.getBoundingClientRect().top;
-    const vh = window.innerHeight;
-    const isArriving = top > 0 && top < vh;
-    if (isArriving !== arriving) { arriving = isArriving; act.classList.toggle('is-arriving', isArriving); }
-    const near = top <= vh * 0.5;
-    if (near !== visible) { visible = near; check(); }
-  };
-  window.addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(place); }, { passive: true });
-  window.addEventListener('resize', place);
-  place();
-
   new IntersectionObserver(([entry]) => {
+    visible = entry.intersectionRatio >= 0.5;
     // Fully below the screen again (reader went back up into the intro): ready to replay.
     if (!entry.isIntersecting && entry.boundingClientRect.top > 0) reset();
     // Already past the hero (for example opened at a section link): count it as played,

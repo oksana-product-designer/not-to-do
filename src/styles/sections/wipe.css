@@ -11,9 +11,6 @@
 @media (prefers-reduced-motion: no-preference) {
   .js .act { height: calc(100vh + var(--length-hero-hold) + var(--length-wipe-scroll) + var(--length-problem-reveal)); height: calc(100svh + var(--length-hero-hold) + var(--length-wipe-scroll) + var(--length-problem-reveal)); }
   .js .act__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-  /* While the act rises into view from the intro, its stage is fixed in its final place (hero.js), so the hero
-     content appears where it stays. At the top the stage is pinned (sticky) at the same spot. */
-  .js .act.is-arriving .act__stage { position: fixed; top: 0; left: 0; right: 0; }
 
   /* Problem sits on the same screen as the hero, hidden until the clouds fully cover it (wipe.js). */
   .js .problem { position: absolute; inset: 0; min-height: 0; visibility: hidden; }
