@@ -74,7 +74,7 @@ Scene: plain cloud white (the white the wipe ends on). No sky, no clouds, no hil
 
 - Statement (H2): Every productivity app assumes you want to work. We did some research. You don't.
 - Layout: centered, large text straight on the plain background. No card, no dark background. The statement breaks into two line groups: "Every productivity app assumes you want to work." then "We did some research. You don't." on one line, in light grey.
-- Scroll reveal: the statement starts light grey and each word turns to full text color in turn as the reader scrolls (scrubbed, reversible). Reduced motion and no JS: fully shown.
+- Entrance: the same motion as the hero headline. Each word rises through its own invisible window, one after another (80 ms apart, 1.1 s each, long soft landing), straightening from a 4 degree tilt. Triggered by scroll: it plays when the cloud wipe has cleared, and scrolling back up into the wipe resets it so it plays again. The screen then stays for a short read (0.8 screen of scroll) before How to play. Reduced motion and no JS: fully shown.
 
 ## Screen 3 · How to play
 

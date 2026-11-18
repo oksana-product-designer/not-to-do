@@ -120,7 +120,7 @@
   /* Cloud wipe: hero to Problem (wipe.js, scroll.js and problem.js read the numbers) */
   --length-hero-hold: 60vh;                /* the hero stays still for this much scroll before the wipe starts */
   --length-wipe-scroll: 200vh;             /* scroll distance of the wipe while the stage is pinned */
-  --length-problem-reveal: 120vh;          /* scroll distance of the Problem word reveal, after the wipe */
+  --length-problem-reveal: 80vh;           /* scroll distance the Problem screen stays pinned after the wipe, to read it */
   --wipe-fade-start: 0.1;                  /* wipe progress: hero text starts fading (the camera starts climbing at 0) */
   --wipe-fade-end: 0.4;                    /* hero text gone (and out of reach) */
   --wipe-cover-start: 0.2;                 /* the veil starts rising in front of the hero */
@@ -132,7 +132,6 @@
   /* Screen 2 · Problem */
   --color-problem-bg: var(--color-cloud-cover); /* plain background of the Problem screen: the white the cloud wipe ends on */
   --color-problem-muted: #888888;          /* second line of the statement, fully revealed: light grey, about 3.2:1 on the cloud-white background (AA for large text needs 3:1) */
-  --opacity-problem-word-start: 0.2;       /* a word before its turn: the text color this faint reads light grey (decorative) */
   --measure-problem: 16em;                 /* statement line length: each sentence is one line group */
 
   /* Screen 3 · How to play (htp.js reads the numbers) */

@@ -252,3 +252,9 @@
 - Progress bars pink (Oksana): --color-htp-progress-fill = --color-cta-bg. Decorative and hidden from screen readers; subtle on the pale clouds at 2px.
 - Measured: no movement across the three steps at 1440x900, 1200x979, 1280x800, 768x1024.
 - Demo card fields (When / Instead / Estimation) are three equal columns (Oksana; before, When and Estimation hugged their text). On phones the columns are about 100px, so "Today, 2:00 PM" and "Video gaming" wrap to two lines in the small cards.
+
+## 2026-11-18 · Problem: hero-style word entrance
+- The scrubbed faint-to-full word reveal is replaced by the hero headline's entrance (Oksana): each word rises through its own window and straightens from a 4 degree tilt, 80 ms apart, 1.1 s each, --ease-hero (the hero tokens, no new ones). Built with the animation-on-scroll pattern: a scroll point triggers it (the wipe's "clear" boundary, when the veil has gone) and scrolling back up resets it, so it replays like the hero.
+- The whole line takes about 2.1 s (14 words). The animation-principles skill suggests keeping sequences short; kept the hero's exact timing because Oksana asked for the same motion. A faster stagger is a one-token change if it feels long.
+- The heading still reads as one sentence (inner spans only, added by problem.js). Removed --opacity-problem-word-start. The Problem screen's pinned read time after the wipe went from 120vh to 80vh (--length-problem-reveal), since the scroll no longer drives the words.
+- Reduced motion and no JS: shown static.

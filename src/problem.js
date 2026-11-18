@@ -1,13 +1,12 @@
-// Screen 2 · Problem: word reveal. The statement's words are already in the HTML (spans inside the
-// heading, so it reads as one sentence). After the cloud wipe, scrolling turns each word from faint to
-// full in turn. Scrubbed and reversible. Opacity only.
-// Reduced motion: nothing to do, everything is fully shown.
+// Screen 2 · Problem: the statement's entrance. Same motion as the hero headline: each word rises
+// through its own window, one after another, straightening from a small tilt (hero tokens).
+// It is triggered by scroll: it plays when the cloud wipe has cleared, and scrolling back up into
+// the wipe resets it so it plays again next time (like the hero). problem.css does the motion.
+// The words are already spans inside the heading in the HTML, so it reads as one sentence;
+// this file only adds an inner span per word (the part that moves) and the --i order.
+// Reduced motion or no JS: shown static.
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { tokenNumber } from './tokens.js';
-import { holdLengthPx, wipeLengthPx, revealLengthPx, WIPE_SMOOTHING } from './wipe.js';
-
-const clamp01 = (t) => Math.min(1, Math.max(0, t));
-const OVERLAP = 2;      // each word takes two word-slots to arrive, so neighbours blend instead of blinking
+import { holdLengthPx, wipeLengthPx, wipeStages } from './wipe.js';
 
 export function initProblem() {
   const act = document.getElementById('act');
@@ -16,26 +15,27 @@ export function initProblem() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const words = Array.from(problem.querySelectorAll('.problem__word'));
-  problem.classList.add('is-reveal-ready'); // from here on, the faint "before" state applies
+  words.forEach((word, i) => {
+    const inner = document.createElement('span');
+    inner.textContent = word.textContent;
+    word.textContent = '';
+    word.appendChild(inner);
+    word.style.setProperty('--i', i);
+  });
+  problem.classList.add('is-words-ready'); // from here on, the hidden "before" state applies
 
-  const start = tokenNumber('--opacity-problem-word-start', 0.2);
-  const render = (r) => {
-    // the words share the whole reveal scroll; the last one lands at the end
-    const slots = r * (words.length + 1);
-    words.forEach((word, i) => {
-      const t = clamp01((slots - i) / OVERLAP);
-      word.style.opacity = (start + (1 - start) * t).toFixed(3);
-    });
+  const play = () => {
+    void problem.offsetWidth; // commit the hidden state so the transition has somewhere to start
+    problem.classList.add('is-words-in');
   };
+  const reset = () => problem.classList.remove('is-words-in');
 
+  // Plays once the wipe's veil has cleared the screen (the "clear" stage boundary).
   ScrollTrigger.create({
     trigger: act,
-    start: () => `top+=${holdLengthPx() + wipeLengthPx()} top`,
-    end: () => `+=${revealLengthPx()}`,
-    scrub: WIPE_SMOOTHING,
-    invalidateOnRefresh: true,
-    onUpdate: (self) => render(self.progress),
-    onRefresh: (self) => render(self.progress),
+    start: () => `top+=${holdLengthPx() + wipeLengthPx() * wipeStages().clear} top`,
+    onEnter: play,
+    onLeaveBack: reset,
+    onRefresh: (self) => { if (self.progress > 0) play(); },
   });
-  render(0);
 }
