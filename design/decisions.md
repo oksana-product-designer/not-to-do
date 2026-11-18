@@ -333,3 +333,7 @@
 - On phones the card's task title keeps two lines of room from the start (it wraps once typed, which shifted the steps by 12px), and When and Estimation hug their text so "Instead" fits its value (equal columns stay on tablet and desktop).
 - Reduced motion and no JS keep the stacked blocks with small cards.
 - Checked at 390x844: title, card and steps do not move across the three steps.
+
+## 2026-11-18 · Fix: no 3D sky after widening a narrow window
+- Oksana saw How to play without clouds. The page had been loaded while the Browser pane was narrower than 768px (phone layout), where the 3D scene is not loaded; widening the pane afterwards did not load it, so the pale phone sky showed instead.
+- main.js now loads the scene when a page opened narrow is widened past 768px (a resized browser, a tablet turned sideways). Checked in the Browser pane: opened at 375px (no scene), widened, scene loaded and the clouds show behind How to play.

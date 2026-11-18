@@ -35,3 +35,13 @@ const sceneReady = new Promise((resolve) => {
 const OPENING_WAIT_MS = 1500;
 Promise.race([sceneReady, new Promise((resolve) => setTimeout(() => resolve(false), OPENING_WAIT_MS))])
   .then((sceneShowing) => playOpening(sceneShowing));
+
+// Opened on a narrow window (no 3D scene there) and widened later, for example a resized browser or a
+// tablet turned sideways: load the scene then, so the wide layout gets its real sky and clouds.
+const wideEnough = window.matchMedia('(min-width: 768px)');
+const loadWhenWide = () => {
+  if (!wideEnough.matches) return;
+  wideEnough.removeEventListener('change', loadWhenWide);
+  sceneReady.then((showing) => { if (!showing) initScene(); });
+};
+if (!wideEnough.matches) wideEnough.addEventListener('change', loadWhenWide);
