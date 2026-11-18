@@ -251,3 +251,4 @@
 - The tablet sizing (card 1.1x) now applies only under 1024px wide; 1024 to 1279 uses the desktop card, so a 1200px window no longer gets a small card with full-width steps. Removed --size-htp-steps.
 - Progress bars pink (Oksana): --color-htp-progress-fill = --color-cta-bg. Decorative and hidden from screen readers; subtle on the pale clouds at 2px.
 - Measured: no movement across the three steps at 1440x900, 1200x979, 1280x800, 768x1024.
+- Demo card fields (When / Instead / Estimation) are three equal columns (Oksana; before, When and Estimation hugged their text). On phones the columns are about 100px, so "Today, 2:00 PM" and "Video gaming" wrap to two lines in the small cards.
