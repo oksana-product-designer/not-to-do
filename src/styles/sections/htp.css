@@ -64,6 +64,10 @@
    Title and sub at the top, the live app card big in the middle (the main visual), and the three steps
    in a row along the bottom, each with a horizontal progress bar that fills with the scroll. */
 .htp.is-pinned { height: calc(100vh + var(--length-htp-scroll)); height: calc(100svh + var(--length-htp-scroll)); padding: 0; }
+/* Appears in place: the section overlaps the last screen of the stage before it (the hero and Problem act),
+   so its own stage is pinned at the top the moment Problem's stage starts to leave. Its content is still
+   hidden then (entrance "before" state), and plays in place from there; nothing slides up from the bottom. */
+.htp.is-pinned { margin-top: -100vh; margin-top: -100svh; }
 .htp.is-pinned .htp__stage {
   position: sticky;
   top: 0;

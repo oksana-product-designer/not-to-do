@@ -313,3 +313,10 @@
 
 ## 2026-11-18 · Cloud wipe a bit shorter
 - The hero to Problem wipe takes 220vh of scroll (was 260vh), Oksana: "a bit too long". Nothing else changed (trailing, stage boundaries, landing, Problem and How to play untouched). Checked: wipe stages land at the right points, swipe 2 still starts the wipe.
+
+## 2026-11-18 · Sections appear in place, not from the bottom (intro excluded)
+- Oksana: section content should appear where it belongs instead of rising from the bottom of the screen.
+- Hero: the entrance used to start once half the headline block was on screen, so it animated while the hero was still sliding up during the move from the intro. It now starts once the hero fills the screen (hero section at least 98% in view; hero.js). The handover delay, word rise and order are unchanged.
+- Problem: already appears in place (under the cloud cover); unchanged.
+- How to play (tablet and desktop): the section overlaps the last screen of the hero and Problem act (margin-top -100svh), so its stage is pinned at the top the moment Problem's stage starts to leave (Problem is empty by then: its words have left and its white has dissolved). Its content stays in the hidden entrance state until then, and the entrance triggers when the section is in place ('top 2px') instead of at 65% up the screen. Phones keep the stacked layout, which scrolls normally with its block fade-in.
+- Checked: the hero shows no text mid-move and plays once in place; How to play's stage is at the top exactly when the act ends and its entrance plays there; swipe 2 still starts the wipe; the header How to play link lands on the section with the title clear of the header and the link highlighted.
