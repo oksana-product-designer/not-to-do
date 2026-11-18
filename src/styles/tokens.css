@@ -134,7 +134,7 @@
   --color-sky-pale-bottom: #f5f9fd;
   --color-htp-inactive: #263040;           /* inactive level label and title on the sky: dark slate, about 4.8:1 on the darkest blue behind the list (the usual muted grey fails AA there) */
   --color-htp-label: var(--color-text);    /* "Level 1.0" on the active level */
-  --size-htp-progress: 3px;                /* progress bar height */
+  --size-htp-progress: 3px;                /* progress rail width (vertical, left of each level) */
   --color-htp-progress-track: rgba(20, 20, 20, 0.12);
   --color-htp-progress-fill: var(--color-text);
   --size-htp-card: 480px;                  /* demo card width */
@@ -143,7 +143,7 @@
   --htp-type-share: 0.55;                  /* share of level 1 used to type the title; the estimate ticks up in the rest */
   --htp-shuffle-turns: 3;                  /* times the Instead reel spins through the options before landing */
   --htp-count-share: 0.8;                  /* share of level 3 used to count the tracked time up */
-  --shadow-htp-glow: 0 0 48px 8px rgba(249, 168, 240, 0.55); /* soft pink glow around the card at level 3 (CTA pink) */
+  --shadow-htp-lift: var(--shadow-float);  /* at level 3 the card lifts with the default deeper shadow (Oksana: no pink glow) */
 
   /* App task card (demo, matches the app screenshot in design/reference) */
   --text-caption: 0.75rem;                 /* project pill */

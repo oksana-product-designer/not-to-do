@@ -22,7 +22,7 @@
   height: var(--size-htp-fade);
   background: linear-gradient(to bottom, var(--color-problem-bg), var(--color-cloud-cover-edge));
 }
-.htp__stage { position: relative; isolation: isolate; } /* own layer, so the card glow stays above the sky */
+.htp__stage { position: relative; isolation: isolate; } /* own layer, so the card's level 3 shadow stays above the sky */
 
 .htp__head { text-align: center; margin-bottom: var(--space-8); }
 .htp__sub { margin-top: var(--space-3); font-size: var(--text-body-l); }
@@ -93,7 +93,7 @@
 }
 .htp.is-pinned .htp__levels { min-height: var(--size-htp-levels-height); align-content: center; }
 .htp.is-pinned .htp__levels { gap: var(--space-6); max-width: none; margin: 0; }
-.htp.is-pinned .htp__level-text, .htp.is-pinned .htp__progress { max-width: none; } /* text and bar run the full column width */
+.htp.is-pinned .htp__level-text { max-width: none; } /* text runs the full column width */
 .htp.is-pinned .htp-card--mini { display: none; }
 .htp.is-pinned .htp__demo { display: block; }
 
@@ -119,10 +119,17 @@
   translate: 0 0;
   transition: opacity var(--duration-hero-item) var(--ease-hero), translate var(--duration-hero-item) var(--ease-hero);
 }
+
+/* Progress: a thin vertical rail on the left of each level. The active level's rail fills top to bottom
+   with the scroll inside that level (transform only); finished levels stay full, later ones empty. */
+.htp.is-pinned .htp__level { position: relative; padding-left: var(--space-5); }
 .htp.is-pinned .htp__progress {
   display: block;
-  height: var(--size-htp-progress);
-  margin-top: var(--space-4);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--size-htp-progress);
   border-radius: var(--radius-chip);
   background: var(--color-htp-progress-track);
   overflow: hidden;
@@ -131,8 +138,8 @@
   display: block;
   height: 100%;
   background: var(--color-htp-progress-fill);
-  transform-origin: left center;
-  transform: scaleX(0);
+  transform-origin: center top;
+  transform: scaleY(0);
   will-change: transform;
 }
 
@@ -146,14 +153,14 @@
   font-size: var(--text-label);
   text-align: left;
 }
-/* Glow (level 3): a shadow layer under the card that only changes opacity */
+/* Lift (level 3): a deeper shadow layer under the card that only changes opacity */
 .htp-card::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  box-shadow: var(--shadow-htp-glow);
+  box-shadow: var(--shadow-htp-lift);
   opacity: var(--htp-glow, 0);
 }
 .htp-card--level-3 { --htp-glow: 1; }
