@@ -299,3 +299,8 @@
 - Problem to How to play: Problem stays for 140vh (was 100vh); the exit takes the last 65% of it (--problem-exit-start 0.35). Words leave with a gentler curve (sine.in, was power2.in) and their departures are spread over 60% of the exit (was 50%).
 - How to play entrance about 20% slower: card 1.2 s (was 1 s), card starts at 240 ms, its rows 420 ms after it, steps at 800 ms, 70 ms apart (was 200 / 350 / 650 / 60). The title and sub keep the hero's timing.
 - Checked: wipe stages, Problem exit, hero landing after a fast fling, 60 fps through the hand-over.
+
+## 2026-11-18 · Fix: fast scrolling through the intro still ran past the hero
+- Reproduced with one continuous scroll gesture (Oksana: "still broken"). When the reader scrolls faster than the intro lines play, intro.js holds the page at the hero's top until the last line has played. When it let go, the same ongoing gesture carried straight into the wipe, before the hero had even arrived (measured: 1300px past the hero 1.3 s after the release, ending in How to play). The earlier landing only caught a scroll crossing the hero from above, not one starting from it.
+- Now, while the page is on the hero and the hero's entrance has not finished (is-hero-done), downward scrolling waits. It continues once the hero has arrived (hills, headline, buttons) and the gesture pauses, after at least 0.6 s and never more than 5 s (so a scroll that never pauses is not stuck; the first fix could hold forever). The crossing-from-above landing is unchanged.
+- Checked: fast continuous scroll waits on the hero through its entrance, then continues; steady continuous scroll stops on the hero, then continues within 5 s; a quick fling stops at the hero and the next gesture continues; scrolling up is free.

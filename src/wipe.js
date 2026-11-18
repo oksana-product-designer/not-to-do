@@ -112,45 +112,60 @@ export function initWipe() {
     window.scrollTo({ top: act.offsetTop });
   });
 
-  // Landing on the hero. A scroll coming down out of the intro stops exactly at the hero instead of
-  // carrying on (with trackpad momentum) through the wipe into Problem. Further downward scrolling is
-  // ignored until that gesture has ended (no wheel events for a moment, and at least LANDING.minMs);
-  // then the next scroll continues into the wipe. Scrolling up, Tab and links are never blocked.
+  // Landing on the hero. A scroll coming down out of the intro stops at the hero instead of carrying on
+  // (with trackpad momentum) through the wipe into Problem. Two cases:
+  // - the scroll crosses the hero's top from above: the page is put back exactly on the hero;
+  // - the page already sits on the hero (the intro held it there while its last lines played) and the
+  //   reader keeps scrolling: the scroll waits.
+  // Either way, downward scrolling is ignored until the hero's entrance has finished (is-hero-done, so the
+  // hills, headline and buttons have arrived) and the gesture has paused, or at most LANDING.maxMs.
+  // Then the next scroll continues into the wipe. Scrolling up, Tab and links are never blocked.
   let lastY = window.scrollY;
   let landed = false;
-  let minUntil = 0;
+  let landedAt = 0;
   let quiet = null;
-  const release = () => { landed = false; };
-  const extend = () => {
+  const heroDone = () => hero.classList.contains('is-hero-done');
+  const atHero = () => Math.abs(window.scrollY - act.offsetTop) <= 2;
+  const tryRelease = () => {
     clearTimeout(quiet);
-    quiet = setTimeout(() => {
-      const wait = minUntil - performance.now();
-      if (wait > 0) quiet = setTimeout(release, wait); else release();
-    }, LANDING.quietMs);
+    const since = performance.now() - landedAt;
+    if (since >= LANDING.maxMs || (since >= LANDING.minMs && heroDone())) { landed = false; return; }
+    quiet = setTimeout(tryRelease, LANDING.checkMs);
+  };
+  const land = () => {
+    landed = true;
+    landedAt = performance.now();
+    tryRelease();
+  };
+  const gesture = () => { // more scroll input arrived: wait for it to pause before letting go
+    clearTimeout(quiet);
+    if (performance.now() - landedAt >= LANDING.maxMs) { landed = false; return; } // never longer than maxMs
+    quiet = setTimeout(tryRelease, LANDING.quietMs);
   };
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     const heroTop = act.offsetTop;
     if (!landed && lastY < heroTop - 1 && y > heroTop + 1 && y < heroTop + holdLengthPx() + wipeLengthPx()) {
-      landed = true;
-      minUntil = performance.now() + LANDING.minMs;
       window.scrollTo({ top: heroTop, behavior: 'instant' });
-      extend();
+      land();
     }
     lastY = window.scrollY;
   }, { passive: true });
+  const wantsDown = (event) => {
+    if (!landed && atHero() && !heroDone()) land(); // sitting on the hero before it has arrived
+    if (!landed) return false;
+    gesture();
+    return landed;
+  };
   const SCROLL_KEYS = [' ', 'PageDown', 'ArrowDown', 'End'];
-  window.addEventListener('wheel', (event) => {
-    if (!landed) return;
-    if (event.deltaY > 0) event.preventDefault();
-    extend(); // momentum still arriving: keep the landing
-  }, { passive: false });
-  window.addEventListener('touchmove', (event) => { if (landed) event.preventDefault(); }, { passive: false });
-  window.addEventListener('keydown', (event) => { if (landed && SCROLL_KEYS.includes(event.key)) event.preventDefault(); });
+  window.addEventListener('wheel', (event) => { if (event.deltaY > 0 && wantsDown(event)) event.preventDefault(); }, { passive: false });
+  window.addEventListener('touchmove', (event) => { if (wantsDown(event)) event.preventDefault(); }, { passive: false });
+  window.addEventListener('keydown', (event) => { if (SCROLL_KEYS.includes(event.key) && wantsDown(event)) event.preventDefault(); });
 }
 
-// Landing on the hero: how long the page holds there at least, and how long the scroll must be quiet before it lets go.
-const LANDING = { minMs: 600, quietMs: 220 };
+// Landing on the hero: the page holds at least minMs, waits for the hero's entrance and a pause in the
+// scroll gesture (quietMs), and never longer than maxMs.
+const LANDING = { minMs: 600, quietMs: 220, checkMs: 100, maxMs: 5000 };
 
 // Reduced motion: no pin and no clouds. When Problem's top crosses the middle of the screen
 // (either way), a cloud-white veil fades in and out once, a 0.4 s crossfade. Opacity only.
